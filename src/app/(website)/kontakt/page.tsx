@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { KontaktForm } from '@/components/sections/samaritano/forms/KontaktForm'
+import { getSettings } from '@/sanity/queries'
 import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = {
@@ -51,7 +52,12 @@ const FAQS = [
   },
 ]
 
-export default function KontaktPage() {
+export default async function KontaktPage() {
+  const settings = await getSettings()
+  const address = settings?.address || 'samaritano GmbH\nVon Oeynhausen Str. 34\n32479 Hille'
+  const contactEmail = settings?.contactEmail
+  const contactPhone = settings?.contactPhone
+
   return (
     <>
       {/* Hero */}
@@ -139,12 +145,38 @@ export default function KontaktPage() {
               <div className="mt-12 grid gap-6 text-[15px] leading-relaxed">
                 <div>
                   <div className="eyebrow mb-1.5 !text-ink-muted">Adresse</div>
-                  Samaritano GmbH
-                  <br />
-                  Hohenstaufenring 62
-                  <br />
-                  50674 Köln
+                  {address.split('\n').map((line, i) => (
+                    <span key={i}>
+                      {line}
+                      {i < address.split('\n').length - 1 && <br />}
+                    </span>
+                  ))}
                 </div>
+                {(contactEmail || contactPhone) && (
+                  <div>
+                    <div className="eyebrow mb-1.5 !text-ink-muted">Direkt erreichbar</div>
+                    {contactEmail && (
+                      <div>
+                        <a
+                          href={`mailto:${contactEmail}`}
+                          className="border-b border-line transition-colors hover:border-sky hover:text-sky"
+                        >
+                          {contactEmail}
+                        </a>
+                      </div>
+                    )}
+                    {contactPhone && (
+                      <div>
+                        <a
+                          href={`tel:${contactPhone.replace(/\s/g, '')}`}
+                          className="border-b border-line transition-colors hover:border-sky hover:text-sky"
+                        >
+                          {contactPhone}
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                )}
                 <div>
                   <div className="eyebrow mb-1.5 !text-ink-muted">Bürozeiten</div>
                   Mo–Fr 8–18 Uhr

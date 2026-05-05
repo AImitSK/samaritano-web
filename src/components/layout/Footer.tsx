@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import { Facebook, Instagram, Linkedin, Twitter, Youtube } from 'lucide-react'
 import { resetConsent } from '@/lib/cookies'
-import type { NavItem } from '@/types'
+import type { NavItem, SocialLink } from '@/types'
 
 /* eslint-disable @next/next/no-img-element */
 
@@ -11,9 +12,12 @@ interface FooterProps {
   siteName?: string
   description?: string
   navigation?: NavItem[]
+  socialLinks?: SocialLink[]
 }
 
 const STATIC_LOGO = '/uploads/Logo-Samaritano-Web.svg'
+const FALLBACK_DESCRIPTION =
+  'Pflegeberufe für Leute mit Herz und Hingabe. Wir vermitteln dort, wo deine Arbeit den größten Unterschied macht.'
 
 const PFLEGE_LINKS = [
   { label: 'Stellenangebote', href: '/jobs' },
@@ -41,6 +45,22 @@ const LEGAL_LINKS = [
   { label: 'AGB', href: '/agb' },
 ]
 
+const SOCIAL_ICONS: Record<SocialLink['platform'], typeof Facebook> = {
+  facebook: Facebook,
+  instagram: Instagram,
+  linkedin: Linkedin,
+  twitter: Twitter,
+  youtube: Youtube,
+}
+
+const SOCIAL_LABELS: Record<SocialLink['platform'], string> = {
+  facebook: 'Facebook',
+  instagram: 'Instagram',
+  linkedin: 'LinkedIn',
+  twitter: 'Twitter',
+  youtube: 'YouTube',
+}
+
 function getNavLabel(item: NavItem): string {
   return item.label || item.page?.title || item.href || ''
 }
@@ -54,27 +74,49 @@ function getNavHref(item: NavItem): string {
 export function Footer({
   logoUrl,
   siteName = 'Samaritano',
-  description = 'Pflegeberufe für Leute mit Herz und Hingabe. Wir vermitteln dort, wo deine Arbeit den größten Unterschied macht.',
+  description,
   navigation = [],
+  socialLinks = [],
 }: FooterProps) {
   const currentYear = new Date().getFullYear()
   const logo = logoUrl || STATIC_LOGO
+  const desc = description || FALLBACK_DESCRIPTION
 
-  // navigation aus Sanity ueberschreibt die Unternehmen-Spalte, falls gepflegt
   const unternehmen =
     navigation.length > 0
       ? navigation.map((it) => ({ label: getNavLabel(it), href: getNavHref(it), key: it._key }))
       : UNTERNEHMEN_LINKS.map((l) => ({ ...l, key: l.href }))
 
   return (
-    <footer className="bg-paper-2 pt-32 pb-10 mt-20 border-t border-line">
+    <footer className="mt-20 border-t border-line bg-paper-2 pb-10 pt-32">
       <div className="wrap">
-        <div className="grid gap-10 pb-20 border-b border-line md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="grid gap-10 border-b border-line pb-20 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <Link href="/" aria-label={siteName} className="inline-flex items-center">
               <img src={logo} alt={siteName} width={180} height={36} className="h-9 w-auto" />
             </Link>
-            <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-ink-soft">{description}</p>
+            <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-ink-soft">{desc}</p>
+
+            {socialLinks.length > 0 && (
+              <div className="mt-7 flex flex-wrap gap-3">
+                {socialLinks.map((s) => {
+                  const Icon = SOCIAL_ICONS[s.platform]
+                  if (!Icon || !s.url) return null
+                  return (
+                    <a
+                      key={s._key || s.platform}
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={SOCIAL_LABELS[s.platform]}
+                      className="grid h-10 w-10 place-items-center rounded-full border border-line text-ink-soft transition-colors hover:border-sky hover:text-sky"
+                    >
+                      <Icon className="h-4 w-4" />
+                    </a>
+                  )
+                })}
+              </div>
+            )}
           </div>
 
           <div>
