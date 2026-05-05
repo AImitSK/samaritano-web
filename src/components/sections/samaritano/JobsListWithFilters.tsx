@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { Search, Sparkles } from 'lucide-react'
-import { SAMPLE_JOBS } from '@/data/jobs'
+import type { SampleJob } from '@/data/jobs'
 import { JobRow } from './JobRow'
 
 const ROLES = [
@@ -19,7 +19,11 @@ const WORKLOAD = ['Alle', 'Vollzeit', 'Teilzeit', 'Minijob'] as const
 
 type Filters = { q: string; role: string; region: string; workload: string }
 
-export function JobsListWithFilters() {
+interface JobsListWithFiltersProps {
+  jobs: SampleJob[]
+}
+
+export function JobsListWithFilters({ jobs }: JobsListWithFiltersProps) {
   const [filters, setFilters] = useState<Filters>({
     q: '',
     role: 'Alle Berufe',
@@ -29,7 +33,7 @@ export function JobsListWithFilters() {
 
   const filtered = useMemo(() => {
     const q = filters.q.toLowerCase()
-    return SAMPLE_JOBS.filter((j) => {
+    return jobs.filter((j) => {
       if (
         q &&
         !(
@@ -49,7 +53,7 @@ export function JobsListWithFilters() {
       if (filters.workload !== 'Alle' && !j.workload.includes(filters.workload)) return false
       return true
     })
-  }, [filters])
+  }, [filters, jobs])
 
   return (
     <>

@@ -1,4 +1,7 @@
 import Link from 'next/link'
+import { getAllPosts } from '@/sanity/queries'
+import { urlFor } from '@/sanity/client'
+import type { Post } from '@/types'
 
 /* eslint-disable @next/next/no-img-element */
 
@@ -11,7 +14,7 @@ interface Article {
   img: string
 }
 
-const ARTICLES: Article[] = [
+const FALLBACK_ARTICLES: Article[] = [
   {
     slug: 'fachkraeftemangel-anaesthesiepflege',
     cat: 'Aktuelle Themen',
@@ -38,7 +41,40 @@ const ARTICLES: Article[] = [
   },
 ]
 
-export function Magazine() {
+function estimateReadTime(content?: unknown[]): string {
+  if (!content?.length) return '3 Min.'
+  const words = (content as { children?: { text?: string }[] }[])
+    .flatMap((b) => b.children?.map((c) => c.text || '') || [])
+    .join(' ')
+    .split(/\s+/).length
+  return `${Math.max(1, Math.ceil(words / 200))} Min.`
+}
+
+function formatDate(iso?: string): string {
+  if (!iso) return ''
+  return new Date(iso).toLocaleDateString('de-DE', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+}
+
+function postToArticle(p: Post): Article {
+  return {
+    slug: p.slug.current,
+    cat: p.categories?.[0]?.title || 'Magazin',
+    title: p.title,
+    date: formatDate(p.publishedAt),
+    read: estimateReadTime(p.content),
+    img: p.mainImage ? urlFor(p.mainImage)?.width(800).height(1000).url() ?? '' : '',
+  }
+}
+
+export async function Magazine() {
+  const posts = await getAllPosts()
+  const fromSanity = posts.length > 0
+  const articles = fromSanity ? posts.slice(0, 3).map(postToArticle) : FALLBACK_ARTICLES
+
   return (
     <section className="section-pad" data-screen-label="Magazin">
       <div className="wrap">
@@ -54,7 +90,7 @@ export function Magazine() {
           </Link>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {ARTICLES.map((a) => (
+          {articles.map((a) => (
             <Link
               href={`/magazin/${a.slug}`}
               key={a.slug}
@@ -64,11 +100,15 @@ export function Magazine() {
                 className="mb-5 overflow-hidden rounded-[14px] bg-paper-2"
                 style={{ aspectRatio: '4 / 5' }}
               >
-                <img
-                  src={a.img}
-                  alt=""
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                />
+                {a.img ? (
+                  <img
+                    src={a.img}
+                    alt=""
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  />
+                ) : (
+                  <div className="grid h-full place-items-center text-ink-muted">📝</div>
+                )}
               </div>
               <div className="mb-3.5 flex flex-wrap gap-3.5 text-[13px] text-ink-muted">
                 <span className="font-medium text-sky">{a.cat}</span>

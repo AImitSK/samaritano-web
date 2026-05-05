@@ -211,6 +211,11 @@ export interface Job extends SanityDocument {
   title: string
   slug: { current: string }
   department?: string
+  role?: string
+  region?: string
+  salary?: string
+  featured?: boolean
+  image?: SanityImage
   location: string
   type: 'vollzeit' | 'teilzeit' | 'ausbildung' | 'praktikum' | 'werkstudent' | 'freelance'
   excerpt?: string

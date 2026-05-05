@@ -49,6 +49,44 @@ export const job = defineType({
       initialValue: 'vollzeit',
     }),
     defineField({
+      name: 'role',
+      title: 'Berufsbezeichnung',
+      type: 'string',
+      description: 'Z.B. ATA, OTA, Pflegefachkraft (wird als Tag angezeigt)',
+    }),
+    defineField({
+      name: 'region',
+      title: 'Region',
+      type: 'string',
+      description: 'Z.B. NRW, Niedersachsen (für Filter)',
+    }),
+    defineField({
+      name: 'salary',
+      title: 'Gehaltsspanne',
+      type: 'string',
+      description: 'Z.B. "4.800 – 5.600 €"',
+    }),
+    defineField({
+      name: 'featured',
+      title: 'Top-Job',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Auf der Startseite hervorheben',
+    }),
+    defineField({
+      name: 'image',
+      title: 'Bild',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        {
+          name: 'alt',
+          title: 'Alt-Text',
+          type: 'string',
+        },
+      ],
+    }),
+    defineField({
       name: 'excerpt',
       title: 'Kurzbeschreibung',
       type: 'text',

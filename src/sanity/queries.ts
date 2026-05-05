@@ -290,26 +290,33 @@ export async function getAllNews(preview = false): Promise<News[]> {
 
 // ─── Jobs ───
 
+const jobProjection = `
+  _id,
+  _type,
+  title,
+  slug,
+  department,
+  role,
+  region,
+  salary,
+  featured,
+  image,
+  location,
+  type,
+  excerpt,
+  description,
+  requirements,
+  benefits,
+  contactEmail,
+  publishedAt,
+  isActive
+`
+
 export async function getJobBySlug(slug: string, preview = false): Promise<Job | null> {
   const client = getClient(preview)
   if (!client) return null
   return client.fetch(
-    `*[_type == "job" && slug.current == $slug][0]{
-      _id,
-      _type,
-      title,
-      slug,
-      department,
-      location,
-      type,
-      excerpt,
-      description,
-      requirements,
-      benefits,
-      contactEmail,
-      publishedAt,
-      isActive
-    }`,
+    `*[_type == "job" && slug.current == $slug][0]{${jobProjection}}`,
     { slug },
     fetchOptions(['job', `job:${slug}`], preview)
   )
@@ -319,17 +326,7 @@ export async function getAllActiveJobs(preview = false): Promise<Job[]> {
   const client = getClient(preview)
   if (!client) return []
   return client.fetch(
-    `*[_type == "job" && isActive == true] | order(publishedAt desc){
-      _id,
-      _type,
-      title,
-      slug,
-      department,
-      location,
-      type,
-      excerpt,
-      publishedAt
-    }`,
+    `*[_type == "job" && isActive == true] | order(publishedAt desc){${jobProjection}}`,
     {},
     fetchOptions(['job'], preview)
   )

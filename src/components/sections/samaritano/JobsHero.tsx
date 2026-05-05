@@ -1,7 +1,8 @@
-import { SAMPLE_JOBS } from '@/data/jobs'
+interface JobsHeroProps {
+  count: number
+}
 
-export function JobsHero() {
-  const count = SAMPLE_JOBS.length
+export function JobsHero({ count }: JobsHeroProps) {
   return (
     <section className="pt-16 pb-16 lg:pt-20 lg:pb-20">
       <div className="wrap">

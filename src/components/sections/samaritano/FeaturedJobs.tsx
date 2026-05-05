@@ -1,11 +1,16 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { SAMPLE_JOBS } from '@/data/jobs'
+import { getAllActiveJobs } from '@/sanity/queries'
+import { SAMPLE_JOBS, sanityJobToSample } from '@/data/jobs'
 import { JobCard } from './JobCard'
 
-export function FeaturedJobs() {
-  const featured = SAMPLE_JOBS.filter((j) => j.featured)
-  const totalJobs = SAMPLE_JOBS.length // ggf. spaeter durch Sanity-Count ersetzen
+export async function FeaturedJobs() {
+  const sanityJobs = await getAllActiveJobs()
+  const jobs = sanityJobs.length > 0 ? sanityJobs.map(sanityJobToSample) : SAMPLE_JOBS
+  const featured = jobs.filter((j) => j.featured)
+  const totalJobs = jobs.length
+
+  if (featured.length === 0) return null
 
   return (
     <section className="section-pad" data-screen-label="Stellen">

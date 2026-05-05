@@ -1,3 +1,6 @@
+import type { Job as SanityJob } from '@/types'
+import { urlFor } from '@/sanity/client'
+
 export interface SampleJob {
   id: string
   title: string
@@ -10,6 +13,43 @@ export interface SampleJob {
   posted: string
   featured?: boolean
   image?: string
+  /** Optional rich-text body from Sanity (Portable Text) */
+  description?: unknown[]
+  requirements?: string[]
+  benefits?: string[]
+}
+
+const TYPE_LABELS: Record<SanityJob['type'], string> = {
+  vollzeit: 'Vollzeit',
+  teilzeit: 'Teilzeit',
+  ausbildung: 'Ausbildung',
+  praktikum: 'Praktikum',
+  werkstudent: 'Werkstudent',
+  freelance: 'Freelance',
+}
+
+function formatPosted(iso?: string): string {
+  if (!iso) return ''
+  return new Date(iso).toLocaleDateString('de-DE', { month: 'short', year: 'numeric' })
+}
+
+export function sanityJobToSample(j: SanityJob): SampleJob {
+  return {
+    id: j.slug.current,
+    title: j.title,
+    role: j.role || j.department || '',
+    excerpt: j.excerpt || '',
+    location: j.location,
+    region: j.region || '',
+    workload: TYPE_LABELS[j.type] || j.type,
+    salary: j.salary,
+    posted: formatPosted(j.publishedAt),
+    featured: j.featured,
+    image: j.image ? urlFor(j.image)?.width(1200).url() ?? undefined : undefined,
+    description: j.description,
+    requirements: j.requirements,
+    benefits: j.benefits,
+  }
 }
 
 // Platzhalter bis Jobs aus Sanity geladen werden.

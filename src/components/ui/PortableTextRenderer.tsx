@@ -7,19 +7,19 @@ import { urlFor } from '@/sanity/client'
 const components: PortableTextComponents = {
   types: {
     image: ({ value }) => {
-      const imageUrl = urlFor(value)?.width(800).url()
+      const imageUrl = urlFor(value)?.width(1000).url()
       if (!imageUrl) return null
       return (
-        <figure className="my-8">
+        <figure className="my-10">
           <Image
             src={imageUrl}
             alt={value.alt || ''}
-            width={800}
-            height={450}
-            className="rounded-lg"
+            width={1000}
+            height={563}
+            className="rounded-[12px]"
           />
           {value.caption && (
-            <figcaption className="mt-2 text-center text-sm text-muted-foreground">
+            <figcaption className="mt-3 text-center text-[14px] text-ink-muted">
               {value.caption}
             </figcaption>
           )}
@@ -29,32 +29,36 @@ const components: PortableTextComponents = {
   },
   block: {
     h2: ({ children }) => (
-      <h2 className="mb-4 mt-8 font-display text-2xl font-bold">{children}</h2>
+      <h2 className="font-serif text-[32px] font-normal tracking-tight mt-12 mb-5">
+        {children}
+      </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="mb-3 mt-6 font-display text-xl font-semibold">{children}</h3>
+      <h3 className="font-serif text-[24px] font-normal tracking-tight mt-10 mb-4">
+        {children}
+      </h3>
     ),
     h4: ({ children }) => (
-      <h4 className="mb-2 mt-4 font-display text-lg font-semibold">{children}</h4>
+      <h4 className="font-serif text-[20px] font-normal mt-8 mb-3">{children}</h4>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="my-6 border-l-4 border-accent pl-4 italic text-muted-foreground">
+      <blockquote className="my-8 border-l-4 border-sky pl-5 font-serif text-[22px] font-light italic text-ink">
         {children}
       </blockquote>
     ),
     normal: ({ children }) => (
-      <p className="mb-4 leading-relaxed">{children}</p>
+      <p className="mb-5 text-[17px] leading-relaxed text-ink-soft">{children}</p>
     ),
   },
   marks: {
-    strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
-    em: ({ children }) => <em>{children}</em>,
+    strong: ({ children }) => <strong className="font-semibold text-ink">{children}</strong>,
+    em: ({ children }) => <em className="italic">{children}</em>,
     link: ({ value, children }) => (
       <a
         href={value?.href}
         target={value?.href?.startsWith('http') ? '_blank' : undefined}
         rel={value?.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-        className="text-accent underline hover:no-underline"
+        className="border-b border-sky text-sky transition-colors hover:border-ink hover:text-ink"
       >
         {children}
       </a>
@@ -62,10 +66,14 @@ const components: PortableTextComponents = {
   },
   list: {
     bullet: ({ children }) => (
-      <ul className="mb-4 ml-6 list-disc space-y-1">{children}</ul>
+      <ul className="mb-5 ml-6 list-disc space-y-2 text-[17px] leading-relaxed text-ink-soft marker:text-sky">
+        {children}
+      </ul>
     ),
     number: ({ children }) => (
-      <ol className="mb-4 ml-6 list-decimal space-y-1">{children}</ol>
+      <ol className="mb-5 ml-6 list-decimal space-y-2 text-[17px] leading-relaxed text-ink-soft marker:text-sky">
+        {children}
+      </ol>
     ),
   },
 }
@@ -76,15 +84,11 @@ interface PortableTextRendererProps {
 
 export function PortableTextRenderer({ content }: PortableTextRendererProps) {
   if (!content || content.length === 0) {
-    return (
-      <p className="text-muted-foreground">Kein Inhalt vorhanden.</p>
-    )
+    return <p className="text-ink-muted">Kein Inhalt vorhanden.</p>
   }
 
   return (
-    <div className="prose prose-lg max-w-none dark:prose-invert">
-      {/* @ts-expect-error Sanity content type is loosely typed */}
-      <PortableText value={content} components={components} />
-    </div>
+    // @ts-expect-error Sanity content type is loosely typed
+    <PortableText value={content} components={components} />
   )
 }

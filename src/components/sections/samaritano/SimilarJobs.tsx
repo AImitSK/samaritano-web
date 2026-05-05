@@ -1,8 +1,11 @@
-import { SAMPLE_JOBS } from '@/data/jobs'
+import { getAllActiveJobs } from '@/sanity/queries'
+import { SAMPLE_JOBS, sanityJobToSample } from '@/data/jobs'
 import { JobCard } from './JobCard'
 
-export function SimilarJobs({ excludeId }: { excludeId: string }) {
-  const others = SAMPLE_JOBS.filter((j) => j.id !== excludeId).slice(0, 3)
+export async function SimilarJobs({ excludeId }: { excludeId: string }) {
+  const sanityJobs = await getAllActiveJobs()
+  const all = sanityJobs.length > 0 ? sanityJobs.map(sanityJobToSample) : SAMPLE_JOBS
+  const others = all.filter((j) => j.id !== excludeId).slice(0, 3)
   if (others.length === 0) return null
   return (
     <section className="section-pad" data-screen-label="Ähnliche Stellen">

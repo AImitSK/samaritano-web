@@ -3,18 +3,29 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { JobDetailContent } from '@/components/sections/samaritano/JobDetailContent'
 import { SimilarJobs } from '@/components/sections/samaritano/SimilarJobs'
-import { SAMPLE_JOBS } from '@/data/jobs'
+import { getAllActiveJobs, getJobBySlug } from '@/sanity/queries'
+import { SAMPLE_JOBS, sanityJobToSample, type SampleJob } from '@/data/jobs'
 
 interface PageProps {
   params: { id: string }
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const sanityJobs = await getAllActiveJobs()
+  if (sanityJobs.length > 0) {
+    return sanityJobs.map((j) => ({ id: j.slug.current }))
+  }
   return SAMPLE_JOBS.map((j) => ({ id: j.id }))
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
-  const job = SAMPLE_JOBS.find((j) => j.id === params.id)
+async function resolveJob(id: string): Promise<SampleJob | null> {
+  const sanityJob = await getJobBySlug(id)
+  if (sanityJob) return sanityJobToSample(sanityJob)
+  return SAMPLE_JOBS.find((j) => j.id === id) ?? null
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const job = await resolveJob(params.id)
   if (!job) return {}
   return {
     title: job.title,
@@ -22,8 +33,8 @@ export function generateMetadata({ params }: PageProps): Metadata {
   }
 }
 
-export default function JobDetailPage({ params }: PageProps) {
-  const job = SAMPLE_JOBS.find((j) => j.id === params.id)
+export default async function JobDetailPage({ params }: PageProps) {
+  const job = await resolveJob(params.id)
   if (!job) notFound()
 
   return (
