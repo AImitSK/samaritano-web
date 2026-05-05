@@ -104,7 +104,20 @@ export function structure(S: StructureBuilder) {
       S.listItem()
         .title('Karriere')
         .icon(Briefcase)
-        .child(S.documentTypeList('job').title('Stellenangebote')),
+        .child(
+          S.list()
+            .title('Karriere')
+            .items([
+              S.listItem()
+                .title('Stellenangebote')
+                .icon(Briefcase)
+                .child(S.documentTypeList('job').title('Stellenangebote')),
+              S.listItem()
+                .title('Kategorien')
+                .icon(Tags)
+                .child(S.documentTypeList('jobCategory').title('Kategorien')),
+            ])
+        ),
 
       // ─── Downloads ───
       S.listItem()
