@@ -42,7 +42,7 @@ export function Magazine() {
   return (
     <section className="section-pad" data-screen-label="Magazin">
       <div className="wrap">
-        <div className="mb-15 flex flex-wrap items-end justify-between gap-10">
+        <div className="mb-16 flex flex-wrap items-end justify-between gap-10 lg:mb-20">
           <div>
             <div className="eyebrow">Magazin</div>
             <h2 className="h1 mt-5">
