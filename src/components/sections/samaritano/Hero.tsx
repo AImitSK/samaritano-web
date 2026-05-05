@@ -37,11 +37,11 @@ export function Hero({
             </div>
 
             <h1 className="display m-0">
-              Wähle einen
-              <br />
-              Job, wo man
-              <br />
-              dich <em>liebt</em>.
+              <span className="block whitespace-nowrap">Wähle einen</span>
+              <span className="block whitespace-nowrap">Job, wo man</span>
+              <span className="block whitespace-nowrap">
+                dich <em>liebt</em>.
+              </span>
             </h1>
 
             <p className="lede mt-9 max-w-[540px]">

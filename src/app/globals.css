@@ -102,7 +102,7 @@
     font-weight: 300;
     letter-spacing: -0.025em;
     line-height: 0.95;
-    font-size: clamp(56px, 9vw, 144px);
+    font-size: clamp(44px, 7vw, 116px);
     color: var(--ink);
   }
   .display em { font-style: normal; font-weight: 300; color: var(--sky); }
