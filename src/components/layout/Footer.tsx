@@ -143,7 +143,7 @@ export function Footer({
             href="https://sk-online-marketing.de"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-accent transition-colors hover:text-accent-deep"
+            className="text-sky transition-colors hover:text-ink"
           >
             SK Online Marketing
           </a>
