@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import { WebsiteShell } from '@/components/layout/WebsiteShell'
 import { Header } from '@/components/layout/Header'
@@ -7,6 +8,22 @@ import { JsonLd } from '@/components/ui/JsonLd'
 import { getSettings, getNavigation } from '@/sanity/queries'
 import { urlFor } from '@/sanity/client'
 import { generateOrganization, generateWebSite } from '@/lib/jsonld'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSettings()
+  // Raw URL ohne Resize — bei SVGs (typischer Favicon) liefert das die SVG-Datei direkt.
+  // Bei PNG/JPG-Favicons wuerde Sanity die Originalgroesse liefern, was fuer Favicons OK ist.
+  const faviconUrl = settings?.favicon ? urlFor(settings.favicon)?.url() ?? null : null
+  return faviconUrl
+    ? {
+        icons: {
+          icon: faviconUrl,
+          shortcut: faviconUrl,
+          apple: faviconUrl,
+        },
+      }
+    : {}
+}
 
 export default async function WebsiteLayout({
   children,
@@ -20,13 +37,9 @@ export default async function WebsiteLayout({
   ])
 
   const logoUrl = settings?.logo ? urlFor(settings.logo)?.url() ?? null : null
-  const faviconUrl = settings?.favicon ? urlFor(settings.favicon)?.width(64).height(64).url() ?? null : null
 
   return (
     <WebsiteShell>
-      {faviconUrl && (
-        <link rel="icon" href={faviconUrl} />
-      )}
       <JsonLd data={generateOrganization(settings)} />
       <JsonLd data={generateWebSite(settings)} />
       {isPreview && <PreviewBanner />}
