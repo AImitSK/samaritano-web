@@ -1,5 +1,4 @@
 import type { Job as SanityJob } from '@/types'
-import { urlFor } from '@/sanity/client'
 
 export interface SampleJob {
   id: string
@@ -46,7 +45,6 @@ export function sanityJobToSample(j: SanityJob): SampleJob {
     salary: j.salary,
     posted: formatPosted(j.publishedAt),
     featured: j.featured,
-    image: j.image ? urlFor(j.image)?.width(1200).url() ?? undefined : undefined,
     description: j.description,
     requirements: j.requirements,
     benefits: j.benefits,

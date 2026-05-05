@@ -215,7 +215,6 @@ export interface Job extends SanityDocument {
   region?: string
   salary?: string
   featured?: boolean
-  image?: SanityImage
   location: string
   type: 'vollzeit' | 'teilzeit' | 'minijob' | 'ausbildung' | 'praktikum' | 'werkstudent' | 'freelance'
   excerpt?: string

@@ -82,19 +82,6 @@ export const job = defineType({
       description: 'Auf der Startseite hervorheben',
     }),
     defineField({
-      name: 'image',
-      title: 'Bild',
-      type: 'image',
-      options: { hotspot: true },
-      fields: [
-        {
-          name: 'alt',
-          title: 'Alt-Text',
-          type: 'string',
-        },
-      ],
-    }),
-    defineField({
       name: 'excerpt',
       title: 'Kurzbeschreibung',
       type: 'text',

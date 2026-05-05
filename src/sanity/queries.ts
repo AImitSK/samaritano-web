@@ -300,7 +300,6 @@ const jobProjection = `
   region,
   salary,
   featured,
-  image,
   location,
   type,
   excerpt,
