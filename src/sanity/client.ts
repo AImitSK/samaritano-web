@@ -7,7 +7,7 @@ const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 const apiVersion = '2024-01-01'
 const token = process.env.SANITY_API_TOKEN
 
-// Production client (CDN, published content)
+// Production client (CDN, published content only — Drafts werden ausgeblendet)
 export const client: SanityClient | null = projectId
   ? createClient({
       projectId,
@@ -15,6 +15,7 @@ export const client: SanityClient | null = projectId
       apiVersion,
       useCdn: process.env.NODE_ENV === 'production',
       token,
+      perspective: 'published',
     })
   : null
 

@@ -22,6 +22,7 @@ export interface SampleJob {
 const TYPE_LABELS: Record<SanityJob['type'], string> = {
   vollzeit: 'Vollzeit',
   teilzeit: 'Teilzeit',
+  minijob: 'Minijob',
   ausbildung: 'Ausbildung',
   praktikum: 'Praktikum',
   werkstudent: 'Werkstudent',

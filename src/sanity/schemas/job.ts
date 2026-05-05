@@ -40,6 +40,7 @@ export const job = defineType({
         list: [
           { title: 'Vollzeit', value: 'vollzeit' },
           { title: 'Teilzeit', value: 'teilzeit' },
+          { title: 'Minijob', value: 'minijob' },
           { title: 'Ausbildung', value: 'ausbildung' },
           { title: 'Praktikum', value: 'praktikum' },
           { title: 'Werkstudent', value: 'werkstudent' },
