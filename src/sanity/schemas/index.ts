@@ -8,6 +8,7 @@ import { navigation } from './navigation'
 import { team } from './team'
 import { news } from './news'
 import { job } from './job'
+import { jobCategory } from './jobCategory'
 import { download } from './download'
 import { milestone } from './milestone'
 import { legal } from './legal'
@@ -26,6 +27,7 @@ export const schemaTypes = [
   team,
   news,
   job,
+  jobCategory,
   download,
   milestone,
   legal,

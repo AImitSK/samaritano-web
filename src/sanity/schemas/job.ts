@@ -55,6 +55,13 @@ export const job = defineType({
       description: 'Z.B. ATA, OTA, Pflegefachkraft (wird als Tag angezeigt)',
     }),
     defineField({
+      name: 'categories',
+      title: 'Kategorien',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'jobCategory' } }],
+      description: 'Mehrfachauswahl, z.B. "Pflegefachkraft" + "Top-Angebot"',
+    }),
+    defineField({
       name: 'region',
       title: 'Region',
       type: 'string',
