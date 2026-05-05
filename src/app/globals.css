@@ -2,103 +2,244 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================
+   Samaritano Brand Tokens
+   Quelle: _design-reference/styles.css
+   ============================================ */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 32 95% 52%;
-    --accent-foreground: 32 100% 12%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 32 90% 55%;
-    --radius: 0.5rem;
+    /* Brand */
+    --ink: #1B3763;
+    --ink-soft: #2D4570;
+    --ink-muted: #6B7A93;
+    --line: #DFE4EC;
+    --line-soft: #EEF1F6;
+    --paper: #F6F8FB;
+    --paper-2: #FFFFFF;
+    --white: #FFFFFF;
 
-    /* Surface tokens */
-    --surface-raised: 210 20% 98.5%;
-    --surface-overlay: 210 20% 96%;
+    /* Accent — signal red for CTAs */
+    --accent: #CB344C;
+    --accent-deep: #A22639;
+    --accent-soft: #F0C9D0;
 
-    /* Shadow tokens */
-    --shadow-soft: 0 2px 8px -2px hsl(222.2 84% 4.9% / 0.06);
-    --shadow-elevated: 0 4px 16px -4px hsl(222.2 84% 4.9% / 0.1), 0 2px 4px -2px hsl(222.2 84% 4.9% / 0.06);
-    --shadow-float: 0 8px 30px -6px hsl(222.2 84% 4.9% / 0.15), 0 2px 8px -2px hsl(222.2 84% 4.9% / 0.08);
-  }
+    /* Sky — light scrubs blue, for tags / accents */
+    --sky: #64B2C9;
+    --sky-soft: #D3E8EE;
+    --sage: #64B2C9;
+    --sage-soft: #D3E8EE;
 
-  .dark {
-    --background: 222 47% 6%;
-    --foreground: 210 20% 92%;
-    --primary: 210 30% 85%;
-    --primary-foreground: 222 47% 8%;
-    --secondary: 220 25% 12%;
-    --secondary-foreground: 210 20% 90%;
-    --muted: 220 20% 14%;
-    --muted-foreground: 215 15% 55%;
-    --accent: 32 90% 55%;
-    --accent-foreground: 32 100% 95%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 220 20% 16%;
-    --input: 220 20% 14%;
-    --ring: 32 90% 55%;
+    /* Sizing */
+    --radius: 4px;
+    --radius-lg: 12px;
+    --shadow-soft: 0 1px 2px rgba(27,55,99,.04), 0 8px 24px rgba(27,55,99,.08);
+    --shadow-elevated: 0 4px 16px -4px rgba(27,55,99,.1), 0 2px 4px -2px rgba(27,55,99,.06);
+    --shadow-float: 0 8px 30px -6px rgba(27,55,99,.15), 0 2px 8px -2px rgba(27,55,99,.08);
 
-    /* Surface tokens */
-    --surface-raised: 222 40% 8%;
-    --surface-overlay: 222 35% 11%;
-
-    /* Shadow tokens */
-    --shadow-soft: 0 2px 8px -2px hsl(0 0% 0% / 0.3);
-    --shadow-elevated: 0 4px 16px -4px hsl(0 0% 0% / 0.4), 0 2px 4px -2px hsl(0 0% 0% / 0.2);
-    --shadow-float: 0 8px 30px -6px hsl(0 0% 0% / 0.5), 0 2px 8px -2px hsl(0 0% 0% / 0.25);
+    /* HSL-Shim fuer Template-Komponenten (Tailwind-CSS-Variablen) */
+    --background: 216 33% 97%;
+    --foreground: 217 57% 25%;
+    --primary: 217 57% 25%;
+    --primary-foreground: 216 33% 97%;
+    --secondary: 193 43% 88%;
+    --secondary-foreground: 217 57% 25%;
+    --muted: 0 0% 100%;
+    --muted-foreground: 218 16% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 351 62% 39%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 216 21% 90%;
+    --input: 216 21% 90%;
+    --ring: 193 47% 59%;
+    --surface-raised: 0 0% 100%;
+    --surface-overlay: 216 28% 95%;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
-  body {
-    @apply bg-background text-foreground;
-  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; }
 
   /* Lenis Smooth Scroll */
-  html.lenis,
-  html.lenis body {
-    height: auto;
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+  .lenis.lenis-stopped { overflow: hidden; }
+  .lenis.lenis-smooth iframe { pointer-events: none; }
+}
+
+/* ============================================
+   Typography utilities (vom Layout uebernommen)
+   ============================================ */
+@layer components {
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
   }
 
-  .lenis.lenis-smooth {
-    scroll-behavior: auto !important;
+  .display {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    line-height: 0.95;
+    font-size: clamp(56px, 9vw, 144px);
+    color: var(--ink);
+  }
+  .display em { font-style: normal; font-weight: 300; color: var(--sky); }
+
+  .h1 {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.0;
+    font-size: clamp(44px, 6vw, 88px);
+  }
+  .h1 em { font-style: normal; color: var(--sky); font-weight: 300; }
+
+  .h2 {
+    font-family: var(--font-serif);
+    font-weight: 350;
+    letter-spacing: -0.015em;
+    line-height: 1.05;
+    font-size: clamp(34px, 4vw, 56px);
+  }
+  .h2 em { font-style: normal; color: var(--sky); font-weight: 350; }
+
+  .h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    font-size: clamp(22px, 2.2vw, 28px);
   }
 
-  .lenis.lenis-smooth [data-lenis-prevent] {
-    overscroll-behavior: contain;
+  .lede {
+    font-family: var(--font-sans);
+    font-size: clamp(18px, 1.4vw, 22px);
+    line-height: 1.45;
+    color: var(--ink-soft);
+    font-weight: 400;
+    max-width: 60ch;
+    text-wrap: pretty;
   }
 
-  .lenis.lenis-stopped {
-    overflow: hidden;
+  .meta {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--ink-muted);
+    letter-spacing: 0.01em;
   }
 
-  .lenis.lenis-smooth iframe {
-    pointer-events: none;
+  /* Layout container */
+  .wrap {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 32px;
   }
+  @media (max-width: 720px) {
+    .wrap { padding: 0 20px; }
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 22px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    transition: transform .15s ease, background .15s ease, color .15s ease;
+    white-space: nowrap;
+  }
+  .btn:hover { transform: translateY(-1px); }
+
+  .btn-primary { background: var(--accent); color: var(--white); }
+  .btn-primary:hover { background: var(--accent-deep); }
+
+  .btn-accent { background: var(--accent); color: var(--white); }
+  .btn-accent:hover { background: var(--accent-deep); }
+
+  .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+  .btn-ghost:hover { background: var(--ink); color: var(--paper); }
+
+  .btn-quiet {
+    background: transparent;
+    color: var(--ink);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--ink);
+    border-radius: 0;
+  }
+  .btn-quiet:hover { color: var(--sky); border-color: var(--sky); }
+
+  /* Tags */
+  .tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 10px; border: 1px solid var(--line); border-radius: 999px;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.02em;
+    color: var(--ink-soft); background: var(--paper-2);
+  }
+  .tag-accent { background: var(--accent); color: var(--white); border-color: var(--accent); }
+  .tag-sage { background: var(--sage-soft); color: var(--sage); border-color: transparent; }
+
+  /* Underlined link */
+  .link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+    font-size: 15px;
+    transition: color .15s ease;
+  }
+  .link:hover { color: var(--sky); }
 }
 
 @layer utilities {
+  /* Section spacing helper */
+  .section-pad { padding: clamp(80px, 10vw, 160px) 0; }
+  .section-pad-tight { padding: clamp(56px, 7vw, 96px) 0; }
+
+  /* Marquee/ticker */
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .ticker {
+    display: flex;
+    width: max-content;
+    animation: ticker 60s linear infinite;
+  }
+
+  /* Existing template util: gradient text */
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    background-image: linear-gradient(135deg, var(--ink), var(--accent));
   }
 
   .bg-dot-pattern {
-    background-image: radial-gradient(hsl(var(--foreground) / 0.07) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(27,55,99,0.07) 1px, transparent 1px);
     background-size: 24px 24px;
   }
+
+  /* Selection */
+  ::selection { background: var(--accent); color: var(--white); }
 }

@@ -10,6 +10,30 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        /* Samaritano brand (direct hex tokens) */
+        ink: {
+          DEFAULT: '#1B3763',
+          soft: '#2D4570',
+          muted: '#6B7A93',
+        },
+        paper: {
+          DEFAULT: '#F6F8FB',
+          2: '#FFFFFF',
+        },
+        line: {
+          DEFAULT: '#DFE4EC',
+          soft: '#EEF1F6',
+        },
+        sky: {
+          DEFAULT: '#64B2C9',
+          soft: '#D3E8EE',
+        },
+        sage: {
+          DEFAULT: '#64B2C9',
+          soft: '#D3E8EE',
+        },
+
+        /* HSL-Shim — bestehende Template-Komponenten */
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
@@ -25,7 +49,9 @@ const config: Config = {
           foreground: 'hsl(var(--muted-foreground))',
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
+          DEFAULT: '#CB344C',
+          deep: '#A22639',
+          soft: '#F0C9D0',
           foreground: 'hsl(var(--accent-foreground))',
         },
         destructive: {
@@ -41,13 +67,15 @@ const config: Config = {
         },
       },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+        lg: 'var(--radius-lg)',
+        md: '8px',
+        sm: 'var(--radius)',
       },
       fontFamily: {
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
-        display: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-sans)', 'Inter', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-serif)', 'Georgia', 'serif'],
+        display: ['var(--font-serif)', 'Georgia', 'serif'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
       },
       boxShadow: {
         soft: 'var(--shadow-soft)',
