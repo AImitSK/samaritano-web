@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Cookie, Settings, X } from 'lucide-react'
 import { Button } from './Button'
@@ -81,9 +82,17 @@ export function CookieConsent() {
 
             {/* Beschreibung */}
             <p className="mb-4 text-sm text-muted-foreground">
-              Wir verwenden Cookies, um Ihnen die bestmögliche Erfahrung auf unserer
-              Website zu bieten. Sie können wählen, welche Kategorien Sie zulassen
-              möchten.
+              Wir verwenden Cookies, um die Funktion dieser Website sicherzustellen und
+              ihre Nutzung anonym zu analysieren. Du kannst frei wählen, welche
+              Kategorien du zulässt — die Auswahl ist jederzeit über den Footer-Link
+              widerrufbar. Details findest du in unserer{' '}
+              <Link
+                href="/datenschutz"
+                className="border-b border-current font-medium text-foreground hover:text-accent"
+              >
+                Datenschutzerklärung
+              </Link>
+              .
             </p>
 
             {/* Detail-Einstellungen */}
