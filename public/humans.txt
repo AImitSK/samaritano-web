@@ -1,0 +1,15 @@
+﻿/* TEAM */
+Entwicklung: SK Online Marketing
+Website: https://sk-online-marketing.de
+Kontakt: info@sk-online-marketing.de
+Standort: Deutschland
+
+/* TECHNOLOGIE */
+Framework: Next.js
+CMS: Sanity
+Hosting: Vercel
+Styling: Tailwind CSS
+
+/* PROJEKT */
+Erstellt: 2026-05-05
+Letzte Aktualisierung: 2026-05-05

@@ -1,0 +1,14 @@
+{
+  "projectContext": "Next.js 14 Website Template mit Sanity CMS, Tailwind CSS, Framer Motion, SendGrid und Gemini AI",
+  "codeStyle": {
+    "language": "typescript",
+    "framework": "next.js",
+    "styling": "tailwindcss",
+    "components": "functional"
+  },
+  "conventions": {
+    "comments": "german-ok",
+    "code": "english",
+    "imports": "absolute-paths"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npm *)",
+      "PowerShell(git clone *)",
+      "PowerShell(Get-ChildItem *ekt in GIT sein. Das habe ich gerade angelegt:)",
+      "PowerShell(Remove-Item *)",
+      "PowerShell(.\\\\init.ps1 -ProjectName \"samaritano\" -SkipGitReinit -SkipInstall 2>&1 | Out-String)",
+      "WebFetch(domain:samaritano.de)",
+      "PowerShell(npx sanity projects create \"Samaritano\" --organization personal 2>&1 | Out-String)",
+      "PowerShell(npx sanity projects list 2>&1 | Out-String; Write-Host \"---ORGS---\"; node -e \"const {createClient} = require\\('@sanity/client'\\); const c = createClient\\({apiVersion:'2024-01-01', token: process.env.SANITY_AUTH_TOKEN || ''}\\); c.request\\({uri:'/organizations'}\\).then\\(r => console.log\\(JSON.stringify\\(r,null,2\\)\\)\\).catch\\(e => console.error\\(e.message\\)\\)\" 2>&1 | Select-Object -First 30)",
+      "PowerShell($token = \"sk2L8n6VNV7S47ikIqsISfs4VN8PTZI1GTbf7r1S9izY5uDldMrTfvFXrzcmTdvXdUKS2aocso5bTu0BP\"; $h = @{Authorization = \"Bearer $token\"}; Invoke-RestMethod -Uri \"https://api.sanity.io/v2024-01-01/organizations\" -Headers $h | ConvertTo-Json -Depth 5)",
+      "PowerShell($token = \"sk2L8n6VNV7S47ikIqsISfs4VN8PTZI1GTbf7r1S9izY5uDldMrTfvFXrzcmTdvXdUKS2aocso5bTu0BP\"; $h = @{Authorization = \"Bearer $token\"}; $r = Invoke-RestMethod -Uri \"https://api.sanity.io/v2024-01-01/organizations\" -Headers $h; $r.value | Select-Object id, name | Format-Table -AutoSize)",
+      "PowerShell($token = \"sk2L8n6VNV7S47ikIqsISfs4VN8PTZI1GTbf7r1S9izY5uDldMrTfvFXrzcmTdvXdUKS2aocso5bTu0BP\"; $h = @{Authorization = \"Bearer $token\"}; $r = Invoke-RestMethod -Uri \"https://api.sanity.io/v2024-01-01/organizations\" -Headers $h; Write-Host \"Type: $\\($r.GetType\\(\\).Name\\)\"; Write-Host \"Count: $\\($r.Count\\)\"; if \\($r.value\\) { $r.value | ForEach-Object { Write-Host \"$\\($_.id\\) - $\\($_.name\\)\" } } else { $r | ForEach-Object { Write-Host \"$\\($_.id\\) - $\\($_.name\\)\" } })",
+      "PowerShell($token = \"sk2L8n6VNV7S47ikIqsISfs4VN8PTZI1GTbf7r1S9izY5uDldMrTfvFXrzcmTdvXdUKS2aocso5bTu0BP\"; $h = @{Authorization = \"Bearer $token\"}; $r = Invoke-WebRequest -Uri \"https://api.sanity.io/v2024-01-01/organizations\" -Headers $h; $obj = $r.Content | ConvertFrom-Json; Write-Host \"Top-level type: $\\($obj.GetType\\(\\).Name\\)\"; if \\($obj -is [array]\\) { $obj | ForEach-Object { Write-Host \"id=$\\($_.id\\) name=$\\($_.name\\)\" } } else { $obj.PSObject.Properties.Name | ForEach-Object { Write-Host \"Key: $_\" } })",
+      "PowerShell(npx sanity projects create \"Samaritano\" --organization oC2AvBZrV 2>&1 | Out-String)",
+      "PowerShell($revalidate = -join \\(\\(48..57\\)+\\(97..122\\) | Get-Random -Count 64 | %{[char]$_}\\); $preview = -join \\(\\(48..57\\)+\\(97..122\\) | Get-Random -Count 32 | %{[char]$_}\\); Write-Host \"REVALIDATE=$revalidate\"; Write-Host \"PREVIEW=$preview\")",
+      "PowerShell(git *)"
+    ]
+  }
+}
