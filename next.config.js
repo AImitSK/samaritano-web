@@ -8,6 +8,12 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      // Alte Pfade von samaritano.de → neue Struktur
+      { source: '/magazin/faq', destination: '/faq', permanent: true },
+    ]
+  },
 }
 
 module.exports = nextConfig

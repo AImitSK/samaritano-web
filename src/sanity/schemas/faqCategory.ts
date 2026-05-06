@@ -23,7 +23,7 @@ export const faqCategory = defineType({
       title: 'Kurzbeschreibung',
       type: 'text',
       rows: 2,
-      description: 'Optional, wird als Intro-Text unter der Kategorie auf /magazin/faq angezeigt',
+      description: 'Optional, wird als Intro-Text unter der Kategorie auf /faq angezeigt',
     }),
     defineField({
       name: 'order',

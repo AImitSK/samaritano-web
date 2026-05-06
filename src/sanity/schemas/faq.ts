@@ -17,7 +17,7 @@ export const faq = defineType({
       type: 'slug',
       options: { source: 'question', maxLength: 96 },
       validation: (Rule) => Rule.required(),
-      description: 'Wird für den Anker-Link auf /magazin/faq verwendet',
+      description: 'Wird für den Anker-Link auf /faq verwendet',
     }),
     defineField({
       name: 'categories',

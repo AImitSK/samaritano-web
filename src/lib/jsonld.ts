@@ -142,7 +142,7 @@ export function generateJobPosting(job: Job, settings: Settings | null) {
   return schema
 }
 
-// FAQPage Schema – für /magazin/faq
+// FAQPage Schema – für /faq
 type PortableTextSpan = { _type?: string; text?: string }
 type PortableTextBlock = { _type?: string; children?: PortableTextSpan[] }
 
