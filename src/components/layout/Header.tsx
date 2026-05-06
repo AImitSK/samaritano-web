@@ -173,7 +173,10 @@ export function Header({ logoUrl, siteName = 'Samaritano', navigation = [] }: He
           <Link href="/kontakt" className="hidden text-[14px] text-ink hover:text-sky md:inline-block">
             Kontakt
           </Link>
-          <Link href="/jobs" className="btn btn-primary !px-5 !py-3 !text-[14px]">
+          <Link
+            href="/jobs"
+            className="btn btn-primary hidden !px-5 !py-3 !text-[14px] lg:inline-flex"
+          >
             Traumjob finden
             <ArrowUpRight className="h-3.5 w-3.5" />
           </Link>
@@ -224,6 +227,14 @@ export function Header({ logoUrl, siteName = 'Samaritano', navigation = [] }: He
                   </Link>
                 </li>
               </ul>
+              <Link
+                href="/jobs"
+                onClick={() => setMobileOpen(false)}
+                className="btn btn-primary mt-4 flex w-full justify-center"
+              >
+                Traumjob finden
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </Link>
             </div>
           </motion.div>
         )}
