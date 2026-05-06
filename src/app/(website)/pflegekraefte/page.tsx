@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
+import { FAQSection } from '@/components/sections/samaritano/FAQSection'
 
 export const metadata: Metadata = {
   title: 'Für Pflegekräfte',
@@ -217,6 +218,14 @@ export default function PflegekraeftePage() {
           </div>
         </div>
       </section>
+
+      {/* FAQ */}
+      <FAQSection
+        categorySlug="pflegekraefte"
+        eyebrow="FAQ"
+        title="Antworten auf eure Fragen."
+        description="Was Bewerber*innen oft fragen — alles, was du vor dem ersten Gespräch wissen willst."
+      />
 
       {/* CTA */}
       <section className="py-24 lg:py-32">

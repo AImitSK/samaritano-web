@@ -263,3 +263,25 @@ export interface LegalPage extends SanityDocument {
   content?: unknown[]
   lastUpdated?: string
 }
+
+// FAQ Category Type
+export interface FaqCategory extends SanityDocument {
+  _type: 'faqCategory'
+  title: string
+  slug: { current: string }
+  description?: string
+  order?: number
+  pageContext?: '' | 'pflegekraefte' | 'einrichtungen'
+}
+
+// FAQ Type
+export interface Faq extends SanityDocument {
+  _type: 'faq'
+  question: string
+  slug: { current: string }
+  categories?: FaqCategory[]
+  answer: unknown[]
+  order?: number
+  featured?: boolean
+  isActive: boolean
+}

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowUpRight, Check } from 'lucide-react'
 import { EinrichtungenAnfrageForm } from '@/components/sections/samaritano/landing/EinrichtungenAnfrageForm'
+import { FAQSection } from '@/components/sections/samaritano/FAQSection'
 import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = {
@@ -212,6 +213,14 @@ export default function EinrichtungenPage() {
           </div>
         </div>
       </section>
+
+      {/* FAQ */}
+      <FAQSection
+        categorySlug="einrichtungen"
+        eyebrow="FAQ"
+        title="Was Häuser oft fragen."
+        description="Konditionen, Verfügbarkeit, Wechselmöglichkeiten — die wichtigsten Fragen aus über 89 Partner-Einrichtungen."
+      />
 
       {/* Anfrage */}
       <section id="anfrage" className="py-24 lg:py-32">

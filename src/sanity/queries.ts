@@ -11,6 +11,8 @@ import type {
   Download,
   Milestone,
   LegalPage,
+  Faq,
+  FaqCategory,
 } from '@/types'
 
 // Fetch options: im Preview-Modus kein Caching
@@ -465,5 +467,67 @@ export async function getAllLegalPages(preview = false): Promise<LegalPage[]> {
     }`,
     {},
     fetchOptions(['legal'], preview)
+  )
+}
+
+// ─── FAQ ───
+
+const faqProjection = `
+  _id,
+  _type,
+  question,
+  slug,
+  answer,
+  order,
+  featured,
+  isActive,
+  categories[]->{
+    _id,
+    _type,
+    title,
+    slug,
+    order,
+    pageContext
+  }
+`
+
+export async function getAllFAQs(preview = false): Promise<Faq[]> {
+  const client = getClient(preview)
+  if (!client) return []
+  return client.fetch(
+    `*[_type == "faq" && isActive == true] | order(order asc, question asc){${faqProjection}}`,
+    {},
+    fetchOptions(['faq'], preview)
+  )
+}
+
+export async function getFAQsByCategorySlug(
+  slug: string,
+  preview = false
+): Promise<Faq[]> {
+  const client = getClient(preview)
+  if (!client) return []
+  return client.fetch(
+    `*[_type == "faq" && isActive == true && $slug in categories[]->slug.current] | order(order asc, question asc){${faqProjection}}`,
+    { slug },
+    fetchOptions(['faq', `faqCategory:${slug}`], preview)
+  )
+}
+
+export async function getAllFAQCategories(preview = false): Promise<FaqCategory[]> {
+  const client = getClient(preview)
+  if (!client) return []
+  return client.fetch(
+    `*[_type == "faqCategory"] | order(order asc, title asc){
+      _id,
+      _type,
+      title,
+      slug,
+      description,
+      order,
+      pageContext
+    }`,
+    {},
+    fetchOptions(['faqCategory'], preview)
   )
 }

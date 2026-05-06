@@ -1,4 +1,4 @@
-import type { Settings, Post, Job, News } from '@/types'
+import type { Settings, Post, Job, News, Faq } from '@/types'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
 
@@ -140,6 +140,35 @@ export function generateJobPosting(job: Job, settings: Settings | null) {
   }
 
   return schema
+}
+
+// FAQPage Schema – für /magazin/faq
+type PortableTextSpan = { _type?: string; text?: string }
+type PortableTextBlock = { _type?: string; children?: PortableTextSpan[] }
+
+function portableTextToPlain(blocks: unknown[] | undefined): string {
+  if (!blocks?.length) return ''
+  return (blocks as PortableTextBlock[])
+    .filter((b) => b._type === 'block' || !b._type)
+    .map((b) => (b.children || []).map((c) => c.text || '').join(''))
+    .filter(Boolean)
+    .join('\n\n')
+}
+
+export function generateFAQPage(faqs: Faq[]) {
+  if (!faqs?.length) return null
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: portableTextToPlain(f.answer),
+      },
+    })),
+  }
 }
 
 // Event Schema – für Messen und Events

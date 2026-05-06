@@ -12,6 +12,7 @@ import {
   Globe,
   Menu,
   SlidersHorizontal,
+  HelpCircle,
 } from 'lucide-react'
 
 // Singleton-Helper
@@ -116,6 +117,33 @@ export function structure(S: StructureBuilder) {
                 .title('Kategorien')
                 .icon(Tags)
                 .child(S.documentTypeList('jobCategory').title('Kategorien')),
+            ])
+        ),
+
+      // ─── FAQ ───
+      S.listItem()
+        .title('FAQ')
+        .icon(HelpCircle)
+        .child(
+          S.list()
+            .title('FAQ')
+            .items([
+              S.listItem()
+                .title('Einträge')
+                .icon(HelpCircle)
+                .child(
+                  S.documentTypeList('faq')
+                    .title('FAQ-Einträge')
+                    .defaultOrdering([{ field: 'order', direction: 'asc' }])
+                ),
+              S.listItem()
+                .title('Kategorien')
+                .icon(Tags)
+                .child(
+                  S.documentTypeList('faqCategory')
+                    .title('FAQ-Kategorien')
+                    .defaultOrdering([{ field: 'order', direction: 'asc' }])
+                ),
             ])
         ),
 

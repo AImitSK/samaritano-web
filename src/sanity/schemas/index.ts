@@ -12,6 +12,8 @@ import { jobCategory } from './jobCategory'
 import { download } from './download'
 import { milestone } from './milestone'
 import { legal } from './legal'
+import { faq } from './faq'
+import { faqCategory } from './faqCategory'
 
 export const schemaTypes = [
   // Objects
@@ -28,6 +30,8 @@ export const schemaTypes = [
   news,
   job,
   jobCategory,
+  faq,
+  faqCategory,
   download,
   milestone,
   legal,
