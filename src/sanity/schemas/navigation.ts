@@ -1,6 +1,39 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 
-// Nav-Item: Entweder Seiten-Referenz oder externer Link, optional mit Kindern
+// Nav-Item: einfach Label + URL. Interne URLs als Pfad ('/jobs'), externe als 'https://...'
+const childNavItem = defineArrayMember({
+  name: 'childNavItem',
+  title: 'Untermenüpunkt',
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'label',
+      title: 'Label',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'href',
+      title: 'URL',
+      type: 'string',
+      description: 'Interner Pfad (z.B. /jobs) oder externe URL (https://...)',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'openInNewTab',
+      title: 'In neuem Tab öffnen',
+      type: 'boolean',
+      initialValue: false,
+    }),
+  ],
+  preview: {
+    select: { label: 'label', href: 'href' },
+    prepare({ label, href }) {
+      return { title: label || 'Ohne Titel', subtitle: href }
+    },
+  },
+})
+
 const navItem = defineArrayMember({
   name: 'navItem',
   title: 'Menüpunkt',
@@ -10,132 +43,40 @@ const navItem = defineArrayMember({
       name: 'label',
       title: 'Label',
       type: 'string',
-      description: 'Angezeigter Text (leer = Seitenname wird verwendet)',
-    }),
-    defineField({
-      name: 'type',
-      title: 'Link-Typ',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Interne Seite', value: 'internal' },
-          { title: 'Externer Link', value: 'external' },
-        ],
-        layout: 'radio',
-        direction: 'horizontal',
-      },
-      initialValue: 'internal',
       validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'page',
-      title: 'Seite',
-      type: 'reference',
-      to: [{ type: 'page' }],
-      hidden: ({ parent }) => parent?.type !== 'internal',
     }),
     defineField({
       name: 'href',
       title: 'URL',
       type: 'string',
-      description: 'Externer Link (https://...) oder # für Dropdown ohne eigene Seite',
-      hidden: ({ parent }) => parent?.type !== 'external',
+      description: 'Interner Pfad (z.B. /jobs) oder externe URL (https://...). Leer lassen für Dropdown ohne eigene Seite.',
     }),
     defineField({
       name: 'openInNewTab',
       title: 'In neuem Tab öffnen',
       type: 'boolean',
       initialValue: false,
-      hidden: ({ parent }) => parent?.type !== 'external',
     }),
     defineField({
       name: 'children',
       title: 'Untermenüpunkte',
       type: 'array',
-      of: [
-        defineArrayMember({
-          name: 'childNavItem',
-          title: 'Untermenüpunkt',
-          type: 'object',
-          fields: [
-            defineField({
-              name: 'label',
-              title: 'Label',
-              type: 'string',
-              description: 'Angezeigter Text (leer = Seitenname)',
-            }),
-            defineField({
-              name: 'type',
-              title: 'Link-Typ',
-              type: 'string',
-              options: {
-                list: [
-                  { title: 'Interne Seite', value: 'internal' },
-                  { title: 'Externer Link', value: 'external' },
-                ],
-                layout: 'radio',
-                direction: 'horizontal',
-              },
-              initialValue: 'internal',
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: 'page',
-              title: 'Seite',
-              type: 'reference',
-              to: [{ type: 'page' }],
-              hidden: ({ parent }) => parent?.type !== 'internal',
-            }),
-            defineField({
-              name: 'href',
-              title: 'URL',
-              type: 'string',
-              hidden: ({ parent }) => parent?.type !== 'external',
-            }),
-            defineField({
-              name: 'openInNewTab',
-              title: 'In neuem Tab öffnen',
-              type: 'boolean',
-              initialValue: false,
-              hidden: ({ parent }) => parent?.type !== 'external',
-            }),
-          ],
-          preview: {
-            select: {
-              label: 'label',
-              pageTitle: 'page.title',
-              href: 'href',
-              type: 'type',
-            },
-            prepare({ label, pageTitle, href, type }) {
-              return {
-                title: label || pageTitle || href || 'Ohne Titel',
-                subtitle: type === 'external' ? `↗ ${href || ''}` : '→ Interne Seite',
-              }
-            },
-          },
-        }),
-      ],
+      of: [childNavItem],
     }),
   ],
   preview: {
     select: {
       label: 'label',
-      pageTitle: 'page.title',
       href: 'href',
-      type: 'type',
       childCount: 'children',
     },
-    prepare({ label, pageTitle, href, type, childCount }) {
-      const title = label || pageTitle || href || 'Ohne Titel'
+    prepare({ label, href, childCount }) {
       const children = childCount?.length || 0
       const subtitle =
-        type === 'external'
-          ? `↗ ${href || ''}`
-          : children > 0
-            ? `→ Interne Seite · ${children} Untermenüpunkte`
-            : '→ Interne Seite'
-      return { title, subtitle }
+        children > 0
+          ? `${href || '(Dropdown)'} · ${children} Untermenüpunkte`
+          : href || ''
+      return { title: label || 'Ohne Titel', subtitle }
     },
   },
 })
@@ -147,15 +88,15 @@ export const navigation = defineType({
   fields: [
     defineField({
       name: 'mainNav',
-      title: 'Hauptnavigation',
+      title: 'Hauptnavigation (Header)',
       description: 'Menüpunkte per Drag & Drop sortieren. Untermenüs über "Untermenüpunkte" hinzufügen.',
       type: 'array',
       of: [navItem],
     }),
     defineField({
       name: 'footerNav',
-      title: 'Footer Navigation',
-      description: 'Links im Footer. Per Drag & Drop sortieren.',
+      title: 'Footer-Navigation',
+      description: 'Links in der "Unternehmen"-Spalte des Footers. Per Drag & Drop sortieren.',
       type: 'array',
       of: [navItem],
     }),

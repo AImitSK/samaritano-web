@@ -1,4 +1,4 @@
-import type { Settings, Post, Job, News, Faq } from '@/types'
+import type { Settings, Post, Job, Faq } from '@/types'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
 
@@ -171,32 +171,3 @@ export function generateFAQPage(faqs: Faq[]) {
   }
 }
 
-// Event Schema – für Messen und Events
-export function generateEvent(news: News) {
-  if (news.type !== 'messe' && news.type !== 'event') return null
-
-  const schema: Record<string, unknown> = {
-    '@context': 'https://schema.org',
-    '@type': 'Event',
-    name: news.title,
-    startDate: news.date,
-    url: `${siteUrl}/news/${news.slug.current}`,
-  }
-
-  if (news.endDate) {
-    schema.endDate = news.endDate
-  }
-
-  if (news.location) {
-    schema.location = {
-      '@type': 'Place',
-      name: news.location,
-    }
-  }
-
-  if (news.excerpt) {
-    schema.description = news.excerpt
-  }
-
-  return schema
-}

@@ -17,23 +17,25 @@ interface HeaderProps {
 }
 
 const FALLBACK_NAV: NavItem[] = [
-  { _key: 'pflegekraefte', label: 'Pflegekräfte', type: 'external', href: '/pflegekraefte' },
-  { _key: 'einrichtungen', label: 'Einrichtungen', type: 'external', href: '/einrichtungen' },
-  { _key: 'gehaltsrechner', label: 'Gehaltsrechner', type: 'external', href: '/gehaltsrechner' },
-  { _key: 'magazin', label: 'Magazin', type: 'external', href: '/magazin' },
-  { _key: 'ueber-uns', label: 'Über uns', type: 'external', href: '/ueber-uns' },
+  { _key: 'pflegekraefte', label: 'Pflegekräfte', href: '/pflegekraefte' },
+  { _key: 'einrichtungen', label: 'Einrichtungen', href: '/einrichtungen' },
+  { _key: 'gehaltsrechner', label: 'Gehaltsrechner', href: '/gehaltsrechner' },
+  { _key: 'magazin', label: 'Magazin', href: '/magazin' },
+  { _key: 'ueber-uns', label: 'Über uns', href: '/ueber-uns' },
 ]
 
 const STATIC_LOGO = '/uploads/Logo-Samaritano-Web.svg'
 
 function getNavLabel(item: NavItem): string {
-  return item.label || item.page?.title || item.href || ''
+  return item.label || item.href || ''
 }
 
 function getNavHref(item: NavItem): string {
-  if (item.type === 'external') return item.href || '#'
-  if (item.page?.slug?.current) return `/${item.page.slug.current}`
-  return '#'
+  return item.href || '#'
+}
+
+function isExternalHref(href: string): boolean {
+  return /^https?:\/\//i.test(href)
 }
 
 function isActive(pathname: string, item: NavItem): boolean {
@@ -128,23 +130,27 @@ export function Header({ logoUrl, siteName = 'Samaritano', navigation = [] }: He
                         onMouseLeave={() => setOpenDropdown(null)}
                         className="absolute left-0 top-full mt-2 min-w-[220px] rounded-xl border border-line bg-paper-2 p-2 shadow-elevated"
                       >
-                        {item.children!.map((child) => (
-                          <Link
-                            key={child._key}
-                            href={getNavHref(child)}
-                            target={child.type === 'external' && child.openInNewTab ? '_blank' : undefined}
-                            rel={child.type === 'external' && child.openInNewTab ? 'noopener noreferrer' : undefined}
-                            className={cn(
-                              'group flex items-center justify-between rounded-md px-3 py-2 text-[14px] transition-colors',
-                              isActive(pathname, child)
-                                ? 'bg-sky-soft text-ink'
-                                : 'text-ink-soft hover:bg-line-soft hover:text-ink'
-                            )}
-                          >
-                            <span>{getNavLabel(child)}</span>
-                            <ArrowUpRight className="h-3 w-3 -translate-x-1 text-sky opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
-                          </Link>
-                        ))}
+                        {item.children!.map((child) => {
+                          const childHref = getNavHref(child)
+                          const childExternal = isExternalHref(childHref)
+                          return (
+                            <Link
+                              key={child._key}
+                              href={childHref}
+                              target={childExternal && child.openInNewTab ? '_blank' : undefined}
+                              rel={childExternal && child.openInNewTab ? 'noopener noreferrer' : undefined}
+                              className={cn(
+                                'group flex items-center justify-between rounded-md px-3 py-2 text-[14px] transition-colors',
+                                isActive(pathname, child)
+                                  ? 'bg-sky-soft text-ink'
+                                  : 'text-ink-soft hover:bg-line-soft hover:text-ink'
+                              )}
+                            >
+                              <span>{getNavLabel(child)}</span>
+                              <ArrowUpRight className="h-3 w-3 -translate-x-1 text-sky opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
+                            </Link>
+                          )
+                        })}
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -152,12 +158,13 @@ export function Header({ logoUrl, siteName = 'Samaritano', navigation = [] }: He
               )
             }
 
+            const external = isExternalHref(href)
             return (
               <Link
                 key={item._key}
                 href={href}
-                target={item.type === 'external' && item.openInNewTab ? '_blank' : undefined}
-                rel={item.type === 'external' && item.openInNewTab ? 'noopener noreferrer' : undefined}
+                target={external && item.openInNewTab ? '_blank' : undefined}
+                rel={external && item.openInNewTab ? 'noopener noreferrer' : undefined}
                 className={cn(
                   'relative py-2 text-[14px] font-medium transition-colors',
                   active ? 'text-sky' : 'text-ink hover:text-sky'

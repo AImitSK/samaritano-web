@@ -1,16 +1,10 @@
 import { seo } from './objects/seo'
-import { page } from './page'
 import { post } from './post'
-import { blogSettings } from './blogSettings'
 import { category } from './category'
 import { settings } from './settings'
 import { navigation } from './navigation'
-import { team } from './team'
-import { news } from './news'
 import { job } from './job'
 import { jobCategory } from './jobCategory'
-import { download } from './download'
-import { milestone } from './milestone'
 import { legal } from './legal'
 import { faq } from './faq'
 import { faqCategory } from './faqCategory'
@@ -21,18 +15,12 @@ export const schemaTypes = [
   // Singletons
   settings,
   navigation,
-  blogSettings,
   // Content Types
-  page,
   post,
   category,
-  team,
-  news,
   job,
   jobCategory,
   faq,
   faqCategory,
-  download,
-  milestone,
   legal,
 ]

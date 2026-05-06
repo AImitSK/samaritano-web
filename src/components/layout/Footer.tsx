@@ -62,13 +62,11 @@ const SOCIAL_LABELS: Record<SocialLink['platform'], string> = {
 }
 
 function getNavLabel(item: NavItem): string {
-  return item.label || item.page?.title || item.href || ''
+  return item.label || item.href || ''
 }
 
 function getNavHref(item: NavItem): string {
-  if (item.type === 'external') return item.href || '#'
-  if (item.page?.slug?.current) return `/${item.page.slug.current}`
-  return '#'
+  return item.href || '#'
 }
 
 export function Footer({

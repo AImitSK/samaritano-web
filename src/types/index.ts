@@ -28,70 +28,13 @@ export interface SEO {
   isCornerstone?: boolean
 }
 
-// Page Types
-export type PageType =
-  | 'standard'
-  | 'home'
-  | 'blog'
-  | 'karriere'
-  | 'aktuelles'
-  | 'downloads'
-  | 'kontakt'
-  | 'team'
-  | 'timeline'
-  | 'impressum'
-  | 'datenschutz'
-
-// Page Type
-export interface Page extends SanityDocument {
-  _type: 'page'
-  title: string
-  slug: { current: string }
-  pageType: PageType
-  seo?: SEO
-}
-
 // Navigation Item (aus Navigation-Singleton)
 export interface NavItem {
   _key: string
-  label?: string
-  type: 'internal' | 'external'
-  page?: { _id: string; title: string; slug: { current: string }; pageType: PageType }
+  label: string
   href?: string
   openInNewTab?: boolean
   children?: NavItem[]
-}
-
-// Blog Settings (Singleton)
-export interface BlogSettings {
-  // Layout
-  gridColumns?: 1 | 2 | 3
-  postsPerPage?: number
-  pagination?: 'loadMore' | 'pages' | 'none'
-  // Artikelkarten
-  showImage?: boolean
-  imageRatio?: '16/9' | '4/3' | '1/1' | 'auto'
-  showExcerpt?: boolean
-  excerptMaxChars?: number
-  showDate?: boolean
-  dateFormat?: 'short' | 'long' | 'relative'
-  showCategory?: boolean
-  showReadingTime?: boolean
-  // Autor
-  showAuthor?: boolean
-  showAuthorImage?: boolean
-  showAuthorPosition?: boolean
-  // Detailseite
-  showHeroImage?: boolean
-  showSharingButtons?: boolean
-  sharingPlatforms?: string[]
-  showRelatedPosts?: boolean
-  relatedPostsCount?: number
-  showPostNavigation?: boolean
-  // Filter
-  showCategoryFilter?: boolean
-  showSearch?: boolean
-  defaultSort?: 'newest' | 'oldest'
 }
 
 // Navigation (Singleton)
@@ -178,33 +121,6 @@ export interface ChatMessage {
   createdAt: Date
 }
 
-// Team Member Type
-export interface TeamMember extends SanityDocument {
-  _type: 'team'
-  name: string
-  position: string
-  image?: SanityImage
-  email?: string
-  phone?: string
-  bio?: string
-  order: number
-}
-
-// News Type
-export interface News extends SanityDocument {
-  _type: 'news'
-  title: string
-  slug: { current: string }
-  type: 'news' | 'messe' | 'event' | 'presse'
-  date: string
-  endDate?: string
-  location?: string
-  excerpt?: string
-  content?: unknown[]
-  image?: SanityImage
-  link?: string
-}
-
 // Job Type
 export interface Job extends SanityDocument {
   _type: 'job'
@@ -224,34 +140,6 @@ export interface Job extends SanityDocument {
   contactEmail?: string
   publishedAt?: string
   isActive: boolean
-}
-
-// Download Type
-export interface Download extends SanityDocument {
-  _type: 'download'
-  title: string
-  description?: string
-  file: {
-    _type: 'file'
-    asset: {
-      _ref: string
-      _type: 'reference'
-      url?: string
-    }
-  }
-  category: 'katalog' | 'datenblatt' | 'broschuere' | 'zertifikat' | 'anleitung' | 'sonstiges'
-  fileSize?: string
-  language: 'de' | 'en' | 'fr'
-  order: number
-}
-
-// Milestone Type
-export interface Milestone extends SanityDocument {
-  _type: 'milestone'
-  year: string
-  title: string
-  description?: string
-  image?: SanityImage
 }
 
 // Legal Page Type

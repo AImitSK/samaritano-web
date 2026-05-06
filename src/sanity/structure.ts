@@ -3,15 +3,9 @@ import {
   Settings,
   FileText,
   Tags,
-  Users,
-  Milestone,
-  Newspaper,
   Briefcase,
-  FolderDown,
   Scale,
-  Globe,
   Menu,
-  SlidersHorizontal,
   HelpCircle,
 } from 'lucide-react'
 
@@ -41,27 +35,19 @@ export function structure(S: StructureBuilder) {
             .title('Einstellungen')
             .items([
               singletonItem(S, 'settings', 'Allgemein', Settings),
-              S.listItem()
-                .title('Seiten')
-                .icon(Globe)
-                .child(
-                  S.documentTypeList('page')
-                    .title('Seiten')
-                    .defaultOrdering([{ field: 'title', direction: 'asc' }])
-                ),
               singletonItem(S, 'navigation', 'Navigation', Menu),
             ])
         ),
 
       S.divider(),
 
-      // ─── Blog ───
+      // ─── Magazin ───
       S.listItem()
-        .title('Blog')
+        .title('Magazin')
         .icon(FileText)
         .child(
           S.list()
-            .title('Blog')
+            .title('Magazin')
             .items([
               S.listItem()
                 .title('Artikel')
@@ -71,35 +57,8 @@ export function structure(S: StructureBuilder) {
                 .title('Kategorien')
                 .icon(Tags)
                 .child(S.documentTypeList('category').title('Kategorien')),
-              S.divider(),
-              singletonItem(S, 'blogSettings', 'Einstellungen', SlidersHorizontal),
             ])
         ),
-
-      // ─── Unternehmen ───
-      S.listItem()
-        .title('Unternehmen')
-        .icon(Users)
-        .child(
-          S.list()
-            .title('Unternehmen')
-            .items([
-              S.listItem()
-                .title('Team')
-                .icon(Users)
-                .child(S.documentTypeList('team').title('Teammitglieder')),
-              S.listItem()
-                .title('Meilensteine')
-                .icon(Milestone)
-                .child(S.documentTypeList('milestone').title('Meilensteine')),
-            ])
-        ),
-
-      // ─── Aktuelles ───
-      S.listItem()
-        .title('Aktuelles')
-        .icon(Newspaper)
-        .child(S.documentTypeList('news').title('News & Events')),
 
       // ─── Karriere ───
       S.listItem()
@@ -146,12 +105,6 @@ export function structure(S: StructureBuilder) {
                 ),
             ])
         ),
-
-      // ─── Downloads ───
-      S.listItem()
-        .title('Downloads')
-        .icon(FolderDown)
-        .child(S.documentTypeList('download').title('Downloads')),
 
       S.divider(),
 
