@@ -23,7 +23,7 @@ export function TwoPaths() {
           {/* Pflegekräfte */}
           <Link
             href="/jobs"
-            className="group relative flex min-h-[520px] flex-col overflow-hidden rounded-[20px] border border-line bg-paper-2 p-12 transition-transform hover:-translate-y-1"
+            className="group relative flex min-h-[420px] flex-col overflow-hidden rounded-[20px] border border-line bg-paper-2 p-8 transition-transform hover:-translate-y-1 sm:min-h-[520px] sm:p-12"
           >
             <div className="eyebrow">Für Pflegekräfte</div>
             <h2 className="h2 mt-6 max-w-[380px]">
@@ -54,14 +54,14 @@ export function TwoPaths() {
               src="/uploads/_DSC9356-Bearbeitet.jpg"
               alt=""
               aria-hidden
-              className="pointer-events-none absolute -right-20 -top-10 h-[320px] w-[320px] rounded-full border-8 border-paper-2 object-cover opacity-85"
+              className="pointer-events-none absolute -right-20 -top-10 hidden h-[320px] w-[320px] rounded-full border-8 border-paper-2 object-cover opacity-85 md:block"
             />
           </Link>
 
           {/* Einrichtungen */}
           <Link
             href="/einrichtungen"
-            className="group relative flex min-h-[520px] flex-col overflow-hidden rounded-[20px] bg-ink p-12 text-paper transition-transform hover:-translate-y-1"
+            className="group relative flex min-h-[420px] flex-col overflow-hidden rounded-[20px] bg-ink p-8 text-paper transition-transform hover:-translate-y-1 sm:min-h-[520px] sm:p-12"
           >
             <div className="eyebrow !text-white/55">Für Einrichtungen</div>
             <h2 className="h2 mt-6 max-w-[420px] !text-paper">

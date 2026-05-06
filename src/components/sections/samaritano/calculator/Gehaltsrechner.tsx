@@ -34,10 +34,10 @@ interface SliderProps {
 
 function Slider({ label, value, onChange, min, max, suffix = '' }: SliderProps) {
   return (
-    <div>
-      <div className="mb-3.5 flex items-baseline justify-between">
+    <div className="min-w-0">
+      <div className="mb-3.5 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3">
         <label className="eyebrow">{label}</label>
-        <span className="font-serif text-[24px] tracking-tight">
+        <span className="font-serif text-[24px] leading-none tracking-tight">
           {value}
           {suffix}
         </span>
@@ -102,11 +102,11 @@ export function Gehaltsrechner() {
           <div>
             <div className="eyebrow">Gehaltsrechner</div>
             <h1 className="display mt-6">
-              <span className="block whitespace-nowrap">Was du</span>
-              <span className="block whitespace-nowrap">
+              <span className="block sm:whitespace-nowrap">Was du</span>
+              <span className="block sm:whitespace-nowrap">
                 als <em>Samaritano</em>
               </span>
-              <span className="block whitespace-nowrap">verdienst.</span>
+              <span className="block sm:whitespace-nowrap">verdienst.</span>
             </h1>
           </div>
           <p className="lede max-w-[380px]">
