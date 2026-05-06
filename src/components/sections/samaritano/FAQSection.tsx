@@ -46,12 +46,12 @@ export async function FAQSection({
       className={cn('section-pad-tight', isDark && 'bg-ink text-paper')}
     >
       <div className="wrap">
-        <div className="grid items-start gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
-          <div className="lg:sticky lg:top-24">
+        <div className="grid items-start gap-10 lg:grid-cols-3 lg:gap-12">
+          <div className="lg:col-span-1 lg:sticky lg:top-24">
             <div className={cn('eyebrow', isDark && '!text-white/55')}>{eyebrow}</div>
-            <h2 className={cn('h1 mt-5', isDark && '!text-paper')}>{title}</h2>
+            <h2 className={cn('h2 mt-5', isDark && '!text-paper')}>{title}</h2>
             {description && (
-              <p className={cn('lede mt-6 max-w-[440px]', isDark && '!text-white/70')}>
+              <p className={cn('lede mt-6 max-w-[420px]', isDark && '!text-white/70')}>
                 {description}
               </p>
             )}
@@ -59,7 +59,7 @@ export async function FAQSection({
 
           <ul
             className={cn(
-              'm-0 list-none border-t p-0',
+              'm-0 list-none border-t p-0 lg:col-span-2',
               isDark ? 'border-white/10' : 'border-line'
             )}
           >
