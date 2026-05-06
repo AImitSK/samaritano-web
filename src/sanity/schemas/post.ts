@@ -46,9 +46,18 @@ export const post = defineType({
     defineField({
       name: 'author',
       title: 'Autor',
-      type: 'reference',
-      to: [{ type: 'team' }],
-      description: 'Autor des Artikels (aus dem Team)',
+      type: 'object',
+      description: 'Name und (optional) Foto des Autors. Optional.',
+      fields: [
+        { name: 'name', title: 'Name', type: 'string' },
+        {
+          name: 'image',
+          title: 'Foto',
+          type: 'image',
+          options: { hotspot: true },
+          fields: [{ name: 'alt', title: 'Alt-Text', type: 'string' }],
+        },
+      ],
     }),
     defineField({
       name: 'categories',

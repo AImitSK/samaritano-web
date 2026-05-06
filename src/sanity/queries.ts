@@ -84,7 +84,7 @@ export async function getPostBySlug(slug: string, preview = false): Promise<Post
       excerpt,
       content,
       publishedAt,
-      author->{
+      author{
         name,
         image
       },
@@ -114,7 +114,7 @@ export async function getAllPosts(preview = false): Promise<Post[]> {
       publishedAt,
       mainImage,
       content,
-      author->{
+      author{
         name,
         image
       },
