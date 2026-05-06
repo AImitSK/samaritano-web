@@ -56,7 +56,7 @@ export function SalaryTeaser() {
             </Link>
           </div>
 
-          <div className="rounded-[20px] border border-line bg-paper-2 p-9 shadow-soft">
+          <div className="min-w-0 rounded-[20px] border border-line bg-paper-2 p-6 shadow-soft sm:p-9">
             <div className="grid gap-6">
               <div>
                 <label className="eyebrow mb-2 block" htmlFor="salary-role">
@@ -74,8 +74,8 @@ export function SalaryTeaser() {
                 </select>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-4">
+                <div className="min-w-0">
                   <label className="eyebrow mb-2 block" htmlFor="salary-hours">
                     Wochenstunden: {hours} h
                   </label>
@@ -89,7 +89,7 @@ export function SalaryTeaser() {
                     className="w-full accent-accent"
                   />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <label className="eyebrow mb-2 block" htmlFor="salary-shifts">
                     Nachtdienste/Mo: {shifts}
                   </label>
@@ -105,15 +105,15 @@ export function SalaryTeaser() {
                 </div>
               </div>
 
-              <div className="mt-2 flex items-baseline justify-between gap-3 rounded-[14px] bg-ink px-7 py-6 text-paper">
-                <div>
+              <div className="mt-2 flex flex-col gap-4 rounded-[14px] bg-ink px-5 py-5 text-paper sm:flex-row sm:items-baseline sm:justify-between sm:gap-3 sm:px-7 sm:py-6">
+                <div className="min-w-0">
                   <div className="text-[13px] text-white/60">Geschätztes Bruttogehalt</div>
-                  <div className="mt-1 font-serif text-[64px] font-light leading-none">
+                  <div className="mt-1 font-serif font-light leading-none text-[40px] sm:text-[52px] lg:text-[64px]">
                     {base.toLocaleString('de-DE')}
-                    <span className="ml-1.5 text-[24px] opacity-60">€/Mo</span>
+                    <span className="ml-1.5 opacity-60 text-[16px] sm:text-[20px] lg:text-[24px]">€/Mo</span>
                   </div>
                 </div>
-                <div className="rounded-full bg-accent px-3 py-1.5 text-[12px] tracking-wider">
+                <div className="self-start rounded-full bg-accent px-3 py-1.5 text-[12px] tracking-wider sm:self-auto">
                   +{tarifPlus}% vs. Tarif
                 </div>
               </div>

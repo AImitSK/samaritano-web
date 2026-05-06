@@ -19,10 +19,10 @@ export async function FeaturedJobs() {
           <div>
             <div className="eyebrow">Top-Stellen</div>
             <h2 className="h1 mt-5">
-              <span className="block whitespace-nowrap">
+              <span className="block sm:whitespace-nowrap">
                 Aktuelle <em>Lieblingsjobs</em>
               </span>
-              <span className="block whitespace-nowrap">für Samaritanos.</span>
+              <span className="block sm:whitespace-nowrap">für Samaritanos.</span>
             </h2>
           </div>
           <Link href="/jobs" className="btn btn-ghost">

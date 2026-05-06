@@ -37,9 +37,9 @@ export function Hero({
             </div>
 
             <h1 className="display m-0">
-              <span className="block whitespace-nowrap">Wähle einen</span>
-              <span className="block whitespace-nowrap">Job, wo man</span>
-              <span className="block whitespace-nowrap">
+              <span className="block sm:whitespace-nowrap">Wähle einen</span>
+              <span className="block sm:whitespace-nowrap">Job, wo man</span>
+              <span className="block sm:whitespace-nowrap">
                 dich <em>liebt</em>.
               </span>
             </h1>
@@ -102,8 +102,8 @@ export function Hero({
               />
             </div>
 
-            {/* Bottom-left floating card */}
-            <div className="absolute -bottom-7 -left-10 flex max-w-[280px] items-center gap-3.5 rounded-[14px] border border-line bg-paper-2 p-[18px_22px] shadow-soft">
+            {/* Bottom-left floating card — desktop only (negative offsets push past mobile viewport) */}
+            <div className="absolute -bottom-7 -left-10 hidden max-w-[280px] items-center gap-3.5 rounded-[14px] border border-line bg-paper-2 p-[18px_22px] shadow-soft md:flex">
               <div className="grid h-[42px] w-[42px] place-items-center rounded-full bg-sky-soft text-sky">
                 <Heart className="h-[18px] w-[18px] fill-current" />
               </div>
@@ -113,9 +113,9 @@ export function Hero({
               </div>
             </div>
 
-            {/* Top-right code-style card */}
+            {/* Top-right code-style card — desktop only */}
             <div
-              className="absolute -right-7 top-7 rounded-[12px] bg-ink px-[18px] py-3.5 font-mono text-[12px] tracking-wider text-paper"
+              className="absolute -right-7 top-7 hidden rounded-[12px] bg-ink px-[18px] py-3.5 font-mono text-[12px] tracking-wider text-paper md:block"
               style={{ transform: 'rotate(3deg)' }}
             >
               <div className="mb-1 opacity-60">{'// jetzt verfügbar'}</div>

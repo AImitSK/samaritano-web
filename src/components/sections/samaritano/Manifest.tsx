@@ -31,7 +31,7 @@ export function Manifest() {
             <div className="mb-12 grid gap-8 sm:grid-cols-2">
               {STATS.map((s) => (
                 <div key={s.l} className="border-t border-line pt-5">
-                  <div className="font-serif text-[56px] font-light leading-none tracking-tight text-sky">
+                  <div className="font-serif font-light leading-none tracking-tight text-sky text-[40px] sm:text-[48px] lg:text-[56px]">
                     {s.n}
                   </div>
                   <div className="mt-2 text-[14px] text-ink-soft">{s.l}</div>

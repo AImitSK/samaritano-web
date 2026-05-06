@@ -95,11 +95,11 @@ export default function PflegekraeftePage() {
           <div>
             <div className="eyebrow">Für Pflegekräfte</div>
             <h1 className="display mt-6">
-              <span className="block whitespace-nowrap">Dein Beruf</span>
-              <span className="block whitespace-nowrap">
+              <span className="block sm:whitespace-nowrap">Dein Beruf</span>
+              <span className="block sm:whitespace-nowrap">
                 ist <em>Berufung</em>.
               </span>
-              <span className="block whitespace-nowrap">Wir finden den Ort.</span>
+              <span className="block sm:whitespace-nowrap">Wir finden den Ort.</span>
             </h1>
             <p className="lede mt-8 max-w-[560px]">
               Samaritano vermittelt Pflegekräfte in christliche Einrichtungen, deren Werte zu deinen
@@ -170,13 +170,13 @@ export default function PflegekraeftePage() {
               {PROCESS.map((s) => (
                 <div
                   key={s.n}
-                  className="grid grid-cols-[80px_1fr] gap-6 border-b border-line pb-8"
+                  className="grid grid-cols-[56px_1fr] gap-4 border-b border-line pb-8 sm:grid-cols-[80px_1fr] sm:gap-6"
                 >
-                  <div className="font-serif text-[64px] font-light leading-none text-sky">
+                  <div className="font-serif font-light leading-none text-sky text-[44px] sm:text-[64px]">
                     {s.n}
                   </div>
-                  <div>
-                    <h3 className="mb-3 mt-1 font-serif text-[26px] font-normal">{s.t}</h3>
+                  <div className="min-w-0">
+                    <h3 className="mb-3 mt-1 font-serif font-normal text-[22px] sm:text-[26px]">{s.t}</h3>
                     <p className="m-0 text-[16px] leading-relaxed text-ink-soft">{s.d}</p>
                   </div>
                 </div>
@@ -221,7 +221,7 @@ export default function PflegekraeftePage() {
       {/* CTA */}
       <section className="py-24 lg:py-32">
         <div className="wrap">
-          <div className="grid items-center gap-8 rounded-[20px] bg-accent p-10 text-white sm:p-14 lg:grid-cols-[1.5fr_auto] lg:p-20">
+          <div className="grid items-center gap-8 rounded-[20px] bg-accent p-6 text-white sm:p-10 md:p-14 lg:grid-cols-[1.5fr_auto] lg:p-20">
             <div>
               <h2 className="h1 m-0 !text-white">
                 Bereit für den

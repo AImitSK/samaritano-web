@@ -51,7 +51,7 @@ export function AIMatching() {
           </div>
 
           {/* Mock UI */}
-          <div className="rounded-[18px] border border-white/10 bg-white/[0.04] p-7 font-mono text-[13px]">
+          <div className="min-w-0 rounded-[18px] border border-white/10 bg-white/[0.04] p-5 font-mono text-[13px] sm:p-7">
             <div className="mb-6 flex items-center justify-between text-white/50">
               <span>samaritano.match</span>
               <span className="inline-flex items-center gap-1.5">
@@ -65,16 +65,16 @@ export function AIMatching() {
                 return (
                   <div
                     key={`${m.role}-${m.loc}`}
-                    className={`grid grid-cols-[1fr_auto] items-center gap-4 rounded-[12px] border px-5 py-[18px] transition-all duration-500 ${
+                    className={`grid grid-cols-[1fr_auto] items-center gap-3 rounded-[12px] border px-4 py-[14px] transition-all duration-500 sm:gap-4 sm:px-5 sm:py-[18px] ${
                       active
                         ? 'border-accent bg-accent'
                         : 'border-white/10 bg-white/[0.04]'
                     }`}
                   >
-                    <div>
-                      <div className="font-serif text-[18px] font-normal text-paper">{m.role}</div>
+                    <div className="min-w-0">
+                      <div className="truncate font-serif text-[16px] font-normal text-paper sm:text-[18px]">{m.role}</div>
                       <div
-                        className={`mt-1 ${
+                        className={`mt-1 truncate ${
                           active ? 'text-white/85' : 'text-white/50'
                         }`}
                       >
@@ -82,9 +82,9 @@ export function AIMatching() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="font-serif text-[32px] font-light leading-none text-paper">
+                      <div className="font-serif font-light leading-none text-paper text-[24px] sm:text-[28px] lg:text-[32px]">
                         {m.score}
-                        <span className="text-[16px] opacity-60">%</span>
+                        <span className="opacity-60 text-[14px] sm:text-[16px]">%</span>
                       </div>
                       <div
                         className={`mt-0.5 text-[11px] ${

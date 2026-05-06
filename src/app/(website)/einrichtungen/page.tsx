@@ -71,11 +71,11 @@ export default function EinrichtungenPage() {
           <div>
             <div className="eyebrow">Für Einrichtungen</div>
             <h1 className="display mt-6">
-              <span className="block whitespace-nowrap">Pflegekräfte,</span>
-              <span className="block whitespace-nowrap">
+              <span className="block sm:whitespace-nowrap">Pflegekräfte,</span>
+              <span className="block sm:whitespace-nowrap">
                 die <em>bleiben</em>
               </span>
-              <span className="block whitespace-nowrap">wollen.</span>
+              <span className="block sm:whitespace-nowrap">wollen.</span>
             </h1>
             <p className="lede mt-8 max-w-[540px]">
               Wir vermitteln Pflegepersonal nach Werte-Match, nicht nach Skill-Liste. Das Ergebnis:
@@ -113,7 +113,7 @@ export default function EinrichtungenPage() {
           <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
             {STATS.map((s) => (
               <div key={s.l}>
-                <div className="font-serif text-[64px] font-light leading-none tracking-tight text-sky">
+                <div className="font-serif font-light leading-none tracking-tight text-sky text-[44px] sm:text-[52px] lg:text-[64px]">
                   {s.n}
                 </div>
                 <div className="mt-3 text-[14px] text-ink-soft">{s.l}</div>
@@ -139,7 +139,7 @@ export default function EinrichtungenPage() {
                 <div
                   key={a.t}
                   className={cn(
-                    'flex min-h-[480px] flex-col rounded-[16px] border p-9',
+                    'flex min-h-[420px] flex-col rounded-[16px] border p-6 sm:min-h-[480px] sm:p-9',
                     featured
                       ? 'border-ink bg-ink text-paper'
                       : 'border-line bg-paper-2 text-ink'
@@ -148,7 +148,7 @@ export default function EinrichtungenPage() {
                   {featured && (
                     <span className="tag tag-accent mb-4 self-start">Beliebteste Wahl</span>
                   )}
-                  <h3 className="m-0 mb-2 font-serif text-[32px] font-normal text-inherit">
+                  <h3 className="m-0 mb-2 font-serif font-normal text-inherit text-[26px] sm:text-[32px]">
                     {a.t}
                   </h3>
                   <div
