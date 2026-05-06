@@ -117,7 +117,7 @@ export function Gehaltsrechner() {
 
         <div className="grid items-start gap-8 lg:grid-cols-[1fr_1.1fr]">
           {/* Inputs */}
-          <div className="rounded-[20px] border border-line bg-paper-2 p-10 lg:sticky lg:top-24">
+          <div className="min-w-0 rounded-[20px] border border-line bg-paper-2 p-6 sm:p-10 lg:sticky lg:top-24">
             <div className="mb-8">
               <label className="eyebrow mb-3.5 block">Beruf</label>
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -161,36 +161,38 @@ export function Gehaltsrechner() {
           </div>
 
           {/* Results */}
-          <div>
-            <div className="overflow-hidden rounded-[20px] bg-ink p-10 text-paper sm:p-12">
+          <div className="min-w-0">
+            <div className="overflow-hidden rounded-[20px] bg-ink p-6 text-paper sm:p-10 lg:p-12">
               <div className="eyebrow !text-white/55">Dein Bruttogehalt bei Samaritano</div>
               <div
                 className="mt-3.5 font-serif font-light leading-none tracking-tight"
-                style={{ fontSize: 'clamp(56px, 9vw, 112px)' }}
+                style={{ fontSize: 'clamp(40px, 9vw, 112px)' }}
               >
                 {calc.sama.toLocaleString('de-DE')}
-                <span className="ml-2.5 text-[32px] opacity-50">€/Mo</span>
+                <span className="ml-2.5 text-[20px] opacity-50 sm:text-[28px] lg:text-[32px]">€/Mo</span>
               </div>
-              <div className="mt-6 inline-flex items-center gap-2.5 rounded-full bg-accent px-4 py-2.5 text-[14px] font-medium">
+              <div className="mt-6 inline-flex flex-wrap items-center gap-x-2.5 gap-y-1 rounded-full bg-accent px-4 py-2.5 text-[13px] font-medium sm:text-[14px]">
                 +{calc.diff.toLocaleString('de-DE')} €
                 <span className="opacity-80">(+{calc.diffPct} %)</span> über Tarif
               </div>
               <div className="mt-8 grid gap-6 border-t border-white/10 pt-7 sm:grid-cols-2">
                 <div>
                   <div className="text-[13px] text-white/55">Pro Jahr (inkl. 13.)</div>
-                  <div className="mt-1 font-serif text-[32px] font-light">
+                  <div className="mt-1 font-serif text-[24px] font-light sm:text-[28px] lg:text-[32px]">
                     {calc.yearly.toLocaleString('de-DE')} €
                   </div>
                 </div>
                 <div>
                   <div className="text-[13px] text-white/55">Stundensatz</div>
-                  <div className="mt-1 font-serif text-[32px] font-light">{calc.hourlyRate} €</div>
+                  <div className="mt-1 font-serif text-[24px] font-light sm:text-[28px] lg:text-[32px]">
+                    {calc.hourlyRate} €
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Breakdown */}
-            <div className="mt-6 rounded-[20px] border border-line bg-paper-2 p-8">
+            <div className="mt-6 rounded-[20px] border border-line bg-paper-2 p-5 sm:p-8">
               <div className="eyebrow mb-5">Zusammensetzung</div>
               <table className="w-full border-collapse text-[15px]">
                 <tbody>
@@ -219,7 +221,7 @@ export function Gehaltsrechner() {
             </div>
 
             {/* Comparison */}
-            <div className="mt-6 rounded-[20px] border border-line bg-paper p-8">
+            <div className="mt-6 rounded-[20px] border border-line bg-paper p-5 sm:p-8">
               <div className="eyebrow mb-5">Vergleich Tarif vs. Samaritano</div>
               <div className="grid gap-4">
                 <div>

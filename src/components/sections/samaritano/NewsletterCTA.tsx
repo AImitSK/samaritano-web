@@ -19,7 +19,7 @@ export function NewsletterCTA() {
   return (
     <section className="section-pad-tight" data-screen-label="Newsletter">
       <div className="wrap">
-        <div className="relative grid items-center gap-15 overflow-hidden rounded-[20px] bg-accent p-15 text-white md:grid-cols-2 md:p-20">
+        <div className="relative grid items-center gap-8 overflow-hidden rounded-[20px] bg-accent p-8 text-white sm:p-10 md:grid-cols-2 md:gap-12 md:p-20">
           {/* deco */}
           <div
             aria-hidden

@@ -27,7 +27,7 @@ export function Hero({
   return (
     <section className="relative section-pad pt-16 lg:pt-24" data-screen-label="Hero">
       <div className="wrap">
-        <div className="grid items-end gap-16 lg:grid-cols-[1.4fr_1fr] lg:gap-15">
+        <div className="grid items-end gap-16 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
           <div>
             <div className="mb-8 flex items-center gap-3.5">
               <span className="inline-flex items-center gap-2 rounded-full border border-line bg-paper-2 py-1.5 pl-2 pr-3.5 text-[13px]">

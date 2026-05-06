@@ -151,7 +151,7 @@ function StandardPage({ page }: { page: Page }) {
   return (
     <div className="py-16 lg:py-24">
       <div className="container mx-auto max-w-3xl px-4">
-        <h1 className="mb-8 font-display text-3xl font-bold md:text-4xl">{page.title}</h1>
+        <h1 className="mb-8 font-display text-4xl font-bold">{page.title}</h1>
         <p className="text-muted-foreground">
           Diese Seite wird vom Entwickler individuell gestaltet.
         </p>
@@ -241,7 +241,7 @@ async function BlogListing({ preview }: { preview: boolean }) {
     <>
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-6 font-display text-3xl font-bold md:text-5xl">Blog</h1>
+          <h1 className="mb-6 font-display text-4xl font-bold md:text-5xl">Blog</h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Einblicke, Tipps und Neuigkeiten aus unserer Branche.
           </p>
@@ -361,7 +361,7 @@ async function KarriereListing({ preview }: { preview: boolean }) {
     <>
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-6 font-display text-3xl font-bold md:text-5xl">Karriere</h1>
+          <h1 className="mb-6 font-display text-4xl font-bold md:text-5xl">Karriere</h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Werden Sie Teil unseres Teams. Wir bieten spannende Aufgaben und ein motiviertes
             Arbeitsumfeld.
@@ -395,7 +395,7 @@ async function AktuellesListing({ preview }: { preview: boolean }) {
     <>
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-6 font-display text-3xl font-bold md:text-5xl">Aktuelles</h1>
+          <h1 className="mb-6 font-display text-4xl font-bold md:text-5xl">Aktuelles</h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Neuigkeiten, Events und Pressemitteilungen aus unserem Unternehmen.
           </p>
@@ -428,7 +428,7 @@ async function DownloadsListing({ preview }: { preview: boolean }) {
     <>
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-6 font-display text-3xl font-bold md:text-5xl">Downloads</h1>
+          <h1 className="mb-6 font-display text-4xl font-bold md:text-5xl">Downloads</h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Kataloge, Datenblätter, Zertifikate und weitere Dokumente zum Herunterladen.
           </p>
@@ -452,7 +452,7 @@ async function TeamPage({ preview }: { preview: boolean }) {
     <>
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-6 font-display text-3xl font-bold md:text-5xl">Über uns</h1>
+          <h1 className="mb-6 font-display text-4xl font-bold md:text-5xl">Über uns</h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Lernen Sie unser Unternehmen und die Menschen dahinter kennen. Wir stehen für
             Qualität, Innovation und partnerschaftliche Zusammenarbeit.
@@ -487,7 +487,7 @@ async function TimelinePage({ preview }: { preview: boolean }) {
     <>
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-6 font-display text-3xl font-bold md:text-5xl">Unsere Geschichte</h1>
+          <h1 className="mb-6 font-display text-4xl font-bold md:text-5xl">Unsere Geschichte</h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Meilensteine unserer Unternehmensentwicklung.
           </p>
@@ -511,7 +511,7 @@ async function LegalContent({ type, preview }: { type: string; preview: boolean 
   return (
     <div className="py-16 lg:py-24">
       <div className="container mx-auto max-w-3xl px-4">
-        <h1 className="mb-8 font-display text-3xl font-bold md:text-4xl">
+        <h1 className="mb-8 font-display text-4xl font-bold">
           {legalPage?.title || (type === 'impressum' ? 'Impressum' : 'Datenschutzerklärung')}
         </h1>
 
