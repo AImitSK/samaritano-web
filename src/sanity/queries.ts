@@ -170,6 +170,7 @@ export async function getAllPosts(preview = false): Promise<Post[]> {
       excerpt,
       publishedAt,
       mainImage,
+      content,
       author->{
         name,
         image
