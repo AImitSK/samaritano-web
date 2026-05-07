@@ -23,6 +23,7 @@ const applicationSchema = z.object({
   employers: z.string().optional(), // JSON-String
   aboutYou: z.string().optional(),
   jobTitle: z.string().min(1),
+  jobSlug: z.string().optional(),
   contactEmail: z.string().email().optional(),
 })
 
@@ -131,6 +132,18 @@ export async function POST(request: NextRequest) {
           })
         }
 
+        // Job-Reference per Slug nachschlagen
+        let jobReference: { _type: 'reference'; _ref: string } | undefined
+        if (data.jobSlug) {
+          const job = await client.fetch<{ _id: string } | null>(
+            `*[_type == "job" && slug.current == $slug][0]{_id}`,
+            { slug: data.jobSlug }
+          )
+          if (job) {
+            jobReference = { _type: 'reference', _ref: job._id }
+          }
+        }
+
         await client.create({
           _type: 'bewerbung',
           applicantName: `${data.firstName} ${data.lastName}`,
@@ -139,6 +152,7 @@ export async function POST(request: NextRequest) {
           address: `${data.zip} ${data.city}`,
           callTime: data.callTime || undefined,
           position: data.position,
+          jobReference,
           employers: employers.length > 0
             ? employers.map((e) => ({ _type: 'object', _key: crypto.randomUUID(), ...e }))
             : undefined,

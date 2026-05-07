@@ -128,6 +128,7 @@ export function BewerbungsForm({ jobTitle, jobId, defaultPosition, contactEmail 
       fd.append('city', data.city)
       fd.append('position', data.position)
       fd.append('jobTitle', jobTitle)
+      fd.append('jobSlug', jobId)
       if (data.callTime) fd.append('callTime', data.callTime)
       if (data.aboutYou) fd.append('aboutYou', data.aboutYou)
       if (contactEmail) fd.append('contactEmail', contactEmail)
