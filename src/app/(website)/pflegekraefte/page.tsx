@@ -180,7 +180,7 @@ export default async function PflegekraeftePage() {
       {testimonials.length > 0 && (
         <section className="bg-ink py-24 text-paper lg:py-32">
           <div className="wrap">
-            <div className="mb-16 max-w-[820px] lg:mb-20">
+            <div className="mb-16 lg:mb-20">
               <div className="eyebrow !text-white/55">Stimmen aus dem Netzwerk</div>
               <h2 className="h1 mt-5 !text-paper">
                 Was <em className="text-sky">Samaritanos</em> sagen.
