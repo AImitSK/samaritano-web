@@ -11,6 +11,7 @@ import {
   Milestone,
   Quote,
   Bell,
+  Inbox,
 } from 'lucide-react'
 
 // Singleton-Helper
@@ -81,6 +82,14 @@ export function structure(S: StructureBuilder) {
                 .title('Kategorien')
                 .icon(Tags)
                 .child(S.documentTypeList('jobCategory').title('Kategorien')),
+              S.listItem()
+                .title('Bewerbungen')
+                .icon(Inbox)
+                .child(
+                  S.documentTypeList('bewerbung')
+                    .title('Bewerbungen')
+                    .defaultOrdering([{ field: 'submittedAt', direction: 'desc' }])
+                ),
             ])
         ),
 
