@@ -27,7 +27,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Ungültige Signatur' }, { status: 401 })
     }
 
+    console.log('[revalidate] body:', JSON.stringify(body))
+
     if (!body?._type) {
+      console.log('[revalidate] kein _type im body')
       return NextResponse.json({ message: 'Kein _type im Body' }, { status: 400 })
     }
 
@@ -54,8 +57,11 @@ export async function POST(req: NextRequest) {
 
     // Alle Tags revalidieren
     for (const tag of tags) {
+      console.log(`[revalidate] revalidateTag('${tag}')`)
       revalidateTag(tag)
     }
+
+    console.log('[revalidate] done, tags:', tags)
 
     return NextResponse.json({
       revalidated: true,
