@@ -9,6 +9,7 @@ import type {
   FaqCategory,
   TeamMember,
   Milestone,
+  Testimonial,
 } from '@/types'
 
 // Fetch options: im Preview-Modus kein Caching
@@ -270,6 +271,30 @@ export async function getAllMilestones(preview = false): Promise<Milestone[]> {
     }`,
     {},
     fetchOptions(['milestone'], preview)
+  )
+}
+
+// ─── Testimonials ───
+
+export async function getTestimonialsByContext(
+  context: string,
+  preview = false
+): Promise<Testimonial[]> {
+  const client = getClient(preview)
+  if (!client) return []
+  return client.fetch(
+    `*[_type == "testimonial" && context == $context] | order(order asc){
+      _id,
+      _type,
+      name,
+      role,
+      quote,
+      image,
+      context,
+      order
+    }`,
+    { context },
+    fetchOptions(['testimonial'], preview)
   )
 }
 

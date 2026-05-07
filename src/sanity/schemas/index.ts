@@ -10,6 +10,7 @@ import { faq } from './faq'
 import { faqCategory } from './faqCategory'
 import { team } from './team'
 import { milestone } from './milestone'
+import { testimonial } from './testimonial'
 
 export const schemaTypes = [
   // Objects
@@ -27,4 +28,5 @@ export const schemaTypes = [
   legal,
   team,
   milestone,
+  testimonial,
 ]

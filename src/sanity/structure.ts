@@ -9,6 +9,7 @@ import {
   HelpCircle,
   Users,
   Milestone,
+  Quote,
 } from 'lucide-react'
 
 // Singleton-Helper
@@ -131,6 +132,14 @@ export function structure(S: StructureBuilder) {
                   S.documentTypeList('milestone')
                     .title('Meilensteine')
                     .defaultOrdering([{ field: 'year', direction: 'asc' }])
+                ),
+              S.listItem()
+                .title('Testimonials')
+                .icon(Quote)
+                .child(
+                  S.documentTypeList('testimonial')
+                    .title('Testimonials')
+                    .defaultOrdering([{ field: 'order', direction: 'asc' }])
                 ),
             ])
         ),

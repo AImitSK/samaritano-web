@@ -183,6 +183,17 @@ export interface Milestone extends SanityDocument {
   image?: SanityImage
 }
 
+// Testimonial Type
+export interface Testimonial extends SanityDocument {
+  _type: 'testimonial'
+  name: string
+  role: string
+  quote: string
+  image?: SanityImage
+  context?: 'pflegekraefte' | 'einrichtungen' | 'allgemein'
+  order?: number
+}
+
 // FAQ Type
 export interface Faq extends SanityDocument {
   _type: 'faq'
