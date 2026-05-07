@@ -158,7 +158,15 @@ export function Footer({
 
         <div className="flex flex-wrap items-center justify-between gap-4 pt-8 text-[13px] text-ink-muted">
           <div>
-            © {currentYear} {siteName} GmbH, alle Rechte vorbehalten.
+            © {currentYear} {siteName} GmbH, alle Rechte vorbehalten · Webentwicklung von{' '}
+            <a
+              href="https://sk-online-marketing.de"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sky transition-colors hover:text-ink"
+            >
+              SK Online Marketing
+            </a>
           </div>
           <div className="flex flex-wrap items-center gap-6">
             {LEGAL_LINKS.map((l) => (
@@ -174,18 +182,6 @@ export function Footer({
               Cookie-Einstellungen
             </button>
           </div>
-        </div>
-
-        <div className="mt-8 text-[12px] text-ink-muted">
-          Entwickelt von{' '}
-          <a
-            href="https://sk-online-marketing.de"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sky transition-colors hover:text-ink"
-          >
-            SK Online Marketing
-          </a>
         </div>
       </div>
     </footer>
