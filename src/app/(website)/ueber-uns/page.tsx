@@ -162,6 +162,7 @@ export default async function UeberUnsPage() {
                 Das <em>Team</em>.
               </h2>
             </div>
+            {/* eslint-disable @next/next/no-img-element */}
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {team.map((p) => {
                 const img = p.image
@@ -170,16 +171,14 @@ export default async function UeberUnsPage() {
                 return (
                   <div key={p._id}>
                     <div
-                      className="relative mb-4 overflow-hidden rounded-[12px] bg-paper-2"
+                      className="mb-4 overflow-hidden rounded-[12px] bg-paper-2"
                       style={{ aspectRatio: '4 / 5' }}
                     >
                       {img && (
-                        <Image
+                        <img
                           src={img}
                           alt={p.image?.alt || p.name}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 1024px) 50vw, 25vw"
+                          className="h-full w-full object-cover"
                         />
                       )}
                     </div>
