@@ -8,29 +8,24 @@ import { urlFor } from '@/sanity/client'
 export const metadata: Metadata = {
   title: 'Über uns',
   description:
-    'Samaritano ist ein christlich geprägtes Vermittlungsunternehmen für Pflegekräfte. Gegründet 2018 in Köln, mit Werten als Fundament.',
+    'Samaritano ist ein christlich geprägtes Vermittlungsunternehmen für Pflegekräfte. Gegründet 2023 – wir sind Pfleger, keine Betriebswirte.',
 }
 
 const WERTE = [
   {
     n: '01',
-    t: 'Würde',
-    d: 'Jeder Mensch ist mehr als sein Lebenslauf. Wir behandeln Pflegekräfte und Einrichtungen mit der gleichen Sorgfalt, die wir am Krankenbett erwarten.',
+    t: 'Gerechte Bezahlung',
+    d: 'Faire Vergütung für unsere Mitarbeiter und gleichzeitig kostengünstige Lösungen für Einrichtungen. Durch effiziente Prozesse schaffen wir ein Umfeld, in dem sich Pflegekräfte wertgeschätzt fühlen und sich auf die Versorgung konzentrieren können.',
   },
   {
     n: '02',
-    t: 'Wahrhaftigkeit',
-    d: 'Wir empfehlen nur, was passt, auch wenn das heißt, eine Stelle nicht zu besetzen. Provision ist nicht unser Kompass.',
+    t: 'Chancengleichheit',
+    d: 'Alle Mitarbeiter werden unabhängig von Herkunft, Geschlecht oder persönlichen Umständen respektiert und gefördert. Regelmäßige Weiterbildungen ermöglichen persönliche und berufliche Entwicklung.',
   },
   {
     n: '03',
-    t: 'Verbindlichkeit',
-    d: 'Was wir zusagen, machen wir. Schnelle Antworten, klare Konditionen, persönliche Begleitung, über die Vermittlung hinaus.',
-  },
-  {
-    n: '04',
-    t: 'Hoffnung',
-    d: 'Gute Pflege ist möglich. Wir arbeiten jeden Tag dafür, Pflegekräfte und Häuser zusammenzubringen, die das beweisen.',
+    t: 'Christliche Werte',
+    d: 'Nächstenliebe, Integrität und Mitgefühl sind Grundpfeiler unserer täglichen Arbeit. Wir sehen Patientenversorgung als Ausdruck christlicher Nächstenliebe und engagieren uns in lokalen Gemeinschaftsinitiativen.',
   },
 ]
 
@@ -49,14 +44,16 @@ export default async function UeberUnsPage() {
         <div className="wrap">
           <div className="eyebrow">Über uns</div>
           <h1 className="display mt-6 max-w-[1100px]">
-            <span className="block whitespace-nowrap">
-              Pflege braucht <em>Menschen</em>,
+            <span className="block sm:whitespace-nowrap">
+              Wir sind <em>Pfleger</em>,
             </span>
-            <span className="block whitespace-nowrap">nicht Algorithmen.</span>
+            <span className="block sm:whitespace-nowrap">keine Betriebswirte.</span>
           </h1>
           <p className="lede mt-8 max-w-[720px]">
-            Wir sind ein christlich geprägtes Vermittlungsunternehmen für Pflegekräfte. Gegründet 2018, weil
-            wir gesehen haben: Personalvermittlung in der Pflege funktioniert nur mit Werten als Fundament.
+            Samaritano wurde im Januar 2023 von Alexander Esau gegründet — aus persönlichen
+            Erfahrungen und dem Wunsch, positive Veränderungen im Gesundheitswesen zu bewirken.
+            Von Niedersachsen und Nordrhein-Westfalen aus unterstützen wir Kliniken, Pflegeeinrichtungen
+            und Pflegedienste mit hochqualifiziertem Fachpersonal.
           </p>
         </div>
       </section>
@@ -84,11 +81,11 @@ export default async function UeberUnsPage() {
         <div className="wrap">
           <div className="grid gap-16 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
             <div className="lg:sticky lg:top-24 lg:self-start">
-              <div className="eyebrow !text-white/55">Was uns trägt</div>
+              <div className="eyebrow !text-white/55">Was uns antreibt</div>
               <h2 className="h1 mt-5 !text-paper">
-                Vier <em className="text-sky">Werte</em>,
+                Drei <em className="text-sky">Werte</em>,
                 <br />
-                kein Marketing.
+                die uns leiten.
               </h2>
             </div>
             <div className="grid gap-10">
@@ -109,39 +106,51 @@ export default async function UeberUnsPage() {
         </div>
       </section>
 
-      {/* Story / Meilensteine */}
-      {milestones.length > 0 && (
-        <section className="py-24 lg:py-32">
-          <div className="wrap">
-            <div className="grid items-start gap-16 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
-              <div className="lg:sticky lg:top-24">
-                <div className="eyebrow">Unsere Geschichte</div>
-                <h2 className="h1 mt-5">
-                  Wie wir <em>angefangen</em> haben.
-                </h2>
-              </div>
-              <div className="grid gap-12">
-                {milestones.map((m) => (
-                  <div
-                    key={m._id}
-                    className="grid grid-cols-[100px_1fr] gap-8 border-b border-line pb-10"
-                  >
-                    <div className="font-serif text-[48px] font-light leading-none tracking-tight text-sky">
-                      {m.year}
+      {/* Gründungsgeschichte */}
+      <section className="py-24 lg:py-32">
+        <div className="wrap">
+          <div className="grid items-start gap-16 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
+            <div>
+              <div className="eyebrow">Unsere Geschichte</div>
+              <h2 className="h1 mt-5">
+                Wie alles <em>begann</em>.
+              </h2>
+            </div>
+            <div>
+              <p className="m-0 text-[20px] font-light leading-relaxed text-ink-soft lg:text-[22px]">
+                <span className="font-serif text-[48px] font-light leading-none text-sky lg:text-[56px]">&bdquo;</span>
+                Wähle einen Job, wo man dich liebt, und du wirst nie wieder arbeiten müssen.
+              </p>
+              <p className="mt-6 text-[16px] leading-relaxed text-ink-soft">
+                Als Geschäftsführer Alexander Esau Samaritano im Januar 2023 gründete, war der Antrieb
+                persönlich: eigene Erfahrungen im Gesundheitswesen und der Wunsch, es besser zu machen.
+                Heute unterstützen wir von Niedersachsen und Nordrhein-Westfalen aus Kliniken,
+                Pflegeeinrichtungen und Pflegedienste mit hochqualifiziertem Fachpersonal.
+              </p>
+              {milestones.length > 0 && (
+                <div className="mt-10 grid gap-8">
+                  {milestones.map((m) => (
+                    <div
+                      key={m._id}
+                      className="grid grid-cols-[80px_1fr] gap-6 border-t border-line pt-6"
+                    >
+                      <div className="font-serif text-[40px] font-light leading-none tracking-tight text-sky">
+                        {m.year}
+                      </div>
+                      <div>
+                        <h3 className="m-0 mb-2 mt-1 font-serif text-[22px] font-normal">{m.title}</h3>
+                        {m.description && (
+                          <p className="m-0 text-[15px] leading-relaxed text-ink-soft">{m.description}</p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="m-0 mb-3 mt-1 font-serif text-[26px] font-normal">{m.title}</h3>
-                      {m.description && (
-                        <p className="m-0 text-[16px] leading-relaxed text-ink-soft">{m.description}</p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* Team */}
       {team.length > 0 && (
