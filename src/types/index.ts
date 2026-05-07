@@ -82,6 +82,20 @@ export interface Settings extends SanityDocument {
   address?: string
 }
 
+// Notifications Type (Singleton)
+export interface Notifications extends SanityDocument {
+  _type: 'notifications'
+  bewerbungenEmail?: string
+  bewerbungenSlack?: string
+  bewerbungenWebhook?: string
+  kontaktEmail?: string
+  kontaktSlack?: string
+  kontaktWebhook?: string
+  gehaltsrechnerEmail?: string
+  gehaltsrechnerSlack?: string
+  gehaltsrechnerWebhook?: string
+}
+
 // Supporting Types
 export interface SanityImage {
   _type: 'image'

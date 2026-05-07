@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { sendApplicationEmail } from '@/lib/sendgrid'
+import { getNotifications } from '@/sanity/queries'
 
 const MAX_FILE_SIZE = 25 * 1024 * 1024 // 25 MB
 const ALLOWED_TYPES = [
@@ -82,8 +83,13 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Empfaenger: job-spezifische E-Mail oder Fallback
-    const recipientEmail = data.contactEmail || process.env.SENDGRID_FROM_EMAIL
+    // Empfaenger-Kaskade: Job-E-Mail → Sanity Notifications → Env-Fallback
+    const notifications = await getNotifications()
+    const recipientEmail =
+      data.contactEmail ||
+      notifications?.bewerbungenEmail ||
+      process.env.SENDGRID_FROM_EMAIL
+
     if (!recipientEmail) {
       return NextResponse.json(
         { success: false, error: 'E-Mail-Service ist nicht konfiguriert' },
@@ -91,23 +97,41 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    await sendApplicationEmail(
-      {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        phone: data.phone,
-        zip: data.zip,
-        city: data.city,
-        callTime: data.callTime,
-        position: data.position,
-        employers,
-        aboutYou: data.aboutYou,
-        jobTitle: data.jobTitle,
-      },
-      recipientEmail,
-      attachment
-    )
+    const applicationData = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      phone: data.phone,
+      zip: data.zip,
+      city: data.city,
+      callTime: data.callTime,
+      position: data.position,
+      employers,
+      aboutYou: data.aboutYou,
+      jobTitle: data.jobTitle,
+    }
+
+    await sendApplicationEmail(applicationData, recipientEmail, attachment)
+
+    // Optional: Slack-Benachrichtigung
+    if (notifications?.bewerbungenSlack) {
+      fetch(notifications.bewerbungenSlack, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: `Neue Bewerbung: ${data.position} – ${data.firstName} ${data.lastName} (${data.email})`,
+        }),
+      }).catch(() => {})
+    }
+
+    // Optional: Externer Webhook
+    if (notifications?.bewerbungenWebhook) {
+      fetch(notifications.bewerbungenWebhook, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'bewerbung', ...applicationData }),
+      }).catch(() => {})
+    }
 
     return NextResponse.json({ success: true, message: 'Bewerbung erfolgreich gesendet' })
   } catch (error) {

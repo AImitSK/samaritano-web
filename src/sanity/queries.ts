@@ -3,6 +3,7 @@ import type {
   Post,
   Settings,
   Navigation,
+  Notifications,
   Job,
   LegalPage,
   Faq,
@@ -37,6 +38,30 @@ export async function getSettings(preview = false): Promise<Settings | null> {
     }`,
     {},
     fetchOptions(['settings'], preview)
+  )
+}
+
+// ─── Notifications (Singleton) ───
+
+export async function getNotifications(preview = false): Promise<Notifications | null> {
+  const client = getClient(preview)
+  if (!client) return null
+  return client.fetch(
+    `*[_type == "notifications"][0]{
+      _id,
+      _type,
+      bewerbungenEmail,
+      bewerbungenSlack,
+      bewerbungenWebhook,
+      kontaktEmail,
+      kontaktSlack,
+      kontaktWebhook,
+      gehaltsrechnerEmail,
+      gehaltsrechnerSlack,
+      gehaltsrechnerWebhook
+    }`,
+    {},
+    fetchOptions(['notifications'], preview)
   )
 }
 

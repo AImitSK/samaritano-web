@@ -8,6 +8,7 @@ import { jobCategory } from './jobCategory'
 import { legal } from './legal'
 import { faq } from './faq'
 import { faqCategory } from './faqCategory'
+import { notifications } from './notifications'
 import { team } from './team'
 import { milestone } from './milestone'
 import { testimonial } from './testimonial'
@@ -18,6 +19,7 @@ export const schemaTypes = [
   // Singletons
   settings,
   navigation,
+  notifications,
   // Content Types
   post,
   category,

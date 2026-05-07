@@ -10,6 +10,7 @@ import {
   Users,
   Milestone,
   Quote,
+  Bell,
 } from 'lucide-react'
 
 // Singleton-Helper
@@ -39,6 +40,7 @@ export function structure(S: StructureBuilder) {
             .items([
               singletonItem(S, 'settings', 'Allgemein', Settings),
               singletonItem(S, 'navigation', 'Navigation', Menu),
+              singletonItem(S, 'notifications', 'Benachrichtigungen', Bell),
             ])
         ),
 
