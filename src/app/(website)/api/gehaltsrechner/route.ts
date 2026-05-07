@@ -68,8 +68,8 @@ export async function POST(request: NextRequest) {
       hourlyRate: data.hourlyRate,
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const pdfBuffer = await renderToBuffer(React.createElement(SalaryPdf, { data: pdfData }) as any)
+    // @ts-expect-error — renderToBuffer expects Document element but wrapper component works fine
+    const pdfBuffer = await renderToBuffer(React.createElement(SalaryPdf, { data: pdfData }))
     const pdfBase64 = Buffer.from(pdfBuffer).toString('base64')
 
     const fmt = (n: number) => n.toLocaleString('de-DE')
