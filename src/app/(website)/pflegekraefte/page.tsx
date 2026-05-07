@@ -89,7 +89,7 @@ export default async function PflegekraeftePage() {
               <span className="block sm:whitespace-nowrap">
                 ist <em>Berufung</em>.
               </span>
-              <span className="block sm:whitespace-nowrap">Wir finden den Ort.</span>
+              <span className="block text-[0.65em] sm:whitespace-nowrap">Wir finden den Ort.</span>
             </h1>
             <p className="lede mt-8 max-w-[560px]">
               Samaritano vermittelt Pflegekräfte in christliche Einrichtungen, deren Werte zu deinen
