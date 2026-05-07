@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
 import { FAQSection } from '@/components/sections/samaritano/FAQSection'
+import { TestimonialSlider } from '@/components/sections/samaritano/TestimonialSlider'
 import { getTestimonialsByContext } from '@/sanity/queries'
 import { urlFor } from '@/sanity/client'
 
@@ -70,6 +71,12 @@ const PROCESS = [
 
 export default async function PflegekraeftePage() {
   const testimonials = await getTestimonialsByContext('pflegekraefte')
+
+  // Build image URLs server-side (urlFor needs the Sanity client)
+  const imageUrls: Record<string, string | null> = {}
+  for (const t of testimonials) {
+    imageUrls[t._id] = t.image ? urlFor(t.image)?.width(600).height(750).url() ?? null : null
+  }
   return (
     <>
       {/* Hero */}
@@ -179,33 +186,7 @@ export default async function PflegekraeftePage() {
                 Was <em className="text-sky">Samaritanos</em> sagen.
               </h2>
             </div>
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {testimonials.map((t) => {
-                const img = t.image
-                  ? urlFor(t.image)?.width(600).height(750).url() ?? null
-                  : null
-                return (
-                  <div key={t._id} className="flex flex-col gap-6">
-                    {img && (
-                      <div
-                        className="overflow-hidden rounded-[16px]"
-                        style={{ aspectRatio: '4 / 5' }}
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={img} alt={t.image?.alt || t.name} className="h-full w-full object-cover" />
-                      </div>
-                    )}
-                    <p className="m-0 font-serif text-[22px] font-light leading-snug">
-                      {`\u201E${t.quote}\u201C`}
-                    </p>
-                    <div>
-                      <div className="font-medium">{t.name}</div>
-                      <div className="mt-0.5 text-[14px] text-white/60">{t.role}</div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
+            <TestimonialSlider testimonials={testimonials} imageUrls={imageUrls} />
           </div>
         </section>
       )}
