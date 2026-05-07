@@ -4,76 +4,81 @@ export const notifications = defineType({
   name: 'notifications',
   title: 'Benachrichtigungen',
   type: 'document',
+  groups: [
+    { name: 'bewerbungen', title: 'Bewerbungen', default: true },
+    { name: 'kontakt', title: 'Kontaktanfragen' },
+    { name: 'gehaltsrechner', title: 'Gehaltsrechner' },
+  ],
   fields: [
     // ─── Bewerbungen ───
     defineField({
-      name: 'bewerbungenHeading',
-      title: 'Bewerbungen',
-      type: 'string',
-      components: {
-        field: (props) => props.renderDefault({ ...props, title: '── Bewerbungen ──' }),
-      },
-      hidden: true,
-    }),
-    defineField({
       name: 'bewerbungenEmail',
-      title: 'E-Mail fuer Bewerbungen',
+      title: 'E-Mail',
       type: 'string',
-      description: 'An diese Adresse gehen alle Bewerbungen (Fallback wenn beim Job keine eigene E-Mail hinterlegt ist)',
+      group: 'bewerbungen',
+      description: 'Empfaenger fuer Bewerbungen (Fallback wenn beim Job keine eigene E-Mail hinterlegt ist)',
       validation: (Rule) => Rule.email(),
     }),
     defineField({
       name: 'bewerbungenSlack',
-      title: 'Slack Webhook (Bewerbungen)',
+      title: 'Slack Webhook',
       type: 'url',
+      group: 'bewerbungen',
       description: 'Optional: Slack-Benachrichtigung bei neuer Bewerbung',
     }),
     defineField({
       name: 'bewerbungenWebhook',
-      title: 'Webhook URL (Bewerbungen)',
+      title: 'Webhook URL',
       type: 'url',
+      group: 'bewerbungen',
       description: 'Optional: Externer Webhook bei neuer Bewerbung (z.B. Zapier, Make)',
     }),
 
-    // ─── Kontaktanfragen (spaeter) ───
+    // ─── Kontaktanfragen ───
     defineField({
       name: 'kontaktEmail',
-      title: 'E-Mail fuer Kontaktanfragen',
+      title: 'E-Mail',
       type: 'string',
-      description: 'An diese Adresse gehen Anfragen vom Kontaktformular',
+      group: 'kontakt',
+      description: 'Empfaenger fuer Anfragen vom Kontaktformular',
       validation: (Rule) => Rule.email(),
     }),
     defineField({
       name: 'kontaktSlack',
-      title: 'Slack Webhook (Kontakt)',
+      title: 'Slack Webhook',
       type: 'url',
+      group: 'kontakt',
       description: 'Optional: Slack-Benachrichtigung bei neuer Kontaktanfrage',
     }),
     defineField({
       name: 'kontaktWebhook',
-      title: 'Webhook URL (Kontakt)',
+      title: 'Webhook URL',
       type: 'url',
+      group: 'kontakt',
       description: 'Optional: Externer Webhook bei neuer Kontaktanfrage',
     }),
 
-    // ─── Gehaltsrechner (spaeter) ───
+    // ─── Gehaltsrechner ───
     defineField({
       name: 'gehaltsrechnerEmail',
-      title: 'E-Mail fuer Gehaltsrechner-Leads',
+      title: 'E-Mail',
       type: 'string',
-      description: 'An diese Adresse gehen Gehaltsrechner-Anfragen',
+      group: 'gehaltsrechner',
+      description: 'Empfaenger fuer Gehaltsrechner-Leads',
       validation: (Rule) => Rule.email(),
     }),
     defineField({
       name: 'gehaltsrechnerSlack',
-      title: 'Slack Webhook (Gehaltsrechner)',
+      title: 'Slack Webhook',
       type: 'url',
+      group: 'gehaltsrechner',
       description: 'Optional: Slack-Benachrichtigung bei neuem Lead',
     }),
     defineField({
       name: 'gehaltsrechnerWebhook',
-      title: 'Webhook URL (Gehaltsrechner)',
+      title: 'Webhook URL',
       type: 'url',
+      group: 'gehaltsrechner',
       description: 'Optional: Externer Webhook bei neuem Lead',
     }),
   ],
