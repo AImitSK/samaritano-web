@@ -162,6 +162,27 @@ export interface FaqCategory extends SanityDocument {
   pageContext?: '' | 'pflegekraefte' | 'einrichtungen'
 }
 
+// Team Member Type
+export interface TeamMember extends SanityDocument {
+  _type: 'team'
+  name: string
+  position: string
+  image?: SanityImage
+  email?: string
+  phone?: string
+  bio?: string
+  order?: number
+}
+
+// Milestone Type
+export interface Milestone extends SanityDocument {
+  _type: 'milestone'
+  year: string
+  title: string
+  description?: string
+  image?: SanityImage
+}
+
 // FAQ Type
 export interface Faq extends SanityDocument {
   _type: 'faq'

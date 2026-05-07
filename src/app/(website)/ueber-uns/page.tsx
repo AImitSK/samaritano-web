@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
+import { getAllTeamMembers, getAllMilestones } from '@/sanity/queries'
+import { urlFor } from '@/sanity/client'
 
 export const metadata: Metadata = {
   title: 'Über uns',
@@ -32,39 +34,14 @@ const WERTE = [
   },
 ]
 
-const STORY = [
-  {
-    y: '2018',
-    t: 'Gründung in Köln',
-    d: 'Drei Pflegekräfte, ein Geschäftsführer, ein Versprechen: Vermittlung mit Werten als Fundament.',
-  },
-  {
-    y: '2020',
-    t: 'Erste 50 Einrichtungen',
-    d: 'Während der Pandemie wuchs unser Netzwerk schneller als geplant, weil wir geliefert haben, als andere überfordert waren.',
-  },
-  {
-    y: '2023',
-    t: 'Werte-Match-Modell',
-    d: 'Wir entwickeln das erste strukturierte Verfahren, um Werte zwischen Pflegekraft und Einrichtung zu prüfen, nicht nur Skills.',
-  },
-  {
-    y: '2026',
-    t: '89 Partner, 312 Vermittlungen',
-    d: 'Heute begleiten wir Pflegekräfte in der gesamten DACH-Region, und bleiben dem Anspruch treu, mit dem wir angefangen haben.',
-  },
-]
-
-const TEAM = [
-  { name: 'Martin Schäfer', role: 'Geschäftsführer', img: '/uploads/Geschäftsführer.jpg' },
-  { name: 'Anna-Lena Porsche', role: 'Leitung Vermittlung', img: '/uploads/_DSC9603.jpg' },
-  { name: 'Magnus Reuter', role: 'Senior Recruiter', img: '/uploads/_DSC9356-Bearbeitet.jpg' },
-  { name: 'John Würth', role: 'Recruiter Endoskopie', img: '/uploads/_DSC9544.jpg' },
-]
-
 const ZERTIFIKATE = ['AÜG-Erlaubnis', 'DiAG MAV', 'Diakonieverband', 'TÜV-zertifiziert']
 
-export default function UeberUnsPage() {
+export default async function UeberUnsPage() {
+  const [team, milestones] = await Promise.all([
+    getAllTeamMembers(),
+    getAllMilestones(),
+  ])
+
   return (
     <>
       {/* Hero */}
@@ -132,61 +109,80 @@ export default function UeberUnsPage() {
         </div>
       </section>
 
-      {/* Story */}
-      <section className="py-24 lg:py-32">
-        <div className="wrap">
-          <div className="grid items-start gap-16 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
-            <div className="lg:sticky lg:top-24">
-              <div className="eyebrow">Unsere Geschichte</div>
-              <h2 className="h1 mt-5">
-                Wie wir <em>angefangen</em> haben.
-              </h2>
-            </div>
-            <div className="grid gap-12">
-              {STORY.map((s) => (
-                <div
-                  key={s.y}
-                  className="grid grid-cols-[100px_1fr] gap-8 border-b border-line pb-10"
-                >
-                  <div className="font-serif text-[48px] font-light leading-none tracking-tight text-sky">
-                    {s.y}
+      {/* Story / Meilensteine */}
+      {milestones.length > 0 && (
+        <section className="py-24 lg:py-32">
+          <div className="wrap">
+            <div className="grid items-start gap-16 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+              <div className="lg:sticky lg:top-24">
+                <div className="eyebrow">Unsere Geschichte</div>
+                <h2 className="h1 mt-5">
+                  Wie wir <em>angefangen</em> haben.
+                </h2>
+              </div>
+              <div className="grid gap-12">
+                {milestones.map((m) => (
+                  <div
+                    key={m._id}
+                    className="grid grid-cols-[100px_1fr] gap-8 border-b border-line pb-10"
+                  >
+                    <div className="font-serif text-[48px] font-light leading-none tracking-tight text-sky">
+                      {m.year}
+                    </div>
+                    <div>
+                      <h3 className="m-0 mb-3 mt-1 font-serif text-[26px] font-normal">{m.title}</h3>
+                      {m.description && (
+                        <p className="m-0 text-[16px] leading-relaxed text-ink-soft">{m.description}</p>
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="m-0 mb-3 mt-1 font-serif text-[26px] font-normal">{s.t}</h3>
-                    <p className="m-0 text-[16px] leading-relaxed text-ink-soft">{s.d}</p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Team */}
-      <section className="bg-paper-2 py-24 lg:py-32">
-        <div className="wrap">
-          <div className="mb-12 max-w-[600px] lg:mb-16">
-            <div className="eyebrow">Wer hinter Samaritano steht</div>
-            <h2 className="h1 mt-5">
-              Das <em>Team</em>.
-            </h2>
+      {team.length > 0 && (
+        <section className="bg-paper-2 py-24 lg:py-32">
+          <div className="wrap">
+            <div className="mb-12 max-w-[600px] lg:mb-16">
+              <div className="eyebrow">Wer hinter Samaritano steht</div>
+              <h2 className="h1 mt-5">
+                Das <em>Team</em>.
+              </h2>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {team.map((p) => {
+                const img = p.image
+                  ? urlFor(p.image)?.width(600).height(750).url() ?? null
+                  : null
+                return (
+                  <div key={p._id}>
+                    <div
+                      className="relative mb-4 overflow-hidden rounded-[12px] bg-paper-2"
+                      style={{ aspectRatio: '4 / 5' }}
+                    >
+                      {img && (
+                        <Image
+                          src={img}
+                          alt={p.image?.alt || p.name}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 1024px) 50vw, 25vw"
+                        />
+                      )}
+                    </div>
+                    <div className="mb-1 font-serif text-[22px] font-normal">{p.name}</div>
+                    <div className="text-[14px] text-ink-muted">{p.position}</div>
+                  </div>
+                )
+              })}
+            </div>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {TEAM.map((p) => (
-              <div key={p.name}>
-                <div
-                  className="relative mb-4 overflow-hidden rounded-[12px]"
-                  style={{ aspectRatio: '4 / 5' }}
-                >
-                  <Image src={p.img} alt={p.name} fill className="object-cover" sizes="(max-width: 1024px) 50vw, 25vw" />
-                </div>
-                <div className="mb-1 font-serif text-[22px] font-normal">{p.name}</div>
-                <div className="text-[14px] text-ink-muted">{p.role}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Zertifizierungen */}
       <section className="py-24 lg:py-32">

@@ -8,6 +8,8 @@ import { jobCategory } from './jobCategory'
 import { legal } from './legal'
 import { faq } from './faq'
 import { faqCategory } from './faqCategory'
+import { team } from './team'
+import { milestone } from './milestone'
 
 export const schemaTypes = [
   // Objects
@@ -23,4 +25,6 @@ export const schemaTypes = [
   faq,
   faqCategory,
   legal,
+  team,
+  milestone,
 ]

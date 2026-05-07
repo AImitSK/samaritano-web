@@ -7,6 +7,8 @@ import type {
   LegalPage,
   Faq,
   FaqCategory,
+  TeamMember,
+  Milestone,
 } from '@/types'
 
 // Fetch options: im Preview-Modus kein Caching
@@ -227,6 +229,47 @@ export async function getAllLegalPages(preview = false): Promise<LegalPage[]> {
     }`,
     {},
     fetchOptions(['legal'], preview)
+  )
+}
+
+// ─── Team ───
+
+export async function getAllTeamMembers(preview = false): Promise<TeamMember[]> {
+  const client = getClient(preview)
+  if (!client) return []
+  return client.fetch(
+    `*[_type == "team"] | order(order asc, name asc){
+      _id,
+      _type,
+      name,
+      position,
+      image,
+      email,
+      phone,
+      bio,
+      order
+    }`,
+    {},
+    fetchOptions(['team'], preview)
+  )
+}
+
+// ─── Meilensteine ───
+
+export async function getAllMilestones(preview = false): Promise<Milestone[]> {
+  const client = getClient(preview)
+  if (!client) return []
+  return client.fetch(
+    `*[_type == "milestone"] | order(year asc){
+      _id,
+      _type,
+      year,
+      title,
+      description,
+      image
+    }`,
+    {},
+    fetchOptions(['milestone'], preview)
   )
 }
 
