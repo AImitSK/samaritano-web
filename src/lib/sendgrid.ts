@@ -12,6 +12,7 @@ interface SendEmailOptions {
   subject: string
   text: string
   html?: string
+  attachments?: { content: string; filename: string; type: string; disposition?: string }[]
 }
 
 export async function sendEmail(options: SendEmailOptions) {
@@ -26,7 +27,7 @@ export async function sendEmail(options: SendEmailOptions) {
     throw new Error('SENDGRID_FROM_EMAIL is not configured')
   }
 
-  const msg = {
+  const msg: MailDataRequired = {
     to: options.to,
     from: {
       email: fromEmail,
@@ -35,6 +36,9 @@ export async function sendEmail(options: SendEmailOptions) {
     subject: options.subject,
     text: options.text,
     html: options.html || options.text,
+    ...(options.attachments?.length
+      ? { attachments: options.attachments.map((a) => ({ ...a, disposition: a.disposition || 'attachment' })) }
+      : {}),
   }
 
   try {

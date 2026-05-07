@@ -1,8 +1,11 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import Link from 'next/link'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Check, Lock } from 'lucide-react'
 
 type RoleKey =
   | 'Pflegefachkraft'
@@ -58,6 +61,17 @@ function Slider({ label, value, onChange, min, max, suffix = '' }: SliderProps) 
   )
 }
 
+const leadSchema = z.object({
+  salutation: z.string().min(1, 'Bitte waehlen'),
+  firstName: z.string().min(2, 'Mindestens 2 Zeichen'),
+  lastName: z.string().min(2, 'Mindestens 2 Zeichen'),
+  email: z.string().email('Ungueltige E-Mail'),
+  privacy: z.literal(true, { errorMap: () => ({ message: 'Bitte zustimmen' }) }),
+})
+type LeadForm = z.infer<typeof leadSchema>
+
+const inputClass = 'w-full rounded-[8px] border border-line bg-white px-4 py-3 text-[14px] outline-none focus:border-sky'
+
 export function Gehaltsrechner() {
   const [role, setRole] = useState<RoleKey>('Fachkrankenpfleger Intensiv')
   const [hours, setHours] = useState(38)
@@ -65,6 +79,13 @@ export function Gehaltsrechner() {
   const [nights, setNights] = useState(8)
   const [weekends, setWeekends] = useState(4)
   const [holidays, setHolidays] = useState(2)
+  const [unlocked, setUnlocked] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+
+  const { register, handleSubmit, formState: { errors } } = useForm<LeadForm>({
+    resolver: zodResolver(leadSchema),
+  })
 
   const calc = useMemo(() => {
     const r = ROLES_DATA[role]
@@ -191,33 +212,151 @@ export function Gehaltsrechner() {
               </div>
             </div>
 
-            {/* Breakdown */}
-            <div className="mt-6 rounded-[20px] border border-line bg-paper-2 p-5 sm:p-8">
+            {/* Breakdown — gated */}
+            <div className="relative mt-6 overflow-hidden rounded-[20px] border border-line bg-paper-2 p-5 sm:p-8">
               <div className="eyebrow mb-5">Zusammensetzung</div>
-              <table className="w-full border-collapse text-[15px]">
-                <tbody>
-                  {[
-                    ['Grundgehalt', calc.samaBase, '+ ggü. Tarif'],
-                    ['Nachtdienste', calc.nightBonus, `${nights} × 45 €`],
-                    ['Wochenenden', calc.weekendBonus, `${weekends} × 65 €`],
-                    ['Feiertage (anteilig)', calc.holidayBonusMonthly, `${holidays}/Jahr × 120 €`],
-                  ].map(([k, v, sub]) => (
-                    <tr key={k as string} className="border-b border-line">
-                      <td className="py-4">
-                        <div className="font-medium">{k}</div>
-                        <div className="mt-0.5 text-[12px] text-ink-muted">{sub}</div>
+
+              {/* Blurred preview when locked */}
+              <div className={unlocked ? '' : 'pointer-events-none select-none blur-[6px]'}>
+                <table className="w-full border-collapse text-[15px]">
+                  <tbody>
+                    {[
+                      ['Grundgehalt', calc.samaBase, '+ ggü. Tarif'],
+                      ['Nachtdienste', calc.nightBonus, `${nights} × 45 €`],
+                      ['Wochenenden', calc.weekendBonus, `${weekends} × 65 €`],
+                      ['Feiertage (anteilig)', calc.holidayBonusMonthly, `${holidays}/Jahr × 120 €`],
+                    ].map(([k, v, sub]) => (
+                      <tr key={k as string} className="border-b border-line">
+                        <td className="py-4">
+                          <div className="font-medium">{k}</div>
+                          <div className="mt-0.5 text-[12px] text-ink-muted">{sub}</div>
+                        </td>
+                        <td className="py-4 text-right font-mono">{(v as number).toLocaleString('de-DE')} €</td>
+                      </tr>
+                    ))}
+                    <tr>
+                      <td className="pt-5 font-semibold">Gesamt brutto / Monat</td>
+                      <td className="pt-5 text-right font-serif text-[22px] text-sky">
+                        {calc.sama.toLocaleString('de-DE')} €
                       </td>
-                      <td className="py-4 text-right font-mono">{(v as number).toLocaleString('de-DE')} €</td>
                     </tr>
-                  ))}
-                  <tr>
-                    <td className="pt-5 font-semibold">Gesamt brutto / Monat</td>
-                    <td className="pt-5 text-right font-serif text-[22px] text-sky">
-                      {calc.sama.toLocaleString('de-DE')} €
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Lead gate overlay */}
+              {!unlocked && (
+                <div className="absolute inset-0 flex items-center justify-center bg-paper-2/80 backdrop-blur-[2px]">
+                  <div className="w-full max-w-[400px] px-4">
+                    {submitted ? (
+                      <div className="text-center">
+                        <div className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full bg-accent text-white">
+                          <Check className="h-5 w-5" strokeWidth={3} />
+                        </div>
+                        <div className="font-serif text-[22px]">Check dein Postfach!</div>
+                        <p className="mt-2 text-[14px] text-ink-soft">
+                          Dein Gehaltsangebot ist unterwegs.
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => setUnlocked(true)}
+                          className="btn btn-primary mt-4 !px-5 !py-3 text-[14px]"
+                        >
+                          Aufschluesselung jetzt ansehen
+                        </button>
+                      </div>
+                    ) : (
+                      <form
+                        onSubmit={handleSubmit(async (formData) => {
+                          setSubmitting(true)
+                          try {
+                            const res = await fetch('/api/gehaltsrechner', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({
+                                salutation: formData.salutation,
+                                firstName: formData.firstName,
+                                lastName: formData.lastName,
+                                email: formData.email,
+                                role,
+                                hours,
+                                experience: exp,
+                                nightShifts: nights,
+                                weekendShifts: weekends,
+                                holidayShifts: holidays,
+                                samaBase: calc.samaBase,
+                                nightBonus: calc.nightBonus,
+                                weekendBonus: calc.weekendBonus,
+                                holidayBonusMonthly: calc.holidayBonusMonthly,
+                                totalSalary: calc.sama,
+                                tarifSalary: calc.tarif,
+                                diff: calc.diff,
+                                diffPct: calc.diffPct,
+                                yearly: calc.yearly,
+                                hourlyRate: calc.hourlyRate,
+                              }),
+                            })
+                            if (res.ok) setSubmitted(true)
+                          } finally {
+                            setSubmitting(false)
+                          }
+                        })}
+                        className="rounded-[14px] bg-white p-6 shadow-elevated"
+                      >
+                        <div className="mb-1 flex items-center gap-2 text-[13px] font-medium text-ink-muted">
+                          <Lock className="h-3 w-3" />
+                          Exklusiv
+                        </div>
+                        <div className="mb-4 font-serif text-[20px] leading-snug">
+                          Detaillierte Aufschluesselung kostenlos per E-Mail erhalten
+                        </div>
+                        <div className="grid gap-3">
+                          <select {...register('salutation')} className={inputClass}>
+                            <option value="">Anrede</option>
+                            <option value="Herr">Herr</option>
+                            <option value="Frau">Frau</option>
+                            <option value="Divers">Divers</option>
+                          </select>
+                          {errors.salutation && <p className="text-[12px] text-red-500">{errors.salutation.message}</p>}
+                          <div className="grid grid-cols-2 gap-3">
+                            <div>
+                              <input {...register('firstName')} placeholder="Vorname" className={inputClass} />
+                              {errors.firstName && <p className="mt-1 text-[12px] text-red-500">{errors.firstName.message}</p>}
+                            </div>
+                            <div>
+                              <input {...register('lastName')} placeholder="Nachname" className={inputClass} />
+                              {errors.lastName && <p className="mt-1 text-[12px] text-red-500">{errors.lastName.message}</p>}
+                            </div>
+                          </div>
+                          <div>
+                            <input type="email" {...register('email')} placeholder="E-Mail" className={inputClass} />
+                            {errors.email && <p className="mt-1 text-[12px] text-red-500">{errors.email.message}</p>}
+                          </div>
+                          <label className="flex items-start gap-2 text-[12px] leading-relaxed text-ink-soft">
+                            <input type="checkbox" {...register('privacy')} className="mt-0.5 accent-accent" />
+                            <span>
+                              Ich habe die{' '}
+                              <Link href="/datenschutz" target="_blank" className="underline hover:text-sky">
+                                Datenschutzerklaerung
+                              </Link>{' '}
+                              gelesen.
+                            </span>
+                          </label>
+                          {errors.privacy && <p className="text-[12px] text-red-500">{errors.privacy.message}</p>}
+                          <button
+                            type="submit"
+                            disabled={submitting}
+                            className="btn btn-accent w-full justify-center !py-3.5 text-[14px] disabled:opacity-60"
+                          >
+                            {submitting ? 'Wird gesendet...' : 'Aufschluesselung anfordern'}
+                            {!submitting && <ArrowUpRight className="h-3.5 w-3.5" />}
+                          </button>
+                        </div>
+                      </form>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Comparison */}
@@ -255,9 +394,6 @@ export function Gehaltsrechner() {
                 Passende Stellen ansehen
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </Link>
-              <button type="button" className="btn btn-ghost" disabled>
-                PDF herunterladen
-              </button>
             </div>
 
             <p className="mt-5 max-w-[580px] text-[12px] leading-relaxed text-ink-muted">

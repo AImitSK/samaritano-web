@@ -12,6 +12,7 @@ import {
   Quote,
   Bell,
   Inbox,
+  TrendingUp,
 } from 'lucide-react'
 
 // Singleton-Helper
@@ -88,6 +89,14 @@ export function structure(S: StructureBuilder) {
                 .child(
                   S.documentTypeList('bewerbung')
                     .title('Bewerbungen')
+                    .defaultOrdering([{ field: 'submittedAt', direction: 'desc' }])
+                ),
+              S.listItem()
+                .title('Gehaltsrechner-Leads')
+                .icon(TrendingUp)
+                .child(
+                  S.documentTypeList('gehaltsrechnerLead')
+                    .title('Gehaltsrechner-Leads')
                     .defaultOrdering([{ field: 'submittedAt', direction: 'desc' }])
                 ),
             ])
