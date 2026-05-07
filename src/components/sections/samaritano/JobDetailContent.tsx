@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { MapPin, Clock, Euro, ArrowUpRight, Sparkles, Check } from 'lucide-react'
 import { PortableTextRenderer } from '@/components/ui/PortableTextRenderer'
 import type { SampleJob } from '@/data/jobs'
@@ -133,13 +134,13 @@ export function JobDetailContent({ job }: { job: SampleJob }) {
                     </div>
                   </div>
                 )}
-                <a
-                  href={`mailto:a.esau@samaritano.de?subject=${encodeURIComponent('Bewerbung: ' + job.title)}`}
+                <Link
+                  href={`/jobs/${job.id}/bewerben`}
                   className="btn btn-accent mt-6 w-full justify-center !px-6 !py-[18px]"
                 >
                   Jetzt bewerben
                   <ArrowUpRight className="h-3.5 w-3.5" />
-                </a>
+                </Link>
                 <button
                   type="button"
                   className="btn mt-2.5 w-full justify-center border border-white/25 !bg-transparent !px-6 !py-3.5 !text-paper"

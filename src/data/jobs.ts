@@ -16,6 +16,7 @@ export interface SampleJob {
   description?: unknown[]
   requirements?: string[]
   benefits?: string[]
+  contactEmail?: string
 }
 
 const TYPE_LABELS: Record<SanityJob['type'], string> = {
@@ -48,6 +49,7 @@ export function sanityJobToSample(j: SanityJob): SampleJob {
     description: j.description,
     requirements: j.requirements,
     benefits: j.benefits,
+    contactEmail: j.contactEmail,
   }
 }
 

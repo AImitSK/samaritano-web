@@ -1,4 +1,4 @@
-import sgMail from '@sendgrid/mail'
+import sgMail, { type MailDataRequired } from '@sendgrid/mail'
 import type { ContactFormData } from '@/types'
 
 // Initialisiere SendGrid mit API Key
@@ -107,4 +107,153 @@ ${data.message}
     text,
     html,
   })
+}
+
+// ─── Bewerbungsformular ───
+
+export interface ApplicationData {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  zip: string
+  city: string
+  callTime?: string
+  position: string
+  employers?: { employer: string; period: string; role: string }[]
+  aboutYou?: string
+  jobTitle: string
+}
+
+export async function sendApplicationEmail(
+  data: ApplicationData,
+  recipientEmail: string,
+  attachment?: { content: string; filename: string; type: string }
+) {
+  if (!apiKey) throw new Error('SENDGRID_API_KEY is not configured')
+
+  const fromEmail = process.env.SENDGRID_FROM_EMAIL
+  const fromName = process.env.SENDGRID_FROM_NAME
+  if (!fromEmail) throw new Error('SENDGRID_FROM_EMAIL is not configured')
+
+  const employerRows = (data.employers || [])
+    .map((e) => `<tr><td style="padding:6px 12px;border:1px solid #ddd">${e.employer}</td><td style="padding:6px 12px;border:1px solid #ddd">${e.period}</td><td style="padding:6px 12px;border:1px solid #ddd">${e.role}</td></tr>`)
+    .join('')
+
+  const employerTable = employerRows
+    ? `<table style="width:100%;border-collapse:collapse;margin-top:8px"><thead><tr style="background:#f4f4f4"><th style="padding:8px 12px;border:1px solid #ddd;text-align:left">Arbeitgeber</th><th style="padding:8px 12px;border:1px solid #ddd;text-align:left">Zeitraum</th><th style="padding:8px 12px;border:1px solid #ddd;text-align:left">Position</th></tr></thead><tbody>${employerRows}</tbody></table>`
+    : '<em>Keine Angabe</em>'
+
+  const subject = `Neue Bewerbung: ${data.position} – ${data.firstName} ${data.lastName}`
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 640px; margin: 0 auto; padding: 20px; }
+    .header { background: #1a1a2e; color: #fff; padding: 24px; border-radius: 8px 8px 0 0; }
+    .header h2 { margin: 0; font-size: 20px; }
+    .header p { margin: 6px 0 0; opacity: 0.7; font-size: 14px; }
+    .content { padding: 24px; border: 1px solid #ddd; border-top: none; border-radius: 0 0 8px 8px; }
+    .section { margin-bottom: 24px; }
+    .section-title { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-bottom: 10px; }
+    .field { margin-bottom: 10px; }
+    .label { font-weight: 600; color: #555; }
+    .about { background: #f9f9f9; padding: 16px; border-radius: 6px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Neue Bewerbung eingegangen</h2>
+      <p>Stelle: ${data.jobTitle}</p>
+    </div>
+    <div class="content">
+      <div class="section">
+        <div class="section-title">Persoenliche Daten</div>
+        <div class="field"><span class="label">Name:</span> ${data.firstName} ${data.lastName}</div>
+        <div class="field"><span class="label">E-Mail:</span> <a href="mailto:${data.email}">${data.email}</a></div>
+        <div class="field"><span class="label">Telefon:</span> <a href="tel:${data.phone}">${data.phone}</a></div>
+        <div class="field"><span class="label">Adresse:</span> ${data.zip} ${data.city}</div>
+        ${data.callTime ? `<div class="field"><span class="label">Beste Anrufzeit:</span> ${data.callTime}</div>` : ''}
+        <div class="field"><span class="label">Position:</span> ${data.position}</div>
+      </div>
+      <div class="section">
+        <div class="section-title">Berufserfahrung</div>
+        ${employerTable}
+      </div>
+      ${data.aboutYou ? `
+      <div class="section">
+        <div class="section-title">Ueber den Bewerber</div>
+        <div class="about">${data.aboutYou.replace(/\n/g, '<br>')}</div>
+      </div>
+      ` : ''}
+      ${attachment ? '<div class="section"><div class="section-title">Lebenslauf</div><p>Siehe Anhang: ' + attachment.filename + '</p></div>' : ''}
+    </div>
+  </div>
+</body>
+</html>`.trim()
+
+  const text = `Neue Bewerbung: ${data.position}\n\nName: ${data.firstName} ${data.lastName}\nE-Mail: ${data.email}\nTelefon: ${data.phone}\nAdresse: ${data.zip} ${data.city}\n${data.callTime ? `Anrufzeit: ${data.callTime}\n` : ''}Position: ${data.position}\n\n${data.aboutYou ? `Ueber mich:\n${data.aboutYou}` : ''}`
+
+  const msg: MailDataRequired = {
+    to: recipientEmail,
+    from: { email: fromEmail, name: fromName || 'Website' },
+    subject,
+    text,
+    html,
+    ...(attachment
+      ? {
+          attachments: [
+            {
+              content: attachment.content,
+              filename: attachment.filename,
+              type: attachment.type,
+              disposition: 'attachment' as const,
+            },
+          ],
+        }
+      : {}),
+  }
+
+  await sgMail.send(msg)
+
+  // Bestaetigungsmail an Bewerber
+  const confirmHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #1a1a2e; color: #fff; padding: 24px; border-radius: 8px 8px 0 0; }
+    .content { padding: 24px; border: 1px solid #ddd; border-top: none; border-radius: 0 0 8px 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2 style="margin:0;font-size:20px">Danke fuer deine Bewerbung!</h2>
+    </div>
+    <div class="content">
+      <p>Hallo ${data.firstName},</p>
+      <p>wir haben deine Bewerbung als <strong>${data.position}</strong> erhalten und melden uns innerhalb von 24 Stunden bei dir.</p>
+      <p>Dein Ansprechpartner Alexander Esau wird sich persoenlich bei dir melden.</p>
+      <p style="margin-top:24px">Herzliche Gruesse,<br>Dein Samaritano-Team</p>
+    </div>
+  </div>
+</body>
+</html>`.trim()
+
+  await sgMail.send({
+    to: data.email,
+    from: { email: fromEmail, name: fromName || 'Samaritano' },
+    subject: `Bewerbung erhalten – ${data.position}`,
+    text: `Hallo ${data.firstName},\n\nwir haben deine Bewerbung als ${data.position} erhalten und melden uns innerhalb von 24 Stunden.\n\nHerzliche Gruesse,\nDein Samaritano-Team`,
+    html: confirmHtml,
+  })
+
+  return { success: true }
 }
