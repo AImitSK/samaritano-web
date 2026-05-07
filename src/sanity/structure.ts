@@ -7,6 +7,8 @@ import {
   Scale,
   Menu,
   HelpCircle,
+  Users,
+  Milestone,
 } from 'lucide-react'
 
 // Singleton-Helper
@@ -102,6 +104,33 @@ export function structure(S: StructureBuilder) {
                   S.documentTypeList('faqCategory')
                     .title('FAQ-Kategorien')
                     .defaultOrdering([{ field: 'order', direction: 'asc' }])
+                ),
+            ])
+        ),
+
+      // ─── Unternehmen ───
+      S.listItem()
+        .title('Unternehmen')
+        .icon(Users)
+        .child(
+          S.list()
+            .title('Unternehmen')
+            .items([
+              S.listItem()
+                .title('Team')
+                .icon(Users)
+                .child(
+                  S.documentTypeList('team')
+                    .title('Teammitglieder')
+                    .defaultOrdering([{ field: 'order', direction: 'asc' }])
+                ),
+              S.listItem()
+                .title('Meilensteine')
+                .icon(Milestone)
+                .child(
+                  S.documentTypeList('milestone')
+                    .title('Meilensteine')
+                    .defaultOrdering([{ field: 'year', direction: 'asc' }])
                 ),
             ])
         ),
