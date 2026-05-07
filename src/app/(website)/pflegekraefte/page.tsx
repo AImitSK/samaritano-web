@@ -126,7 +126,7 @@ export default async function PflegekraeftePage() {
         <div className="wrap">
           <div className="mb-16 max-w-[680px] lg:mb-20">
             <div className="eyebrow">Was wir anders machen</div>
-            <h2 className="h1 mt-5">
+            <h2 className="h2 mt-5">
               Sechs Dinge, die wir dir <em>versprechen</em>.
             </h2>
           </div>
@@ -182,7 +182,7 @@ export default async function PflegekraeftePage() {
           <div className="wrap">
             <div className="mb-16 max-w-[600px] lg:mb-20">
               <div className="eyebrow !text-white/55">Stimmen aus dem Netzwerk</div>
-              <h2 className="h1 mt-5 !text-paper">
+              <h2 className="h2 mt-5 !text-paper">
                 Was <em className="text-sky">Samaritanos</em> sagen.
               </h2>
             </div>
