@@ -42,7 +42,6 @@ const UNTERNEHMEN_LINKS = [
 const LEGAL_LINKS = [
   { label: 'Impressum', href: '/impressum' },
   { label: 'Datenschutz', href: '/datenschutz' },
-  { label: 'AGB', href: '/agb' },
 ]
 
 const SOCIAL_ICONS: Record<SocialLink['platform'], typeof Facebook> = {
