@@ -4,10 +4,22 @@ export const notifications = defineType({
   name: 'notifications',
   title: 'Benachrichtigungen',
   type: 'document',
-  groups: [
-    { name: 'bewerbungen', title: 'Bewerbungen', default: true },
-    { name: 'kontakt', title: 'Kontaktanfragen' },
-    { name: 'gehaltsrechner', title: 'Gehaltsrechner' },
+  fieldsets: [
+    {
+      name: 'bewerbungen',
+      title: 'Bewerbungen',
+      options: { collapsible: true, collapsed: false },
+    },
+    {
+      name: 'kontakt',
+      title: 'Kontaktanfragen',
+      options: { collapsible: true, collapsed: true },
+    },
+    {
+      name: 'gehaltsrechner',
+      title: 'Gehaltsrechner',
+      options: { collapsible: true, collapsed: true },
+    },
   ],
   fields: [
     // ─── Bewerbungen ───
@@ -15,7 +27,7 @@ export const notifications = defineType({
       name: 'bewerbungenEmail',
       title: 'E-Mail',
       type: 'string',
-      group: 'bewerbungen',
+      fieldset: 'bewerbungen',
       description: 'Empfaenger fuer Bewerbungen (Fallback wenn beim Job keine eigene E-Mail hinterlegt ist)',
       validation: (Rule) => Rule.email(),
     }),
@@ -23,15 +35,15 @@ export const notifications = defineType({
       name: 'bewerbungenSlack',
       title: 'Slack Webhook',
       type: 'url',
-      group: 'bewerbungen',
+      fieldset: 'bewerbungen',
       description: 'Optional: Slack-Benachrichtigung bei neuer Bewerbung',
     }),
     defineField({
       name: 'bewerbungenWebhook',
       title: 'Webhook URL',
       type: 'url',
-      group: 'bewerbungen',
-      description: 'Optional: Externer Webhook bei neuer Bewerbung (z.B. Zapier, Make)',
+      fieldset: 'bewerbungen',
+      description: 'Optional: Externer Webhook (z.B. Zapier, Make)',
     }),
 
     // ─── Kontaktanfragen ───
@@ -39,7 +51,7 @@ export const notifications = defineType({
       name: 'kontaktEmail',
       title: 'E-Mail',
       type: 'string',
-      group: 'kontakt',
+      fieldset: 'kontakt',
       description: 'Empfaenger fuer Anfragen vom Kontaktformular',
       validation: (Rule) => Rule.email(),
     }),
@@ -47,15 +59,15 @@ export const notifications = defineType({
       name: 'kontaktSlack',
       title: 'Slack Webhook',
       type: 'url',
-      group: 'kontakt',
+      fieldset: 'kontakt',
       description: 'Optional: Slack-Benachrichtigung bei neuer Kontaktanfrage',
     }),
     defineField({
       name: 'kontaktWebhook',
       title: 'Webhook URL',
       type: 'url',
-      group: 'kontakt',
-      description: 'Optional: Externer Webhook bei neuer Kontaktanfrage',
+      fieldset: 'kontakt',
+      description: 'Optional: Externer Webhook',
     }),
 
     // ─── Gehaltsrechner ───
@@ -63,7 +75,7 @@ export const notifications = defineType({
       name: 'gehaltsrechnerEmail',
       title: 'E-Mail',
       type: 'string',
-      group: 'gehaltsrechner',
+      fieldset: 'gehaltsrechner',
       description: 'Empfaenger fuer Gehaltsrechner-Leads',
       validation: (Rule) => Rule.email(),
     }),
@@ -71,15 +83,15 @@ export const notifications = defineType({
       name: 'gehaltsrechnerSlack',
       title: 'Slack Webhook',
       type: 'url',
-      group: 'gehaltsrechner',
+      fieldset: 'gehaltsrechner',
       description: 'Optional: Slack-Benachrichtigung bei neuem Lead',
     }),
     defineField({
       name: 'gehaltsrechnerWebhook',
       title: 'Webhook URL',
       type: 'url',
-      group: 'gehaltsrechner',
-      description: 'Optional: Externer Webhook bei neuem Lead',
+      fieldset: 'gehaltsrechner',
+      description: 'Optional: Externer Webhook',
     }),
   ],
   preview: {
