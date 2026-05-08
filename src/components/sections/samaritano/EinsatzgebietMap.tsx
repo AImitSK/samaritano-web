@@ -38,11 +38,11 @@ export function EinsatzgebietMap() {
               {/* Radial Gradient fuer den Glow */}
               <defs>
                 <radialGradient id="minden-glow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#e74c3c" stopOpacity={1} />
-                  <stop offset="25%" stopColor="#e74c3c" stopOpacity={1} />
-                  <stop offset="50%" stopColor="#c0392b" stopOpacity={0.6} />
-                  <stop offset="75%" stopColor="#c0392b" stopOpacity={0.25} />
-                  <stop offset="100%" stopColor="#c0392b" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#64B2C9" stopOpacity={1} />
+                  <stop offset="25%" stopColor="#64B2C9" stopOpacity={1} />
+                  <stop offset="50%" stopColor="#64B2C9" stopOpacity={0.6} />
+                  <stop offset="75%" stopColor="#64B2C9" stopOpacity={0.25} />
+                  <stop offset="100%" stopColor="#64B2C9" stopOpacity={0} />
                 </radialGradient>
               </defs>
 
