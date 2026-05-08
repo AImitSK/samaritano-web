@@ -5,7 +5,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { FAQSection } from '@/components/sections/samaritano/FAQSection'
 import { TestimonialSlider } from '@/components/sections/samaritano/TestimonialSlider'
 import { FeaturedJobs } from '@/components/sections/samaritano/FeaturedJobs'
-import { SalaryTeaser } from '@/components/sections/samaritano/SalaryTeaser'
+import { SalaryTeaserAnimated } from '@/components/sections/samaritano/SalaryTeaserAnimated'
 import { getTestimonialsByContext } from '@/sanity/queries'
 import { urlFor } from '@/sanity/client'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
@@ -87,7 +87,7 @@ export default async function PflegekraeftePage() {
             <div>
               <div className="eyebrow">Für Pflegekräfte</div>
               <h1 className="display mt-6">
-                <span className="block sm:whitespace-nowrap">Unser Angebot für</span>
+                <span className="block sm:whitespace-nowrap">Angebot für</span>
                 <span className="block sm:whitespace-nowrap">
                   <em>Pflegekräfte</em>.
                 </span>
@@ -112,7 +112,7 @@ export default async function PflegekraeftePage() {
             </div>
           </ScrollReveal>
           <ParallaxImage
-            src="/uploads/_DSC9356-Bearbeitet.jpg"
+            src="https://cdn.sanity.io/images/vnx2p4mc/production/d31480f48ab826443ad240042f3ac7c4d37b0ead-2560x1707.jpg"
             alt="Pflegekraft bei der Arbeit"
             aspectRatio="4 / 5"
             className="rounded-[20px]"
@@ -124,7 +124,7 @@ export default async function PflegekraeftePage() {
       <FeaturedJobs />
 
       {/* Gehaltsrechner Teaser */}
-      <SalaryTeaser />
+      <SalaryTeaserAnimated />
 
       {/* Benefits */}
       <section className="bg-paper-2 py-24 lg:py-32">
