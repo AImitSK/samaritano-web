@@ -7,10 +7,8 @@ if (apiKey) {
   sgMail.setApiKey(apiKey)
 }
 
-// Produktions-URL fuer E-Mail-Links — niemals localhost verwenden
+// E-Mail-Links muessen immer auf die echte Domain zeigen
 function getSiteUrl(): string {
-  const url = process.env.NEXT_PUBLIC_SITE_URL
-  if (url && !url.includes('localhost')) return url
   return 'https://samaritano.de'
 }
 
