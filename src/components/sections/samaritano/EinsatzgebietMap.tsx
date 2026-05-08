@@ -54,22 +54,55 @@ export function EinsatzgebietMap() {
                 )
               })}
 
-              {/* Pulse-Effekt auf highlighted Bundeslaender */}
-              {isInView &&
-                germany.locations
-                  .filter((s: { id: string }) => HIGHLIGHT_IDS.includes(s.id))
-                  .map((state: { id: string; path: string }) => (
-                    <motion.path
-                      key={`pulse-${state.id}`}
-                      d={state.path}
-                      fill="none"
-                      stroke="#1B3763"
-                      strokeWidth={2}
-                      initial={{ opacity: 0.6 }}
-                      animate={{ opacity: 0, strokeWidth: 5 }}
-                      transition={{ duration: 1.5, delay: 1.2, ease: 'easeOut' }}
-                    />
-                  ))}
+              {/* Kernregion: Radius ~100km um Minden */}
+              <motion.circle
+                cx={195}
+                cy={282}
+                r={91}
+                fill="#1B3763"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={isInView ? { opacity: 0.18, scale: 1 } : undefined}
+                transition={{ duration: 0.8, delay: 1.0, ease: 'easeOut' }}
+                style={{ transformOrigin: '195px 282px' }}
+              />
+              <motion.circle
+                cx={195}
+                cy={282}
+                r={91}
+                fill="none"
+                stroke="#1B3763"
+                strokeWidth={2}
+                strokeDasharray="6 4"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={isInView ? { opacity: 0.5, scale: 1 } : undefined}
+                transition={{ duration: 0.8, delay: 1.0, ease: 'easeOut' }}
+                style={{ transformOrigin: '195px 282px' }}
+              />
+              {/* Minden Punkt */}
+              <motion.circle
+                cx={195}
+                cy={282}
+                r={5}
+                fill="#fff"
+                stroke="#1B3763"
+                strokeWidth={2}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : undefined}
+                transition={{ duration: 0.4, delay: 1.4 }}
+                style={{ transformOrigin: '195px 282px' }}
+              />
+              <motion.text
+                x={205}
+                y={278}
+                fill="#1B3763"
+                fontSize={14}
+                fontWeight={600}
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : undefined}
+                transition={{ duration: 0.4, delay: 1.5 }}
+              >
+                Minden
+              </motion.text>
             </svg>
           </div>
 

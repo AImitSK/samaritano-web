@@ -49,7 +49,7 @@ export function SalaryTeaserAnimated() {
   return (
     <section ref={ref} className="section-pad bg-paper-2" data-screen-label="Gehalt">
       <div className="wrap">
-        <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.4fr_1fr] lg:gap-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : undefined}
