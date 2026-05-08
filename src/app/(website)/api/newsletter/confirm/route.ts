@@ -3,7 +3,9 @@ import { client } from '@/sanity/client'
 import { sendNewsletterWelcomeEmail } from '@/lib/sendgrid'
 
 export async function GET(request: NextRequest) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://samaritano.de'
+  // Niemals localhost in Redirect-URLs verwenden
+  const rawUrl = process.env.NEXT_PUBLIC_SITE_URL
+  const siteUrl = rawUrl && !rawUrl.includes('localhost') ? rawUrl : 'https://samaritano.de'
   const token = request.nextUrl.searchParams.get('token')
 
   if (!token || !client) {

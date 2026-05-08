@@ -7,6 +7,13 @@ if (apiKey) {
   sgMail.setApiKey(apiKey)
 }
 
+// Produktions-URL fuer E-Mail-Links — niemals localhost verwenden
+function getSiteUrl(): string {
+  const url = process.env.NEXT_PUBLIC_SITE_URL
+  if (url && !url.includes('localhost')) return url
+  return 'https://samaritano.de'
+}
+
 interface SendEmailOptions {
   to: string
   subject: string
@@ -271,7 +278,7 @@ export interface NewsletterConfirmData {
 }
 
 export async function sendNewsletterConfirmEmail(data: NewsletterConfirmData) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://samaritano.de'
+  const siteUrl = getSiteUrl()
   const confirmUrl = `${siteUrl}/api/newsletter/confirm?token=${data.confirmToken}`
 
   const html = `
@@ -324,7 +331,7 @@ export interface NewsletterWelcomeData {
 }
 
 export async function sendNewsletterWelcomeEmail(data: NewsletterWelcomeData) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://samaritano.de'
+  const siteUrl = getSiteUrl()
   const unsubscribeUrl = `${siteUrl}/api/newsletter/unsubscribe?token=${data.unsubscribeToken}`
 
   const html = `
