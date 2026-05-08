@@ -82,18 +82,8 @@ export function EinsatzgebietMap() {
                 r={90}
                 fill="url(#minden-glow)"
                 initial={{ opacity: 0, scale: 0 }}
-                animate={
-                  isInView
-                    ? {
-                        opacity: [0, 1, 0.7, 1],
-                        scale: [0, 1, 1.12, 1],
-                      }
-                    : undefined
-                }
-                transition={{
-                  opacity: { duration: 3, delay: 1.0, repeat: Infinity, repeatType: 'reverse' },
-                  scale: { duration: 3, delay: 1.0, repeat: Infinity, repeatType: 'reverse' },
-                }}
+                animate={isInView ? { opacity: 1, scale: 1 } : undefined}
+                transition={{ duration: 0.8, delay: 1.0, ease: 'easeOut' }}
                 style={{ transformOrigin: `${MINDEN.x}px ${MINDEN.y}px` }}
               />
             </svg>
