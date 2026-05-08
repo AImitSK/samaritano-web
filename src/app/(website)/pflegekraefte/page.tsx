@@ -220,7 +220,7 @@ export default async function PflegekraeftePage() {
       <FounderQuote />
 
       {/* CTA */}
-      <section className="py-24 lg:py-32">
+      <section className="bg-white py-24 lg:py-32">
         <div className="wrap">
           <ScrollReveal>
             <div className="grid items-center gap-8 rounded-[20px] bg-accent p-6 text-white sm:p-10 md:p-14 lg:grid-cols-[1.5fr_auto] lg:p-20">
