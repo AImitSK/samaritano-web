@@ -1,5 +1,5 @@
 import React from 'react'
-import { Document, Page, Text, View, StyleSheet, Font, Svg, Rect, Link } from '@react-pdf/renderer'
+import { Document, Page, Text, View, StyleSheet, Font, Svg, Rect, Link, Image } from '@react-pdf/renderer'
 
 // ─── Brand Tokens ───
 const C = {
@@ -43,7 +43,8 @@ const s = StyleSheet.create({
   // Header
   header: { backgroundColor: C.ink, paddingHorizontal: 44, paddingTop: 36, paddingBottom: 32 },
   headerTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
-  logo: { fontFamily: 'Fraunces', fontSize: 22, fontWeight: 300, color: C.white, letterSpacing: -0.5 },
+  logoImage: { height: 28 },
+  logoText: { fontFamily: 'Fraunces', fontSize: 22, fontWeight: 300, color: C.white, letterSpacing: -0.5 },
   logoAccent: { color: C.sky },
   date: { fontSize: 9, color: 'rgba(255,255,255,0.5)' },
   headerTitle: { fontFamily: 'Fraunces', fontSize: 26, fontWeight: 300, color: C.white, letterSpacing: -0.5 },
@@ -124,6 +125,10 @@ export interface SalaryPdfData {
   diffPct: number
   yearly: number
   hourlyRate: number
+  logoUrl?: string | null
+  contactPhone?: string | null
+  contactEmail?: string | null
+  address?: string | null
 }
 
 // ─── Component ───
@@ -132,25 +137,34 @@ export function SalaryPdf({ data }: { data: SalaryPdfData }) {
   const tarifPct = (data.tarifSalary / barMax) * 100
   const dateStr = new Date().toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })
 
+  const footerAddress = data.address ? data.address.replace(/\n/g, ' · ') : 'samaritano GmbH · Von Oeynhausen Str. 34 · 32479 Hille'
+
+  const LogoBlock = () => (
+    <View style={s.headerTop}>
+      {data.logoUrl ? (
+        <Image src={data.logoUrl} style={s.logoImage} />
+      ) : (
+        <Text style={s.logoText}>
+          samari<Text style={s.logoAccent}>tano</Text>
+        </Text>
+      )}
+      <Text style={s.date}>{dateStr}</Text>
+    </View>
+  )
+
   return (
     <Document>
+      {/* ════ Seite 1: Header + Eckdaten + Salary Hero ════ */}
       <Page size="A4" style={s.page}>
-        {/* ── Header ── */}
         <View style={s.header}>
-          <View style={s.headerTop}>
-            <Text style={s.logo}>
-              samari<Text style={s.logoAccent}>tano</Text>
-            </Text>
-            <Text style={s.date}>{dateStr}</Text>
-          </View>
-          <Text style={s.headerTitle}>Dein persoenliches Gehaltsangebot</Text>
+          <LogoBlock />
+          <Text style={s.headerTitle}>Dein persönliches Gehaltspotenzial</Text>
           <Text style={s.headerName}>
-            fuer {data.salutation} {data.firstName} {data.lastName}
+            für {data.salutation} {data.firstName} {data.lastName}
           </Text>
         </View>
 
         <View style={s.content}>
-          {/* ── Eckdaten ── */}
           <Text style={s.eyebrow}>DEINE ECKDATEN</Text>
           <View style={s.eckdatenBox}>
             {[
@@ -168,14 +182,13 @@ export function SalaryPdf({ data }: { data: SalaryPdfData }) {
             ))}
           </View>
 
-          {/* ── Salary Hero ── */}
           <View style={s.salaryBox}>
             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
               <Text style={s.salaryAmount}>{fmt(data.totalSalary)}</Text>
               <Text style={s.salarySuffix}> EUR/Monat</Text>
             </View>
             <View style={s.badge}>
-              <Text style={s.badgeText}>+{fmt(data.diff)} EUR (+{data.diffPct}%) ueber Tarif</Text>
+              <Text style={s.badgeText}>+{fmt(data.diff)} EUR (+{data.diffPct}%) über Tarif</Text>
             </View>
             <View style={s.salaryMeta}>
               <View>
@@ -188,12 +201,21 @@ export function SalaryPdf({ data }: { data: SalaryPdfData }) {
               </View>
             </View>
           </View>
+        </View>
 
-          {/* ── Breakdown ── */}
+        <View style={s.footer}>
+          <Text>Unverbindliche Schätzung auf Basis von Durchschnittswerten 2026</Text>
+          <Text>{footerAddress}</Text>
+        </View>
+      </Page>
+
+      {/* ════ Seite 2: Breakdown + Vergleich + CTA ════ */}
+      <Page size="A4" style={s.page}>
+        <View style={s.content}>
           <Text style={s.eyebrow}>ZUSAMMENSETZUNG</Text>
           <View style={s.breakdownBox}>
             {[
-              { label: 'Grundgehalt', sub: '+ ggue. Tarif', value: data.samaBase },
+              { label: 'Grundgehalt', sub: '+ ggü. Tarif', value: data.samaBase },
               { label: 'Nachtdienste', sub: `${data.nightShifts} x 45 EUR`, value: data.nightBonus },
               { label: 'Wochenenden', sub: `${data.weekendShifts} x 65 EUR`, value: data.weekendBonus },
               { label: 'Feiertage (anteilig)', sub: `${data.holidayShifts}/Jahr x 120 EUR`, value: data.holidayBonusMonthly },
@@ -212,7 +234,6 @@ export function SalaryPdf({ data }: { data: SalaryPdfData }) {
             </View>
           </View>
 
-          {/* ── Comparison ── */}
           <Text style={s.eyebrow}>VERGLEICH TARIF VS. SAMARITANO</Text>
           <View style={s.compBox}>
             <View style={s.compRow}>
@@ -239,12 +260,11 @@ export function SalaryPdf({ data }: { data: SalaryPdfData }) {
             </View>
           </View>
 
-          {/* ── CTA ── */}
           <View style={s.cta}>
             <Text style={s.ctaTitle}>Interesse? Lass uns reden.</Text>
             <Text style={s.ctaText}>
-              Dieses Angebot ist individuell auf deine Qualifikation zugeschnitten.{'\n'}
-              Alexander Esau meldet sich persoenlich bei dir — oder ruf einfach an.
+              Diese Übersicht ist individuell auf deine Qualifikation zugeschnitten.{'\n'}
+              Alexander Esau meldet sich persönlich bei dir — oder ruf einfach an.
             </Text>
             <Link src="https://samaritano-web.vercel.app/jobs">
               <View style={s.ctaButton}>
@@ -252,15 +272,14 @@ export function SalaryPdf({ data }: { data: SalaryPdfData }) {
               </View>
             </Link>
             <Text style={s.ctaContact}>
-              Telefon: +49 (0) 571 7846640 · E-Mail: a.esau@samaritano.de
+              Telefon: {data.contactPhone || '+49 (0) 571 7846640'} · E-Mail: {data.contactEmail || 'a.esau@samaritano.de'}
             </Text>
           </View>
         </View>
 
-        {/* ── Footer ── */}
         <View style={s.footer}>
-          <Text>Unverbindliche Schaetzung auf Basis von Durchschnittswerten 2026</Text>
-          <Text>samaritano GmbH · Von Oeynhausen Str. 34 · 32479 Hille</Text>
+          <Text>Unverbindliche Schätzung auf Basis von Durchschnittswerten 2026</Text>
+          <Text>{footerAddress}</Text>
         </View>
       </Page>
     </Document>

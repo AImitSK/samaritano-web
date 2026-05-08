@@ -148,11 +148,11 @@ export function Gehaltsrechner() {
               <span className="block sm:whitespace-nowrap">
                 als <em>Samaritano</em>
               </span>
-              <span className="block sm:whitespace-nowrap">verdienst.</span>
+              <span className="block sm:whitespace-nowrap">verdienen kannst.</span>
             </h1>
           </div>
           <p className="lede max-w-[380px]">
-            Stell deine Eckdaten ein. Wir zeigen dir transparent, was du bei uns verdienst, und wie das im
+            Stell deine Eckdaten ein. Wir zeigen dir transparent, was du bei uns verdienen kannst, und wie das im
             Vergleich zum Tarif aussieht.
           </p>
         </div>
@@ -276,7 +276,7 @@ export function Gehaltsrechner() {
                         </div>
                         <div className="font-serif text-[22px]">Check dein Postfach!</div>
                         <p className="mt-2 text-[14px] text-ink-soft">
-                          Dein Gehaltsangebot ist unterwegs.
+                          Deine Gehaltsübersicht ist unterwegs.
                         </p>
                         <button
                           type="button"
