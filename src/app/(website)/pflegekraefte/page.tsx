@@ -12,6 +12,8 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { ParallaxImage } from '@/components/ui/ParallaxImage'
 import { TiltCard } from '@/components/ui/TiltCard'
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
+import { EinsatzgebietMap } from '@/components/sections/samaritano/EinsatzgebietMap'
+import { FounderQuote } from '@/components/sections/samaritano/FounderQuote'
 
 export const metadata: Metadata = {
   title: 'Für Pflegekräfte',
@@ -186,6 +188,9 @@ export default async function PflegekraeftePage() {
         </div>
       </section>
 
+      {/* Einsatzgebiet */}
+      <EinsatzgebietMap />
+
       {/* Voices */}
       {testimonials.length > 0 && (
         <section className="bg-ink py-24 text-paper lg:py-32">
@@ -210,6 +215,9 @@ export default async function PflegekraeftePage() {
         title="Antworten auf eure Fragen."
         description="Was Bewerber*innen oft fragen — alles, was du vor dem ersten Gespräch wissen willst."
       />
+
+      {/* Founder */}
+      <FounderQuote />
 
       {/* CTA */}
       <section className="py-24 lg:py-32">
