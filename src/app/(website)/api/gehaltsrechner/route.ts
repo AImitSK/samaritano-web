@@ -49,7 +49,31 @@ export async function POST(request: NextRequest) {
 
     // Settings aus Sanity laden (Logo, Kontaktdaten)
     const settings = await getSettings()
-    const logoUrl = settings?.logo ? urlFor(settings.logo)?.width(200).format('png').url() ?? null : null
+    const logoEmailUrl = settings?.logo ? urlFor(settings.logo)?.width(200).format('png').url() ?? null : null
+
+    // Für PDF: SVG laden und weiß einfärben (Logo ist dunkel, Header-Hintergrund auch)
+    let logoPdfUri: string | null = null
+    if (settings?.logo) {
+      try {
+        const svgUrl = urlFor(settings.logo)?.url()
+        if (svgUrl) {
+          const res = await fetch(svgUrl)
+          const contentType = res.headers.get('content-type') || ''
+          if (contentType.includes('svg')) {
+            let svg = await res.text()
+            // Alle fill/stroke-Farben auf Weiß setzen
+            svg = svg.replace(/fill="[^"]*"/g, 'fill="#FFFFFF"')
+            svg = svg.replace(/stroke="[^"]*"/g, 'stroke="#FFFFFF"')
+            // Falls fill als Style-Attribut: auch dort ersetzen
+            svg = svg.replace(/fill:\s*#[0-9a-fA-F]{3,6}/g, 'fill:#FFFFFF')
+            svg = svg.replace(/stroke:\s*#[0-9a-fA-F]{3,6}/g, 'stroke:#FFFFFF')
+            logoPdfUri = `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`
+          }
+        }
+      } catch {
+        // Fallback: kein Logo im PDF
+      }
+    }
 
     // PDF generieren
     const pdfData: SalaryPdfData = {
@@ -72,7 +96,7 @@ export async function POST(request: NextRequest) {
       diffPct: data.diffPct,
       yearly: data.yearly,
       hourlyRate: data.hourlyRate,
-      logoUrl,
+      logoUrl: logoPdfUri,
       contactPhone: settings?.contactPhone,
       contactEmail: settings?.contactEmail,
       address: settings?.address,
@@ -104,7 +128,7 @@ export async function POST(request: NextRequest) {
 <body>
   <div style="max-width:600px;margin:0 auto;padding:20px">
     <div style="background:#1B3763;color:#fff;padding:28px 32px;border-radius:10px 10px 0 0">
-      ${logoUrl ? `<img src="${logoUrl}" alt="samaritano" height="28" style="margin-bottom:16px;display:block">` : '<div style="font-size:22px;font-weight:300;margin-bottom:16px">samari<span style="color:#64B2C9">tano</span></div>'}
+      ${logoEmailUrl ? `<img src="${logoEmailUrl}" alt="samaritano" height="28" style="margin-bottom:16px;display:block;filter:brightness(0) invert(1)">` : '<div style="font-size:22px;font-weight:300;margin-bottom:16px">samari<span style="color:#64B2C9">tano</span></div>'}
       <h2 style="margin:0;font-size:20px;font-weight:600">Dein Gehaltspotenzial</h2>
       <p style="margin:4px 0 0;opacity:0.7;font-size:14px">${data.role} bei Samaritano</p>
     </div>
