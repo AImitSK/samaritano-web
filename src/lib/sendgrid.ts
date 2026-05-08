@@ -7,10 +7,6 @@ if (apiKey) {
   sgMail.setApiKey(apiKey)
 }
 
-// E-Mail-Links muessen immer auf die echte Domain zeigen
-function getSiteUrl(): string {
-  return 'https://samaritano.de'
-}
 
 interface SendEmailOptions {
   to: string
@@ -273,10 +269,11 @@ export interface NewsletterConfirmData {
   firstName: string
   email: string
   confirmToken: string
+  siteUrl: string
 }
 
 export async function sendNewsletterConfirmEmail(data: NewsletterConfirmData) {
-  const siteUrl = getSiteUrl()
+  const siteUrl = data.siteUrl
   const confirmUrl = `${siteUrl}/api/newsletter/confirm?token=${data.confirmToken}`
 
   const html = `
@@ -326,10 +323,11 @@ export interface NewsletterWelcomeData {
   firstName: string
   email: string
   unsubscribeToken: string
+  siteUrl: string
 }
 
 export async function sendNewsletterWelcomeEmail(data: NewsletterWelcomeData) {
-  const siteUrl = getSiteUrl()
+  const siteUrl = data.siteUrl
   const unsubscribeUrl = `${siteUrl}/api/newsletter/unsubscribe?token=${data.unsubscribeToken}`
 
   const html = `

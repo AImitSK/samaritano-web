@@ -87,6 +87,7 @@ export async function POST(request: NextRequest) {
       firstName: data.firstName,
       email: data.email.toLowerCase().trim(),
       confirmToken,
+      siteUrl: request.nextUrl.origin,
     })
 
     return NextResponse.json({

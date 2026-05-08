@@ -35,6 +35,7 @@ export async function GET(request: NextRequest) {
       firstName: subscriber.firstName,
       email: subscriber.email,
       unsubscribeToken: subscriber.unsubscribeToken,
+      siteUrl,
     })
 
     return NextResponse.redirect(`${siteUrl}/newsletter/bestaetigen?status=success`)
