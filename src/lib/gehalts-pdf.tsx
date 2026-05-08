@@ -43,7 +43,7 @@ const s = StyleSheet.create({
   // Header
   header: { backgroundColor: C.ink, paddingHorizontal: 44, paddingTop: 36, paddingBottom: 32 },
   headerTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
-  logoImage: { height: 28 },
+  logoImage: { height: 36, width: 160, objectFit: 'contain', objectPosition: 'left' },
   logoText: { fontFamily: 'Fraunces', fontSize: 22, fontWeight: 300, color: C.white, letterSpacing: -0.5 },
   logoAccent: { color: C.sky },
   date: { fontSize: 9, color: 'rgba(255,255,255,0.5)' },
