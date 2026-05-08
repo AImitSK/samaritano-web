@@ -19,17 +19,17 @@ const C = {
 Font.register({
   family: 'Inter',
   fonts: [
-    { src: 'https://fonts.gstatic.com/s/intertight/v7/NGSnv5HMAFg6IuGlBNMjxLsC66ZMtb8hyW62x0xCHy5XgqoUPvi5.ttf', fontWeight: 400 },
-    { src: 'https://fonts.gstatic.com/s/intertight/v7/NGSnv5HMAFg6IuGlBNMjxLsC66ZMtb8hyW62x0x0Hy5XgqoUPvi5.ttf', fontWeight: 500 },
-    { src: 'https://fonts.gstatic.com/s/intertight/v7/NGSnv5HMAFg6IuGlBNMjxLsC66ZMtb8hyW62x0yYGC5XgqoUPvi5.ttf', fontWeight: 600 },
+    { src: 'https://fonts.gstatic.com/s/intertight/v9/NGSnv5HMAFg6IuGlBNMjxJEL2VmU3NS7Z2mjDw-qXA.ttf', fontWeight: 400 },
+    { src: 'https://fonts.gstatic.com/s/intertight/v9/NGSnv5HMAFg6IuGlBNMjxJEL2VmU3NS7Z2mjPQ-qXA.ttf', fontWeight: 500 },
+    { src: 'https://fonts.gstatic.com/s/intertight/v9/NGSnv5HMAFg6IuGlBNMjxJEL2VmU3NS7Z2mj0QiqXA.ttf', fontWeight: 600 },
   ],
 })
 
 Font.register({
   family: 'Fraunces',
   fonts: [
-    { src: 'https://fonts.gstatic.com/s/fraunces/v31/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib14c7qv8o.ttf', fontWeight: 300 },
-    { src: 'https://fonts.gstatic.com/s/fraunces/v31/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1Lk7qv8o.ttf', fontWeight: 400 },
+    { src: 'https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIc6RujDg.ttf', fontWeight: 300 },
+    { src: 'https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIctxujDg.ttf', fontWeight: 400 },
   ],
 })
 

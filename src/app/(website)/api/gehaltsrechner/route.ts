@@ -31,6 +31,8 @@ const schema = z.object({
   hourlyRate: z.number(),
 })
 
+export const maxDuration = 30
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -183,7 +185,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Gehaltsrechner API error:', error)
+    const errMsg = error instanceof Error ? `${error.message}\n${error.stack}` : String(error)
+    console.error('Gehaltsrechner API error:', errMsg)
     return NextResponse.json({ success: false, error: 'Fehler beim Verarbeiten' }, { status: 500 })
   }
 }
