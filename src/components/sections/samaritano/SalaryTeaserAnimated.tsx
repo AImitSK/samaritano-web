@@ -57,9 +57,11 @@ export function SalaryTeaserAnimated() {
           >
             <div className="eyebrow">Gehaltsrechner</div>
             <h2 className="h1 mt-5">
-              Erfahre jetzt, was du
+              Erfahre jetzt,
               <br />
-              <em>verdienen</em> könntest.
+              was du <em>verdienen</em>
+              <br />
+              könntest.
             </h2>
             <p className="lede mt-6 max-w-[480px]">
               Nutze unseren Gehaltsrechner, um herauszufinden, wo du stehst.

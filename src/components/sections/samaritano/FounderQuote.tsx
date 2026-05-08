@@ -9,15 +9,15 @@ export function FounderQuote() {
   const isInView = useInView(ref, { once: true, margin: '-60px' })
 
   return (
-    <section ref={ref} className="bg-ink py-24 text-paper lg:py-32">
+    <section ref={ref} className="bg-ink pt-12 text-paper lg:pt-16 overflow-hidden">
       <div className="wrap">
-        <div className="grid items-center gap-12 lg:grid-cols-[auto_1fr] lg:gap-20">
+        <div className="grid items-end gap-12 lg:grid-cols-[auto_1fr] lg:gap-20">
           {/* Bild */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : undefined}
             transition={{ duration: 0.7 }}
-            className="relative mx-auto w-[280px] sm:w-[320px] lg:w-[360px]"
+            className="relative mx-auto w-[280px] sm:w-[320px] lg:w-[360px] self-end"
           >
             <Image
               src="/uploads/alexander-esau.png"
@@ -33,6 +33,7 @@ export function FounderQuote() {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 0.6, delay: 0.3 }}
+            className="pb-12 lg:pb-16"
           >
             <blockquote className="border-l-2 border-sky pl-6 sm:pl-8">
               <p className="font-serif text-[22px] font-normal leading-relaxed text-paper sm:text-[28px] lg:text-[32px]">
