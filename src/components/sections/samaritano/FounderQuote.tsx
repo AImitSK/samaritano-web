@@ -19,7 +19,7 @@ export function FounderQuote() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.7 }}
-              className="relative mx-auto w-[280px] sm:w-[320px] lg:w-[360px] lg:-mt-20"
+              className="relative mx-auto w-[280px] sm:w-[320px] lg:ml-[50px] lg:w-[360px] lg:-mt-20"
             >
               <Image
                 src="/uploads/alexander-esau.png"
