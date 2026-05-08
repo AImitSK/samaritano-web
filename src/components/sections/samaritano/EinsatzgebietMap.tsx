@@ -4,14 +4,25 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import germany from '@svg-maps/germany'
 
-const HIGHLIGHT_IDS = ['ni', 'nw', 'hh']
+const HIGHLIGHT_IDS = ['ni', 'nw', 'hh', 'hb']
+// Stadtstaaten muessen NACH ihrem umgebenden Bundesland gerendert werden
+const RENDER_LAST = ['hh', 'hb', 'be']
 
 // Minden: ca. 195, 282 im SVG-Koordinatensystem
 const MINDEN = { x: 195, y: 282 }
 
+type SvgLocation = { id: string; name: string; path: string }
+
 export function EinsatzgebietMap() {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
+
+  // Sortieren: Stadtstaaten ans Ende, damit sie nicht ueberdeckt werden
+  const sorted = [...germany.locations].sort((a: SvgLocation, b: SvgLocation) => {
+    const aLast = RENDER_LAST.includes(a.id) ? 1 : 0
+    const bLast = RENDER_LAST.includes(b.id) ? 1 : 0
+    return aLast - bLast
+  }) as SvgLocation[]
 
   return (
     <section ref={ref} className="py-24 lg:py-32">
@@ -27,14 +38,15 @@ export function EinsatzgebietMap() {
               {/* Radial Gradient fuer den Glow */}
               <defs>
                 <radialGradient id="minden-glow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#c0392b" stopOpacity={0.7} />
-                  <stop offset="40%" stopColor="#c0392b" stopOpacity={0.3} />
+                  <stop offset="0%" stopColor="#e74c3c" stopOpacity={0.85} />
+                  <stop offset="30%" stopColor="#c0392b" stopOpacity={0.5} />
+                  <stop offset="70%" stopColor="#c0392b" stopOpacity={0.2} />
                   <stop offset="100%" stopColor="#c0392b" stopOpacity={0} />
                 </radialGradient>
               </defs>
 
               {/* Bundeslaender */}
-              {germany.locations.map((state: { id: string; name: string; path: string }, i: number) => {
+              {sorted.map((state, i) => {
                 const isHighlighted = HIGHLIGHT_IDS.includes(state.id)
                 return (
                   <motion.path
@@ -54,7 +66,7 @@ export function EinsatzgebietMap() {
                       delay: isHighlighted ? 0.8 : i * 0.05,
                     }}
                     stroke="#fff"
-                    strokeWidth={1.5}
+                    strokeWidth={isHighlighted ? 0.5 : 1.5}
                     style={{ transition: 'filter 0.2s' }}
                   >
                     <title>{state.name}</title>
@@ -66,14 +78,14 @@ export function EinsatzgebietMap() {
               <motion.circle
                 cx={MINDEN.x}
                 cy={MINDEN.y}
-                r={80}
+                r={90}
                 fill="url(#minden-glow)"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={
                   isInView
                     ? {
-                        opacity: [0, 0.9, 0.6, 0.9],
-                        scale: [0, 1, 1.15, 1],
+                        opacity: [0, 1, 0.7, 1],
+                        scale: [0, 1, 1.12, 1],
                       }
                     : undefined
                 }
