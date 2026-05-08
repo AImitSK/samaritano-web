@@ -4,7 +4,10 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import germany from '@svg-maps/germany'
 
-const HIGHLIGHT_IDS = ['ni', 'nw']
+const HIGHLIGHT_IDS = ['ni', 'nw', 'hh']
+
+// Minden: ca. 195, 282 im SVG-Koordinatensystem
+const MINDEN = { x: 195, y: 282 }
 
 export function EinsatzgebietMap() {
   const ref = useRef<HTMLDivElement>(null)
@@ -21,6 +24,16 @@ export function EinsatzgebietMap() {
               className="w-full"
               aria-label="Karte von Deutschland"
             >
+              {/* Radial Gradient fuer den Glow */}
+              <defs>
+                <radialGradient id="minden-glow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#c0392b" stopOpacity={0.7} />
+                  <stop offset="40%" stopColor="#c0392b" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#c0392b" stopOpacity={0} />
+                </radialGradient>
+              </defs>
+
+              {/* Bundeslaender */}
               {germany.locations.map((state: { id: string; name: string; path: string }, i: number) => {
                 const isHighlighted = HIGHLIGHT_IDS.includes(state.id)
                 return (
@@ -42,11 +55,6 @@ export function EinsatzgebietMap() {
                     }}
                     stroke="#fff"
                     strokeWidth={1.5}
-                    className={
-                      isHighlighted
-                        ? 'cursor-pointer hover:brightness-125'
-                        : 'hover:fill-[#d0d0d0]'
-                    }
                     style={{ transition: 'filter 0.2s' }}
                   >
                     <title>{state.name}</title>
@@ -54,55 +62,27 @@ export function EinsatzgebietMap() {
                 )
               })}
 
-              {/* Kernregion: Radius ~100km um Minden */}
+              {/* Pulsierender Glow um Minden */}
               <motion.circle
-                cx={195}
-                cy={282}
-                r={91}
-                fill="#1B3763"
+                cx={MINDEN.x}
+                cy={MINDEN.y}
+                r={80}
+                fill="url(#minden-glow)"
                 initial={{ opacity: 0, scale: 0 }}
-                animate={isInView ? { opacity: 0.18, scale: 1 } : undefined}
-                transition={{ duration: 0.8, delay: 1.0, ease: 'easeOut' }}
-                style={{ transformOrigin: '195px 282px' }}
+                animate={
+                  isInView
+                    ? {
+                        opacity: [0, 0.9, 0.6, 0.9],
+                        scale: [0, 1, 1.15, 1],
+                      }
+                    : undefined
+                }
+                transition={{
+                  opacity: { duration: 3, delay: 1.0, repeat: Infinity, repeatType: 'reverse' },
+                  scale: { duration: 3, delay: 1.0, repeat: Infinity, repeatType: 'reverse' },
+                }}
+                style={{ transformOrigin: `${MINDEN.x}px ${MINDEN.y}px` }}
               />
-              <motion.circle
-                cx={195}
-                cy={282}
-                r={91}
-                fill="none"
-                stroke="#1B3763"
-                strokeWidth={2}
-                strokeDasharray="6 4"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={isInView ? { opacity: 0.5, scale: 1 } : undefined}
-                transition={{ duration: 0.8, delay: 1.0, ease: 'easeOut' }}
-                style={{ transformOrigin: '195px 282px' }}
-              />
-              {/* Minden Punkt */}
-              <motion.circle
-                cx={195}
-                cy={282}
-                r={5}
-                fill="#fff"
-                stroke="#1B3763"
-                strokeWidth={2}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : undefined}
-                transition={{ duration: 0.4, delay: 1.4 }}
-                style={{ transformOrigin: '195px 282px' }}
-              />
-              <motion.text
-                x={205}
-                y={278}
-                fill="#1B3763"
-                fontSize={14}
-                fontWeight={600}
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : undefined}
-                transition={{ duration: 0.4, delay: 1.5 }}
-              >
-                Minden
-              </motion.text>
             </svg>
           </div>
 
