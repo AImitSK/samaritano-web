@@ -261,3 +261,109 @@ export async function sendApplicationEmail(
 
   return { success: true }
 }
+
+// ─── Newsletter ───
+
+export interface NewsletterConfirmData {
+  firstName: string
+  email: string
+  confirmToken: string
+}
+
+export async function sendNewsletterConfirmEmail(data: NewsletterConfirmData) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://samaritano.de'
+  const confirmUrl = `${siteUrl}/api/newsletter/confirm?token=${data.confirmToken}`
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #1B3763; color: #fff; padding: 24px; border-radius: 8px 8px 0 0; }
+    .header h2 { margin: 0; font-size: 20px; }
+    .content { padding: 24px; border: 1px solid #ddd; border-top: none; border-radius: 0 0 8px 8px; }
+    .btn { display: inline-block; background: #1B3763; color: #fff; padding: 14px 28px; border-radius: 6px; text-decoration: none; font-weight: 600; margin: 16px 0; }
+    .footer { margin-top: 24px; font-size: 12px; color: #999; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Bitte bestaetigen: Dein Newsletter-Abo</h2>
+    </div>
+    <div class="content">
+      <p>Hallo ${data.firstName},</p>
+      <p>du hast dich fuer unseren Newsletter angemeldet. Bitte bestaetigen deine Anmeldung mit einem Klick auf den folgenden Button:</p>
+      <p><a href="${confirmUrl}" class="btn" style="color: #fff;">Anmeldung bestaetigen</a></p>
+      <p>Falls du diese Anmeldung nicht angefordert hast, kannst du diese E-Mail einfach ignorieren.</p>
+      <div class="footer">
+        <p>Falls der Button nicht funktioniert, kopiere diesen Link in deinen Browser:<br>
+        <a href="${confirmUrl}">${confirmUrl}</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`.trim()
+
+  const text = `Hallo ${data.firstName},\n\ndu hast dich fuer unseren Newsletter angemeldet.\n\nBitte bestaetigen deine Anmeldung:\n${confirmUrl}\n\nFalls du diese Anmeldung nicht angefordert hast, kannst du diese E-Mail ignorieren.`
+
+  return sendEmail({
+    to: data.email,
+    subject: 'Bitte bestaetigen: Dein Newsletter-Abo',
+    text,
+    html,
+  })
+}
+
+export interface NewsletterWelcomeData {
+  firstName: string
+  email: string
+  unsubscribeToken: string
+}
+
+export async function sendNewsletterWelcomeEmail(data: NewsletterWelcomeData) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://samaritano.de'
+  const unsubscribeUrl = `${siteUrl}/api/newsletter/unsubscribe?token=${data.unsubscribeToken}`
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #1B3763; color: #fff; padding: 24px; border-radius: 8px 8px 0 0; }
+    .header h2 { margin: 0; font-size: 20px; }
+    .content { padding: 24px; border: 1px solid #ddd; border-top: none; border-radius: 0 0 8px 8px; }
+    .footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid #eee; font-size: 12px; color: #999; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Willkommen beim Samaritano-Newsletter!</h2>
+    </div>
+    <div class="content">
+      <p>Hallo ${data.firstName},</p>
+      <p>deine Anmeldung ist bestaetigt! Ab sofort erhaeltst du unseren Newsletter mit den neuesten Stellenangeboten und Brancheninfos.</p>
+      <p style="margin-top:24px">Herzliche Gruesse,<br>Dein Samaritano-Team</p>
+      <div class="footer">
+        <p>Du moechtest keine E-Mails mehr erhalten?<br>
+        <a href="${unsubscribeUrl}">Hier abmelden</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`.trim()
+
+  const text = `Hallo ${data.firstName},\n\nwillkommen beim Samaritano-Newsletter! Deine Anmeldung ist bestaetigt.\n\nHerzliche Gruesse,\nDein Samaritano-Team\n\nAbmelden: ${unsubscribeUrl}`
+
+  return sendEmail({
+    to: data.email,
+    subject: 'Willkommen beim Samaritano-Newsletter!',
+    text,
+    html,
+  })
+}

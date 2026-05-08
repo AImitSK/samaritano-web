@@ -13,6 +13,7 @@ import {
   Bell,
   Inbox,
   TrendingUp,
+  Mail,
 } from 'lucide-react'
 
 // Singleton-Helper
@@ -100,6 +101,16 @@ export function structure(S: StructureBuilder) {
                     .defaultOrdering([{ field: 'submittedAt', direction: 'desc' }])
                 ),
             ])
+        ),
+
+      // ─── Newsletter ───
+      S.listItem()
+        .title('Newsletter')
+        .icon(Mail)
+        .child(
+          S.documentTypeList('newsletterSubscriber')
+            .title('Abonnenten')
+            .defaultOrdering([{ field: 'subscribedAt', direction: 'desc' }])
         ),
 
       // ─── FAQ ───

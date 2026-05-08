@@ -208,6 +208,23 @@ export interface Testimonial extends SanityDocument {
   order?: number
 }
 
+// Newsletter Subscriber Type
+export interface NewsletterSubscriber extends SanityDocument {
+  _type: 'newsletterSubscriber'
+  salutation: string
+  firstName: string
+  lastName: string
+  email: string
+  confirmToken: string
+  unsubscribeToken: string
+  status: 'ausstehend' | 'aktiv' | 'abgemeldet'
+  subscribedAt: string
+  confirmedAt?: string
+  unsubscribedAt?: string
+  source?: string
+  notes?: string
+}
+
 // FAQ Type
 export interface Faq extends SanityDocument {
   _type: 'faq'

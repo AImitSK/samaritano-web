@@ -9,6 +9,7 @@ import { urlFor } from '@/sanity/client'
 import { PortableTextRenderer } from '@/components/ui/PortableTextRenderer'
 import { JsonLd } from '@/components/ui/JsonLd'
 import { generateArticle, generateBreadcrumbs } from '@/lib/jsonld'
+import { NewsletterCTA } from '@/components/sections/samaritano/NewsletterCTA'
 
 interface PageProps {
   params: { slug: string }
@@ -161,6 +162,8 @@ export default async function MagazinPostPage({ params }: PageProps) {
           </div>
         </div>
       </article>
+
+      <NewsletterCTA variant="compact" source="magazin" />
     </>
   )
 }
