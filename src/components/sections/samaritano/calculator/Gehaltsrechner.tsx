@@ -14,17 +14,40 @@ type RoleKey =
   | 'Operationstechnischer Assistent'
   | 'Altenpfleger'
   | 'Kinderkrankenpfleger'
+  | 'Krankenpflegehelfer'
+  | 'MFA'
 
-const ROLES_DATA: Record<RoleKey, { tarif: number; base: number; top: number }> = {
-  Pflegefachkraft: { tarif: 3400, base: 4200, top: 4900 },
-  'Fachkrankenpfleger Intensiv': { tarif: 4100, base: 5100, top: 5900 },
-  'Anästhesietechnischer Assistent': { tarif: 3900, base: 4900, top: 5600 },
-  'Operationstechnischer Assistent': { tarif: 3800, base: 4800, top: 5500 },
-  Altenpfleger: { tarif: 2900, base: 3600, top: 4200 },
-  Kinderkrankenpfleger: { tarif: 3500, base: 4300, top: 5000 },
+// Abgesegnete Samaritano-Gehaelter bei 38h (Breakpoints: Erfahrungsjahre → Brutto)
+const SALARY_BANDS: Record<RoleKey, [number, number][]> = {
+  'Altenpfleger':                    [[0, 3815], [3, 3983], [6, 4159], [9, 4342], [13, 4533], [15, 4917]],
+  'Anästhesietechnischer Assistent': [[0, 3815], [3, 3983], [6, 4159], [9, 4342], [13, 4533], [15, 4917]],
+  'Operationstechnischer Assistent': [[0, 3815], [3, 3983], [6, 4159], [9, 4342], [13, 4533], [15, 4917]],
+  'Fachkrankenpfleger Intensiv':     [[0, 4500], [3, 4800], [6, 5100], [9, 5400], [13, 5700], [15, 6000]],
+  'Krankenpflegehelfer':             [[0, 2500], [3, 2700], [6, 2900], [9, 3100], [13, 3300], [15, 3500]],
+  'MFA':                             [[0, 3200], [3, 3400], [6, 3600], [9, 3800], [13, 4000], [15, 4200]],
+  'Pflegefachkraft':                 [[0, 3500], [3, 3700], [6, 3900], [9, 4100], [13, 4300], [15, 4500]],
+  'Kinderkrankenpfleger':            [[0, 3600], [3, 3780], [6, 3960], [9, 4140], [13, 4320], [15, 4680]],
 }
 
-const ROLES = Object.keys(ROLES_DATA) as RoleKey[]
+// Tarif liegt ca. 18-20 % unter Samaritano
+const TARIF_RATIO = 0.82
+
+const ROLES = Object.keys(SALARY_BANDS) as RoleKey[]
+
+/** Lineare Interpolation zwischen den Erfahrungs-Breakpoints */
+function lerp(bands: [number, number][], exp: number): number {
+  if (exp <= bands[0][0]) return bands[0][1]
+  if (exp >= bands[bands.length - 1][0]) return bands[bands.length - 1][1]
+  for (let i = 0; i < bands.length - 1; i++) {
+    const [x0, y0] = bands[i]
+    const [x1, y1] = bands[i + 1]
+    if (exp >= x0 && exp <= x1) {
+      const t = (exp - x0) / (x1 - x0)
+      return Math.round((y0 + t * (y1 - y0)) / 10) * 10
+    }
+  }
+  return bands[bands.length - 1][1]
+}
 
 interface SliderProps {
   label: string
@@ -88,19 +111,17 @@ export function Gehaltsrechner() {
   })
 
   const calc = useMemo(() => {
-    const r = ROLES_DATA[role]
-    const expBoost = Math.min(exp / 10, 1) * 0.25
-    const baseFor = (b: number) => Math.round((b * (1 + expBoost) * (hours / 38)) / 10) * 10
-    const tarif = baseFor(r.tarif)
-    const samaBase = baseFor(r.base)
+    const samaBase38h = lerp(SALARY_BANDS[role], exp)
+    const samaBase = Math.round((samaBase38h * hours / 38) / 10) * 10
+    const tarifBase = Math.round((samaBase * TARIF_RATIO) / 10) * 10
     const nightBonus = nights * 45
     const weekendBonus = weekends * 65
     const holidayBonusYearly = holidays * 120
     const holidayBonusMonthly = Math.round(holidayBonusYearly / 12)
     const sama = samaBase + nightBonus + weekendBonus + holidayBonusMonthly
-    const tarifTotal = tarif + nights * 25 + weekends * 30 + Math.round((holidays * 60) / 12)
+    const tarifTotal = tarifBase + nights * 25 + weekends * 30 + Math.round((holidays * 60) / 12)
     const diff = sama - tarifTotal
-    const diffPct = Math.round((sama / tarifTotal - 1) * 100)
+    const diffPct = tarifTotal > 0 ? Math.round((sama / tarifTotal - 1) * 100) : 0
     return {
       tarif: tarifTotal,
       sama,
