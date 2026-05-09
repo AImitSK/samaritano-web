@@ -114,30 +114,28 @@ export function NewsletterCTA({ variant = 'full', source = 'homepage' }: Newslet
                   />
                 </div>
 
-                <div className="flex overflow-hidden rounded-lg border border-white/20 bg-white/10 backdrop-blur">
-                  <input
-                    type="email"
-                    placeholder="deine@email.de *"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="flex-1 border-0 bg-transparent px-4 py-3 text-[14px] text-white outline-none placeholder:text-white/50"
-                  />
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="inline-flex items-center gap-2 bg-white/20 px-6 py-3 text-[14px] font-medium text-white transition-colors hover:bg-white/30 disabled:opacity-60"
-                  >
-                    {loading ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <>
-                        Anmelden
-                        <ArrowUpRight className="h-3.5 w-3.5" />
-                      </>
-                    )}
-                  </button>
-                </div>
+                <input
+                  type="email"
+                  placeholder="deine@email.de *"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full rounded-lg border-0 bg-white/10 px-4 py-3 text-[14px] text-white outline-none backdrop-blur placeholder:text-white/50 focus:ring-2 focus:ring-white/30"
+                />
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-white/20 px-6 py-3 text-[14px] font-medium text-white transition-colors hover:bg-white/30 disabled:opacity-60"
+                >
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <>
+                      Anmelden
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </>
+                  )}
+                </button>
 
                 <label className="flex items-start gap-2.5 pt-1">
                   <input
@@ -224,19 +222,19 @@ export function NewsletterCTA({ variant = 'full', source = 'homepage' }: Newslet
                 />
               </div>
 
-              <div className="flex overflow-hidden rounded-full border border-white/20 bg-white/10 backdrop-blur">
+              <div className="flex flex-col gap-3 sm:flex-row sm:overflow-hidden sm:rounded-full sm:border sm:border-white/20 sm:bg-white/10 sm:backdrop-blur sm:gap-0">
                 <input
                   type="email"
                   placeholder="deine@email.de *"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="flex-1 border-0 bg-transparent px-5 py-4 text-[15px] text-white outline-none placeholder:text-white/50"
+                  className="w-full rounded-lg border border-white/20 bg-white/10 px-5 py-4 text-[15px] text-white outline-none backdrop-blur placeholder:text-white/50 focus:ring-2 focus:ring-white/30 sm:flex-1 sm:rounded-none sm:border-0 sm:bg-transparent sm:focus:ring-0"
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="inline-flex items-center gap-2 bg-white/20 px-6 py-4 text-[15px] font-medium text-white transition-colors hover:bg-white/30 disabled:opacity-60"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-white/20 px-6 py-4 text-[15px] font-medium text-white transition-colors hover:bg-white/30 disabled:opacity-60 sm:w-auto sm:rounded-none"
                 >
                   {loading ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
