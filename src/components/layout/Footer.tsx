@@ -119,7 +119,7 @@ export function Footer({
   return (
     <footer className="mt-20 border-t border-line bg-paper-2 pb-10 pt-32">
       <div className="wrap">
-        <div className="grid gap-10 border-b border-line pb-20 lg:grid-cols-[1.4fr_1.2fr_auto]">
+        <div className="grid gap-10 border-b border-line pb-20 lg:grid-cols-[1.4fr_1fr_1fr_auto]">
           <div>
             <Link href="/" aria-label={siteName} className="inline-flex items-center">
               <img src={logo} alt={siteName} width={180} height={36} className="h-9 w-auto" />
@@ -175,7 +175,7 @@ export function Footer({
             )}
           </div>
 
-          <div className="col-span-1 md:col-span-2 md:grid md:grid-cols-2 md:gap-10">
+          <div className="lg:col-span-2 lg:grid lg:grid-cols-2 lg:gap-10">
             <div className="space-y-0 md:space-y-8">
               <FooterAccordion title="Pflegekräfte">
                 {PFLEGE_LINKS.map((l) => (
