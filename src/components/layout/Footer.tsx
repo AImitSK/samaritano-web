@@ -154,7 +154,7 @@ export function Footer({
           </div>
 
           <div className="flex items-start">
-            <div className="rounded-[12px] bg-white p-5 shadow-sm">
+            <div className="rounded-[12px] bg-paper p-5">
               <img
                 src="/uploads/gold-partner.svg"
                 alt="Fairbündet Gold Partner 2026"
