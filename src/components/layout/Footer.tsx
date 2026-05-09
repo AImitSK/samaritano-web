@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { Facebook, Instagram, Linkedin, Twitter, Youtube, MapPin, Phone, Mail as MailIcon } from 'lucide-react'
+import { Facebook, Instagram, Linkedin, Twitter, Youtube, MapPin, Phone, Mail as MailIcon, ChevronDown } from 'lucide-react'
+import { useState } from 'react'
 import { resetConsent } from '@/lib/cookies'
 import type { NavItem, SocialLink } from '@/types'
 
@@ -69,6 +70,31 @@ function getNavLabel(item: NavItem): string {
 
 function getNavHref(item: NavItem): string {
   return item.href || '#'
+}
+
+function FooterAccordion({ title, children }: { title: string; children: React.ReactNode }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="border-b border-line pb-4 pt-4 md:border-0 md:pb-0 md:pt-0">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="flex w-full items-center justify-between md:pointer-events-none"
+      >
+        <div className="eyebrow !text-ink-muted">{title}</div>
+        <ChevronDown
+          className={`h-4 w-4 text-ink-muted transition-transform md:hidden ${open ? 'rotate-180' : ''}`}
+        />
+      </button>
+      <ul
+        className={`space-y-3 text-[15px] overflow-hidden transition-all duration-300 md:mt-5 md:max-h-none md:opacity-100 ${
+          open ? 'mt-4 max-h-[500px] opacity-100' : 'max-h-0 opacity-0 md:max-h-none md:opacity-100'
+        }`}
+      >
+        {children}
+      </ul>
+    </div>
+  )
 }
 
 export function Footer({
@@ -149,9 +175,8 @@ export function Footer({
             )}
           </div>
 
-          <div>
-            <div className="eyebrow !text-ink-muted">Pflegekräfte</div>
-            <ul className="mt-5 space-y-3 text-[15px]">
+          <div className="space-y-0 md:space-y-8">
+            <FooterAccordion title="Pflegekräfte">
               {PFLEGE_LINKS.map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} className="text-ink-soft transition-colors hover:text-sky">
@@ -159,10 +184,9 @@ export function Footer({
                   </Link>
                 </li>
               ))}
-            </ul>
+            </FooterAccordion>
 
-            <div className="eyebrow !text-ink-muted mt-8">Einrichtungen</div>
-            <ul className="mt-5 space-y-3 text-[15px]">
+            <FooterAccordion title="Einrichtungen">
               {EINRICHTUNGEN_LINKS.map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} className="text-ink-soft transition-colors hover:text-sky">
@@ -170,12 +194,11 @@ export function Footer({
                   </Link>
                 </li>
               ))}
-            </ul>
+            </FooterAccordion>
           </div>
 
           <div>
-            <div className="eyebrow !text-ink-muted">Unternehmen</div>
-            <ul className="mt-5 space-y-3 text-[15px]">
+            <FooterAccordion title="Unternehmen">
               {unternehmen.map((l) => (
                 <li key={l.key}>
                   <Link href={l.href} className="text-ink-soft transition-colors hover:text-sky">
@@ -183,7 +206,7 @@ export function Footer({
                   </Link>
                 </li>
               ))}
-            </ul>
+            </FooterAccordion>
           </div>
 
           <div className="flex items-start">
