@@ -73,7 +73,7 @@ export function MagazineSlider({ articles }: { articles: Article[] }) {
       {/* Slider Track */}
       <div
         ref={trackRef}
-        className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide"
+        className="flex gap-6 overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide"
         style={{ scrollSnapType: 'x mandatory' }}
       >
         {articles.map((a) => (
