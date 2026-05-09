@@ -13,9 +13,9 @@ export const metadata: Metadata = {
 }
 
 const STATS = [
-  { n: '89', l: 'Partner-Einrichtungen' },
-  { n: '6 Tage', l: 'Ø Vermittlungsdauer' },
-  { n: '94 %', l: 'Verbleib nach 12 Monaten' },
+  { n: 'Persönlich', l: 'Feste Ansprechpartner' },
+  { n: 'Schnell', l: 'Kurze Vermittlungswege' },
+  { n: 'Fair', l: 'Transparente Konditionen' },
   { n: '4,9 ★', l: 'Bewertung von Pflegekräften' },
 ]
 

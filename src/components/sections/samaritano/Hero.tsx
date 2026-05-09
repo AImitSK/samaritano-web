@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowUpRight, Heart, Star } from 'lucide-react'
+import { ArrowUpRight, Star } from 'lucide-react'
 
 const HERO_AVATARS = [
   '/uploads/_DSC9603.jpg',
@@ -13,16 +13,14 @@ interface HeroProps {
   openJobsCount?: number
   rating?: number
   ratingCount?: number
-  averageDays?: number
   professionsCount?: number
 }
 
 export function Hero({
-  openJobsCount = 147,
+  openJobsCount = 0,
   rating = 4.9,
   ratingCount = 312,
-  averageDays = 6,
-  professionsCount = 12,
+  professionsCount = 0,
 }: HeroProps) {
   return (
     <section className="relative section-pad pt-16 lg:pt-24" data-screen-label="Hero">
@@ -100,17 +98,6 @@ export function Hero({
                 priority
                 className="h-full w-full object-cover"
               />
-            </div>
-
-            {/* Bottom-left floating card — desktop only (negative offsets push past mobile viewport) */}
-            <div className="absolute -bottom-7 -left-10 hidden max-w-[280px] items-center gap-3.5 rounded-[14px] border border-line bg-paper-2 p-[18px_22px] shadow-soft md:flex">
-              <div className="grid h-[42px] w-[42px] place-items-center rounded-full bg-sky-soft text-sky">
-                <Heart className="h-[18px] w-[18px] fill-current" />
-              </div>
-              <div>
-                <div className="text-[13px] text-ink-muted">Vermittlung in</div>
-                <div className="mt-0.5 font-serif text-[22px] leading-none text-ink">Ø {averageDays} Tagen</div>
-              </div>
             </div>
 
             {/* Top-right code-style card — desktop only */}

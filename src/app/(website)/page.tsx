@@ -6,14 +6,23 @@ import { FeaturedJobs } from '@/components/sections/samaritano/FeaturedJobs'
 import { AIMatching } from '@/components/sections/samaritano/AIMatching'
 import { Magazine } from '@/components/sections/samaritano/Magazine'
 import { NewsletterCTA } from '@/components/sections/samaritano/NewsletterCTA'
+import { getJobStats } from '@/sanity/queries'
 
-export default function Home() {
+export default async function Home() {
+  const stats = await getJobStats()
+
   return (
     <>
-      <Hero />
+      <Hero
+        openJobsCount={stats.totalJobs}
+        professionsCount={stats.totalDepartments}
+      />
       <RolesTicker />
       <TwoPaths />
-      <Manifest />
+      <Manifest
+        totalJobs={stats.totalJobs}
+        totalDepartments={stats.totalDepartments}
+      />
       <FeaturedJobs />
       <AIMatching />
       <Magazine />

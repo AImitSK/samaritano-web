@@ -2,17 +2,17 @@ import Link from 'next/link'
 import { ArrowUpRight, Check } from 'lucide-react'
 
 const PFLEGE_USPS = [
-  'Bis zu 30 % über Tarif',
+  'Gehalt über dem normalen Tarif',
   'Flexible Schichtplanung',
-  'KI-Matching für deinen passenden Job',
   'Persönliche Betreuung, kein Callcenter',
+  'Geleitet von ehemaligen Pflegekräften',
 ]
 
 const EINRICHTUNG_USPS = [
   'Vorgeprüftes Pflegepersonal',
-  'Schnelle Vermittlung in Ø 6 Tagen',
+  'Schnelle Vermittlung',
   'Faire Konditionen, transparente Preise',
-  'Christliche Werte als Fundament',
+  'Persönliche Ansprechpartner vor Ort',
 ]
 
 export function TwoPaths() {

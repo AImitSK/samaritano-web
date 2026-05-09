@@ -200,6 +200,17 @@ export async function getAllActiveJobs(preview = false): Promise<Job[]> {
   )
 }
 
+// ─── Job Stats (fuer Homepage) ───
+
+export async function getJobStats(preview = false) {
+  const jobs = await getAllActiveJobs(preview)
+  const departments = new Set(jobs.map((j) => j.department).filter(Boolean))
+  return {
+    totalJobs: jobs.length,
+    totalDepartments: departments.size,
+  }
+}
+
 // ─── Legal Pages ───
 
 export async function getLegalPageBySlug(slug: string, preview = false): Promise<LegalPage | null> {
