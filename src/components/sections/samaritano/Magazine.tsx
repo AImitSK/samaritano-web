@@ -2,8 +2,7 @@ import Link from 'next/link'
 import { getAllPosts } from '@/sanity/queries'
 import { urlFor } from '@/sanity/client'
 import type { Post } from '@/types'
-
-/* eslint-disable @next/next/no-img-element */
+import { MagazineSlider } from './MagazineSlider'
 
 interface Article {
   slug: string
@@ -89,38 +88,7 @@ export async function Magazine() {
             Alle Artikel
           </Link>
         </div>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {articles.map((a) => (
-            <Link
-              href={`/magazin/${a.slug}`}
-              key={a.slug}
-              className="group block text-inherit"
-            >
-              <div
-                className="mb-5 overflow-hidden rounded-[14px] bg-paper-2"
-                style={{ aspectRatio: '4 / 5' }}
-              >
-                {a.img ? (
-                  <img
-                    src={a.img}
-                    alt=""
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                  />
-                ) : (
-                  <div className="grid h-full place-items-center text-ink-muted">📝</div>
-                )}
-              </div>
-              <div className="mb-3.5 flex flex-wrap gap-3.5 text-[13px] text-ink-muted">
-                <span className="font-medium text-sky">{a.cat}</span>
-                <span aria-hidden>·</span>
-                <span>{a.date}</span>
-                <span aria-hidden>·</span>
-                <span>{a.read} Lesezeit</span>
-              </div>
-              <h3 className="h3 m-0 text-pretty">{a.title}</h3>
-            </Link>
-          ))}
-        </div>
+        <MagazineSlider articles={articles} />
       </div>
     </section>
   )
