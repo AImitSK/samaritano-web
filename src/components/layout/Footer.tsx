@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Facebook, Instagram, Linkedin, Twitter, Youtube } from 'lucide-react'
+import { Facebook, Instagram, Linkedin, Twitter, Youtube, MapPin, Phone, Mail as MailIcon } from 'lucide-react'
 import { resetConsent } from '@/lib/cookies'
 import type { NavItem, SocialLink } from '@/types'
 
@@ -101,23 +101,28 @@ export function Footer({
             <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-ink-soft">{desc}</p>
 
             {(contactEmail || contactPhone || address) && (
-              <div className="mt-7 space-y-2 text-[14px] text-ink-soft">
+              <div className="mt-7 space-y-3 text-[14px] text-ink-soft">
                 {address && (
-                  <p className="whitespace-pre-line leading-relaxed">{address}</p>
+                  <div className="flex gap-2.5">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-sky" />
+                    <span className="whitespace-pre-line leading-relaxed">{address}</span>
+                  </div>
                 )}
                 {contactPhone && (
-                  <p>
+                  <div className="flex items-center gap-2.5">
+                    <Phone className="h-4 w-4 shrink-0 text-sky" />
                     <a href={`tel:${contactPhone.replace(/\s/g, '')}`} className="transition-colors hover:text-sky">
                       {contactPhone}
                     </a>
-                  </p>
+                  </div>
                 )}
                 {contactEmail && (
-                  <p>
+                  <div className="flex items-center gap-2.5">
+                    <MailIcon className="h-4 w-4 shrink-0 text-sky" />
                     <a href={`mailto:${contactEmail}`} className="transition-colors hover:text-sky">
                       {contactEmail}
                     </a>
-                  </p>
+                  </div>
                 )}
               </div>
             )}
