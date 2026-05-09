@@ -4,7 +4,6 @@ import { TwoPaths } from '@/components/sections/samaritano/TwoPaths'
 import { Manifest } from '@/components/sections/samaritano/Manifest'
 import { FeaturedJobs } from '@/components/sections/samaritano/FeaturedJobs'
 import { AIMatching } from '@/components/sections/samaritano/AIMatching'
-import { Quote } from '@/components/sections/samaritano/Quote'
 import { Magazine } from '@/components/sections/samaritano/Magazine'
 import { NewsletterCTA } from '@/components/sections/samaritano/NewsletterCTA'
 
@@ -17,7 +16,6 @@ export default function Home() {
       <Manifest />
       <FeaturedJobs />
       <AIMatching />
-      <Quote />
       <Magazine />
       <NewsletterCTA />
     </>
