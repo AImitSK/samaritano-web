@@ -15,13 +15,13 @@ export default async function Home() {
     <>
       <Hero
         openJobsCount={stats.totalJobs}
-        professionsCount={stats.totalDepartments}
+        professionsCount={stats.totalRoles}
       />
       <RolesTicker />
       <TwoPaths />
       <Manifest
         totalJobs={stats.totalJobs}
-        totalDepartments={stats.totalDepartments}
+        totalRoles={stats.totalRoles}
       />
       <FeaturedJobs />
       <AIMatching />

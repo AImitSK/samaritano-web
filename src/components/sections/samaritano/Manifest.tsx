@@ -2,13 +2,13 @@ import Link from 'next/link'
 
 interface ManifestProps {
   totalJobs?: number
-  totalDepartments?: number
+  totalRoles?: number
 }
 
-export function Manifest({ totalJobs = 0, totalDepartments = 0 }: ManifestProps) {
+export function Manifest({ totalJobs = 0, totalRoles = 0 }: ManifestProps) {
   const stats = [
-    { n: totalJobs > 0 ? `${totalJobs}` : '–', l: 'Offene Stellen' },
-    { n: totalDepartments > 0 ? `${totalDepartments}` : '–', l: 'Berufsfelder' },
+    { n: `${totalJobs}`, l: 'Offene Stellen' },
+    { n: `${totalRoles}`, l: 'Berufsfelder' },
     { n: 'Über Tarif', l: 'Faire Gehälter' },
     { n: 'Persönlich', l: 'Ehemalige Pflegekräfte als Gründer' },
   ]

@@ -204,10 +204,10 @@ export async function getAllActiveJobs(preview = false): Promise<Job[]> {
 
 export async function getJobStats(preview = false) {
   const jobs = await getAllActiveJobs(preview)
-  const departments = new Set(jobs.map((j) => j.department).filter(Boolean))
+  const roles = new Set(jobs.map((j) => j.role || j.department).filter(Boolean))
   return {
     totalJobs: jobs.length,
-    totalDepartments: departments.size,
+    totalRoles: roles.size,
   }
 }
 
