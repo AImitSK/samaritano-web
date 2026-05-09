@@ -87,23 +87,12 @@ export function Footer({
   return (
     <footer className="mt-20 border-t border-line bg-paper-2 pb-10 pt-32">
       <div className="wrap">
-        <div className="grid gap-10 border-b border-line pb-20 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="grid gap-10 border-b border-line pb-20 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_auto]">
           <div>
             <Link href="/" aria-label={siteName} className="inline-flex items-center">
               <img src={logo} alt={siteName} width={180} height={36} className="h-9 w-auto" />
             </Link>
             <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-ink-soft">{desc}</p>
-
-            <div className="mt-7">
-              <div className="eyebrow !text-[10px] !text-ink-muted mb-2">Netzwerk-Partner</div>
-              <img
-                src="/uploads/gold-partner.svg"
-                alt="Fairbündet Gold Partner 2026"
-                width={80}
-                height={64}
-                className="h-16 w-auto opacity-70"
-              />
-            </div>
 
             {socialLinks.length > 0 && (
               <div className="mt-7 flex flex-wrap gap-3">
@@ -138,10 +127,8 @@ export function Footer({
                 </li>
               ))}
             </ul>
-          </div>
 
-          <div>
-            <div className="eyebrow !text-ink-muted">Einrichtungen</div>
+            <div className="eyebrow !text-ink-muted mt-8">Einrichtungen</div>
             <ul className="mt-5 space-y-3 text-[15px]">
               {EINRICHTUNGEN_LINKS.map((l) => (
                 <li key={l.href}>
@@ -164,6 +151,18 @@ export function Footer({
                 </li>
               ))}
             </ul>
+          </div>
+
+          <div className="flex items-start">
+            <div className="rounded-[12px] bg-white p-5 shadow-sm">
+              <img
+                src="/uploads/gold-partner.svg"
+                alt="Fairbündet Gold Partner 2026"
+                width={120}
+                height={96}
+                className="h-24 w-auto"
+              />
+            </div>
           </div>
         </div>
 
