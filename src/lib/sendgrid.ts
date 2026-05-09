@@ -370,3 +370,69 @@ export async function sendNewsletterWelcomeEmail(data: NewsletterWelcomeData) {
     html,
   })
 }
+
+// ─── Einrichtungen-Anfrage ───
+
+export interface EinrichtungenAnfrageData {
+  einrichtung: string
+  kontakt: string
+  email: string
+  telefon?: string
+  interesse?: string
+  anliegen?: string
+}
+
+export async function sendEinrichtungenAnfrageEmail(data: EinrichtungenAnfrageData) {
+  const recipientEmail = process.env.SENDGRID_FROM_EMAIL
+  if (!recipientEmail) throw new Error('SENDGRID_FROM_EMAIL is not configured')
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #1B3763; color: #fff; padding: 24px; border-radius: 8px 8px 0 0; }
+    .header h2 { margin: 0; font-size: 20px; }
+    .content { padding: 24px; border: 1px solid #ddd; border-top: none; border-radius: 0 0 8px 8px; }
+    .field { margin-bottom: 16px; }
+    .label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 4px; }
+    .value { font-size: 15px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Neue Anfrage von einer Einrichtung</h2>
+    </div>
+    <div class="content">
+      <div class="field">
+        <div class="label">Einrichtung</div>
+        <div class="value">${data.einrichtung}</div>
+      </div>
+      <div class="field">
+        <div class="label">Ansprechpartner:in</div>
+        <div class="value">${data.kontakt}</div>
+      </div>
+      <div class="field">
+        <div class="label">E-Mail</div>
+        <div class="value"><a href="mailto:${data.email}">${data.email}</a></div>
+      </div>
+      ${data.telefon ? `<div class="field"><div class="label">Telefon</div><div class="value">${data.telefon}</div></div>` : ''}
+      ${data.interesse ? `<div class="field"><div class="label">Interesse an</div><div class="value">${data.interesse}</div></div>` : ''}
+      ${data.anliegen ? `<div class="field"><div class="label">Anliegen</div><div class="value">${data.anliegen.replace(/\n/g, '<br>')}</div></div>` : ''}
+    </div>
+  </div>
+</body>
+</html>`.trim()
+
+  const text = `Neue Einrichtungen-Anfrage\n\nEinrichtung: ${data.einrichtung}\nAnsprechpartner: ${data.kontakt}\nE-Mail: ${data.email}${data.telefon ? `\nTelefon: ${data.telefon}` : ''}${data.interesse ? `\nInteresse: ${data.interesse}` : ''}${data.anliegen ? `\nAnliegen: ${data.anliegen}` : ''}`
+
+  return sendEmail({
+    to: recipientEmail,
+    subject: `Einrichtungen-Anfrage: ${data.einrichtung}`,
+    text,
+    html,
+  })
+}

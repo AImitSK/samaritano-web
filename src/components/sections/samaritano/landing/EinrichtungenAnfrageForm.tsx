@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Loader2, CheckCircle } from 'lucide-react'
 
 const FIELDS = [
   { name: 'einrichtung', label: 'Einrichtung', type: 'text', placeholder: 'Name & Träger', required: true },
@@ -12,19 +12,46 @@ const FIELDS = [
 
 export function EinrichtungenAnfrageForm() {
   const [sent, setSent] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    // TODO: POST -> /api/contact mit Sendgrid-Bridge
-    setSent(true)
+    setError('')
+    setLoading(true)
+
+    const form = e.currentTarget
+    const data = Object.fromEntries(new FormData(form))
+
+    try {
+      const res = await fetch('/api/einrichtungen', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+
+      if (!res.ok) {
+        const json = await res.json()
+        setError(json.error || 'Ein Fehler ist aufgetreten.')
+        return
+      }
+
+      setSent(true)
+    } catch {
+      setError('Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (sent) {
     return (
       <div className="rounded-[16px] border border-line bg-paper-2 p-10 text-center">
-        <div className="mb-4 text-[40px] text-sky">✓</div>
+        <CheckCircle className="mx-auto mb-4 h-12 w-12 text-sky" />
         <h3 className="m-0 mb-3 font-serif text-[28px] font-normal">Anfrage erhalten</h3>
-        <p className="m-0 text-ink-soft">Wir melden uns innerhalb von 24 Stunden.</p>
+        <p className="m-0 text-ink-soft">
+          Wir melden uns innerhalb von 24 Stunden bei Ihnen.
+        </p>
       </div>
     )
   }
@@ -45,22 +72,20 @@ export function EinrichtungenAnfrageForm() {
             type={f.type}
             placeholder={f.placeholder}
             required={f.required}
-            className="w-full rounded-[8px] border border-line bg-white px-4 py-3.5 text-[15px] outline-none focus:border-sky"
+            className="w-full rounded-[10px] border border-line bg-white px-4 py-3.5 text-[15px] outline-none transition-colors focus:border-sky focus:ring-2 focus:ring-sky/20"
           />
         </div>
       ))}
       <div>
-        <label htmlFor="modell" className="eyebrow mb-2 block">
-          Modell
+        <label htmlFor="interesse" className="eyebrow mb-2 block">
+          Interesse an
         </label>
         <select
-          id="modell"
-          name="modell"
-          className="w-full rounded-[8px] border border-line bg-white px-4 py-3.5 text-[15px] outline-none focus:border-sky"
+          id="interesse"
+          name="interesse"
+          className="w-full rounded-[10px] border border-line bg-white px-4 py-3.5 text-[15px] outline-none transition-colors focus:border-sky focus:ring-2 focus:ring-sky/20"
         >
-          <option>Direktvermittlung</option>
-          <option>Personaldienstleistung</option>
-          <option>Recruiting-Partnerschaft</option>
+          <option>Zeitarbeit / Personaldienstleistung</option>
           <option>Erstmal beraten lassen</option>
         </select>
       </div>
@@ -73,12 +98,21 @@ export function EinrichtungenAnfrageForm() {
           name="anliegen"
           rows={4}
           placeholder="Welche Stelle, welcher Zeitrahmen?"
-          className="w-full resize-y rounded-[8px] border border-line bg-white px-4 py-3.5 text-[15px] outline-none focus:border-sky"
+          className="w-full resize-y rounded-[10px] border border-line bg-white px-4 py-3.5 text-[15px] outline-none transition-colors focus:border-sky focus:ring-2 focus:ring-sky/20"
         />
       </div>
-      <button type="submit" className="btn btn-primary mt-2 !px-6 !py-4">
-        Anfrage senden
-        <ArrowUpRight className="h-3.5 w-3.5" />
+
+      {error && <p className="text-[13px] font-medium text-red-600">{error}</p>}
+
+      <button type="submit" disabled={loading} className="btn btn-primary mt-2 !px-6 !py-4 disabled:opacity-60">
+        {loading ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
+          <>
+            Anfrage senden
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </>
+        )}
       </button>
     </form>
   )
