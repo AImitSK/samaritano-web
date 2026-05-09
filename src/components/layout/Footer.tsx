@@ -13,6 +13,9 @@ interface FooterProps {
   description?: string
   navigation?: NavItem[]
   socialLinks?: SocialLink[]
+  contactEmail?: string
+  contactPhone?: string
+  address?: string
 }
 
 const STATIC_LOGO = '/uploads/Logo-Samaritano-Web.svg'
@@ -74,6 +77,9 @@ export function Footer({
   description,
   navigation = [],
   socialLinks = [],
+  contactEmail,
+  contactPhone,
+  address,
 }: FooterProps) {
   const currentYear = new Date().getFullYear()
   const logo = logoUrl || STATIC_LOGO
@@ -93,6 +99,28 @@ export function Footer({
               <img src={logo} alt={siteName} width={180} height={36} className="h-9 w-auto" />
             </Link>
             <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-ink-soft">{desc}</p>
+
+            {(contactEmail || contactPhone || address) && (
+              <div className="mt-7 space-y-2 text-[14px] text-ink-soft">
+                {address && (
+                  <p className="whitespace-pre-line leading-relaxed">{address}</p>
+                )}
+                {contactPhone && (
+                  <p>
+                    <a href={`tel:${contactPhone.replace(/\s/g, '')}`} className="transition-colors hover:text-sky">
+                      {contactPhone}
+                    </a>
+                  </p>
+                )}
+                {contactEmail && (
+                  <p>
+                    <a href={`mailto:${contactEmail}`} className="transition-colors hover:text-sky">
+                      {contactEmail}
+                    </a>
+                  </p>
+                )}
+              </div>
+            )}
 
             {socialLinks.length > 0 && (
               <div className="mt-7 flex flex-wrap gap-3">
@@ -160,7 +188,7 @@ export function Footer({
                 alt="Fairbündet Gold Partner 2026"
                 width={120}
                 height={96}
-                className="h-24 w-auto"
+                className="h-[76px] w-auto"
               />
             </div>
           </div>

@@ -57,6 +57,9 @@ export default async function WebsiteLayout({
         description={settings?.description}
         navigation={navigation?.footerNav || []}
         socialLinks={settings?.socialLinks || []}
+        contactEmail={settings?.contactEmail}
+        contactPhone={settings?.contactPhone}
+        address={settings?.address}
       />
     </WebsiteShell>
   )
