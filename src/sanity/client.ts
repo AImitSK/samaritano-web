@@ -13,7 +13,7 @@ export const client: SanityClient | null = projectId
       projectId,
       dataset,
       apiVersion,
-      useCdn: process.env.NODE_ENV === 'production',
+      useCdn: !token,
       token,
       perspective: 'published',
     })
