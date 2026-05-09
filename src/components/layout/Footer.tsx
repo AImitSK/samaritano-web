@@ -94,6 +94,17 @@ export function Footer({
             </Link>
             <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-ink-soft">{desc}</p>
 
+            <div className="mt-7">
+              <div className="eyebrow !text-[10px] !text-ink-muted mb-2">Netzwerk-Partner</div>
+              <img
+                src="/uploads/gold-partner.svg"
+                alt="Fairbündet Gold Partner 2026"
+                width={80}
+                height={64}
+                className="h-16 w-auto opacity-70"
+              />
+            </div>
+
             {socialLinks.length > 0 && (
               <div className="mt-7 flex flex-wrap gap-3">
                 {socialLinks.map((s) => {
